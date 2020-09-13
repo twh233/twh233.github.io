@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "f4a46794"
+    });
+  daovoice('update');
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_32.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="排序,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Twh233's Blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="B树性质一颗M阶B树T，满足以下条件    每个结点至多拥有M课子树   根结点至少拥有两颗子树   除了根结点以外，其余每个分支结点至少拥有M/2课子树   所有的叶结点都在同一层上   有k课子树的分支结点则存在k-1个关键字，关键字按照递增顺序进行排序   关键字数量满足ceil(M/2)-1 &amp;lt;= n &amp;lt;= M-1    插入通过对B树进行遍历，找出要插入的结点以及结点位置，如">
+<meta name="keywords" content="排序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="B树与B+树">
+<meta property="og:url" content="http://twh233.github.io/2020/09/13/B树与B-树/index.html">
+<meta property="og:site_name" content="Twh233&#39;s Blog">
+<meta property="og:description" content="B树性质一颗M阶B树T，满足以下条件    每个结点至多拥有M课子树   根结点至少拥有两颗子树   除了根结点以外，其余每个分支结点至少拥有M/2课子树   所有的叶结点都在同一层上   有k课子树的分支结点则存在k-1个关键字，关键字按照递增顺序进行排序   关键字数量满足ceil(M/2)-1 &amp;lt;= n &amp;lt;= M-1    插入通过对B树进行遍历，找出要插入的结点以及结点位置，如">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://twh233.github.io/2020/09/13/B树与B-树/1.png">
+<meta property="og:image" content="http://twh233.github.io/2020/09/13/B树与B-树/2.png">
+<meta property="og:updated_time" content="2020-09-13T06:44:37.172Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="B树与B+树">
+<meta name="twitter:description" content="B树性质一颗M阶B树T，满足以下条件    每个结点至多拥有M课子树   根结点至少拥有两颗子树   除了根结点以外，其余每个分支结点至少拥有M/2课子树   所有的叶结点都在同一层上   有k课子树的分支结点则存在k-1个关键字，关键字按照递增顺序进行排序   关键字数量满足ceil(M/2)-1 &amp;lt;= n &amp;lt;= M-1    插入通过对B树进行遍历，找出要插入的结点以及结点位置，如">
+<meta name="twitter:image" content="http://twh233.github.io/2020/09/13/B树与B-树/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://twh233.github.io/2020/09/13/B树与B-树/">
+
+
+
+
+
+
+
+  <title>B树与B+树 | Twh233's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+
+  
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Twh233's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Love Coding,Enjoy Life</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://twh233.github.io/2020/09/13/B树与B-树/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Twh233">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Twh233's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">B树与B+树</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-13T14:27:49+08:00">
+                2020-09-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/基础/" itemprop="url" rel="index">
+                    <span itemprop="name">基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/09/13/B树与B-树/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2020/09/13/B树与B-树/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  6,371
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  34
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="B树性质"><a href="#B树性质" class="headerlink" title="B树性质"></a>B树性质</h2><p>一颗M阶B树T，满足以下条件  </p>
+<ol>
+<li>每个结点至多拥有M课子树  </li>
+<li>根结点至少拥有两颗子树  </li>
+<li>除了根结点以外，其余每个分支结点至少拥有M/2课子树  </li>
+<li>所有的叶结点都在同一层上  </li>
+<li>有k课子树的分支结点则存在k-1个关键字，关键字按照递增顺序进行排序  </li>
+<li>关键字数量满足ceil(M/2)-1 &lt;= n &lt;= M-1  </li>
+</ol>
+<h3 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h3><p>通过对B树进行遍历，找出要插入的结点以及结点位置，如果找到的key值在B树当中已经存在，则说明插入失败，否则，就可以进行插入操作。这里可以先不管是否超出M阶树的上限要求，因为我们在定义的时候会故意留下一个位置，可以存放多余的一个元素，插入之后，通过判断是否达到M阶树上限要求，再进行递归的分裂操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">/***</span><br><span class="line">*  @name           Status insertBTree(BTree &amp;T, Record e)</span><br><span class="line">*  @description    插入实现元素的插入</span><br><span class="line">*  @return         成功返回OK,如果存在则返回FALSE，否则返回ERROR</span><br><span class="line">*  @notice</span><br><span class="line">***/</span><br><span class="line">Status insertBTree(BTree &amp;T, Record e)</span><br><span class="line">&#123;</span><br><span class="line">    BTree p;</span><br><span class="line">    int index, temp;</span><br><span class="line">    Status find_flag;</span><br><span class="line">    if (NULL == T)//考虑B树为空树的情况</span><br><span class="line">    &#123;</span><br><span class="line">        T = (BTree)malloc(BTLEN);</span><br><span class="line">        if (NULL == T) return OVERFLOW;</span><br><span class="line">        T-&gt;keynum = 1;</span><br><span class="line">        T-&gt;parent = NULL;</span><br><span class="line">        for (index = 0;index &lt;= m; ++index)</span><br><span class="line">        &#123;</span><br><span class="line">            T-&gt;ptr[index] = NULL;</span><br><span class="line">            T-&gt;key[index] = 0;</span><br><span class="line">        &#125;</span><br><span class="line">        T-&gt;key[1] = e.key;</span><br><span class="line">        return OK;</span><br><span class="line">    &#125;</span><br><span class="line">    find_flag = findBTree(T, p, temp, e.key);//寻找插入节点</span><br><span class="line">    if (find_flag == TRUE)</span><br><span class="line">    &#123;</span><br><span class="line">        return FALSE;</span><br><span class="line">    &#125;</span><br><span class="line">    if (find_flag == FALSE)</span><br><span class="line">    &#123;                                //不管怎样先直接插入</span><br><span class="line">        p-&gt;keynum++;</span><br><span class="line">        for (index = p-&gt;keynum;index &gt; temp;--index)</span><br><span class="line">        &#123;</span><br><span class="line">            p-&gt;key[index] = p-&gt;key[index - 1];</span><br><span class="line">            p-&gt;ptr[index] = p-&gt;ptr[index - 1];</span><br><span class="line">        &#125;</span><br><span class="line">        p-&gt;ptr[temp] = NULL;</span><br><span class="line">        p-&gt;key[temp] = e.key;</span><br><span class="line">        if (p-&gt;keynum == m)      //这种情况得分裂</span><br><span class="line">        &#123;</span><br><span class="line">            splitBTree(p);</span><br><span class="line">        &#125;</span><br><span class="line">        renewParent(T);</span><br><span class="line">        return OK;</span><br><span class="line">    &#125;</span><br><span class="line">    return ERROR;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="分裂"><a href="#分裂" class="headerlink" title="分裂"></a>分裂</h3><p>分裂操作是插入操作过程中一个最重要的操作，因为这是处理“冲突”（即结点中的数据元素大于B树规则中要求的最大个数）的一个通用的处理方式，这种方式必须要对所有的情况都适用，而分裂是解决这一问题一个方法。当然这种方法只是考虑到效率，没有对兄弟可否借数据进行判断，但是另外一种方式比较麻烦，这里先不做讨论。</p>
+<p>分裂的思路是让父亲结点先腾出一个位置（包括key和ptr）出来，然后在需要分裂的结点里面取中间的元素并且移动中间的元素key到父亲结点已经腾出来的key位置那里，然后把分裂出来的右部分接到腾出来的ptr那里。注意整个过程对左部分和右部分的都要改变元素的个数以及清空一些没用的空间。在往上分裂之后可能会造成一种情况，就是父亲结点也可能达到分裂的最大个数，所以，检查父亲结点是否需要分裂，需要的话，递归之。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">/***</span><br><span class="line">*  @name           status splitBTree(BTree T)</span><br><span class="line">*  @description    递归实现分裂节点操作</span><br><span class="line">*  @return         成功返回OK,否则返回ERROR</span><br><span class="line">*  @notice</span><br><span class="line">***/</span><br><span class="line">Status splitBTree(BTree T) //此时分裂的节点一定会是超出最大值的。</span><br><span class="line">&#123;</span><br><span class="line">    BTree t1, t2;</span><br><span class="line">    int index, index_1;</span><br><span class="line">    if (T-&gt;parent == NULL)</span><br><span class="line">    &#123;</span><br><span class="line">        t1 = (BTree)malloc(BTLEN);</span><br><span class="line">        if (NULL == t1) return OVERFLOW;</span><br><span class="line">        t2 = (BTree)malloc(BTLEN);</span><br><span class="line">        if (NULL == t2) return OVERFLOW;</span><br><span class="line"></span><br><span class="line">        t1-&gt;keynum = m / 2;</span><br><span class="line">        t2-&gt;keynum = m - (m / 2) - 1;</span><br><span class="line">        t1-&gt;parent = T;</span><br><span class="line">        t2-&gt;parent = T;</span><br><span class="line">        for (index = 0;index &lt;= m; ++index)  //先全部初始化</span><br><span class="line">        &#123;</span><br><span class="line">            t1-&gt;ptr[index] = NULL;</span><br><span class="line">            t1-&gt;key[index] = 0;</span><br><span class="line">            t2-&gt;ptr[index] = NULL;</span><br><span class="line">            t2-&gt;key[index] = 0;</span><br><span class="line">        &#125;</span><br><span class="line">        for (index = 0;index &lt;= m / 2; ++index)  //初始化t1</span><br><span class="line">        &#123;</span><br><span class="line">            t1-&gt;ptr[index] = T-&gt;ptr[index];</span><br><span class="line">            t1-&gt;key[index] = T-&gt;key[index];</span><br><span class="line">        &#125;</span><br><span class="line">        t2-&gt;ptr[0] = T-&gt;ptr[(m / 2) + 1];</span><br><span class="line">        for (index = (m / 2) + 2;index &lt;= m; ++index)  //初始化t2</span><br><span class="line">        &#123;</span><br><span class="line">            t2-&gt;ptr[index - ((m / 2) + 1)] = T-&gt;ptr[index];</span><br><span class="line">            t2-&gt;key[index - ((m / 2) + 1)] = T-&gt;key[index];</span><br><span class="line">        &#125;</span><br><span class="line">        T-&gt;keynum = 1;</span><br><span class="line">        T-&gt;ptr[0] = t1;</span><br><span class="line">        T-&gt;ptr[1] = t2;</span><br><span class="line">        T-&gt;key[1] = T-&gt;key[m / 2 + 1];</span><br><span class="line">        for (index = 2;index &lt;= m; ++index)  //初始化T</span><br><span class="line">        &#123;</span><br><span class="line">            T-&gt;ptr[index] = NULL;</span><br><span class="line">            T-&gt;key[index] = 0;</span><br><span class="line">        &#125;</span><br><span class="line">        return OK;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>B树元素的删除操作与插入操作类似，但是却要麻烦，因为得分两种情况处理。（1）寻找到存在这个元素，而且这个元素所在是叶子节点（即它的孩子为空），直接对其进行删除，之后再判断是否小于B树规则中要求的最小的子树个数。如果小于，那就调用合并函数。（2）如果寻找到的这个元素是非叶子节点的元素，通过寻找比该元素小的最大元素（该元素肯定为叶子节点），把该元素直接赋值给要删除的元素，再在叶子节点处进行（1）中的操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">/***</span><br><span class="line">*  @name           Status deleteBTreeRecord(BTree &amp;T, Record e)</span><br><span class="line">*  @description    实现B树元素的删除</span><br><span class="line">*  @return         成功返回OK,否则返回ERROR</span><br><span class="line">*  @notice</span><br><span class="line">***/</span><br><span class="line">Status deleteBTreeRecord(BTree &amp;T, Record e)</span><br><span class="line">&#123;</span><br><span class="line">    BTree p, q;</span><br><span class="line">    int num, temp, index;</span><br><span class="line">    Status find_flag;</span><br><span class="line">    if (T == NULL)</span><br><span class="line">        return ERROR;</span><br><span class="line">    find_flag = findBTree(T, p, temp, e.key);</span><br><span class="line">    if (find_flag == FALSE)</span><br><span class="line">    &#123;</span><br><span class="line">        return FALSE;</span><br><span class="line">    &#125;</span><br><span class="line">    if (find_flag == TRUE)</span><br><span class="line">    &#123;</span><br><span class="line">        //deleteBTreeBNode(p,temp);</span><br><span class="line">        if (p-&gt;ptr[temp] == NULL)                //如果是叶子节点的话</span><br><span class="line">        &#123;</span><br><span class="line">            for (index = temp;index &lt;= p-&gt;keynum;++index)</span><br><span class="line">            &#123;</span><br><span class="line">                p-&gt;key[index] = p-&gt;key[index + 1];</span><br><span class="line">                p-&gt;ptr[index] = p-&gt;ptr[index + 1];</span><br><span class="line">            &#125;</span><br><span class="line">            p-&gt;keynum--;</span><br><span class="line">            if (p-&gt;keynum == (m + 1) / 2 - 2)</span><br><span class="line">            &#123;</span><br><span class="line">                //调用借兄弟的函数</span><br><span class="line">                if (borrowBNode(p) == EMPTY) T = NULL;</span><br><span class="line">                else renewParent(T);</span><br><span class="line">            &#125;</span><br><span class="line">            return OK;</span><br><span class="line">        &#125;</span><br><span class="line">        else                                    //不是叶子结点的话</span><br><span class="line">        &#123;</span><br><span class="line">            //遍历</span><br><span class="line">            findMax(p-&gt;ptr[temp - 1], q, num);//返回的q一定会是叶子节点</span><br><span class="line">            p-&gt;key[temp] = q-&gt;key[num];</span><br><span class="line">            q-&gt;key[num] = 0;</span><br><span class="line">            q-&gt;keynum--;</span><br><span class="line">            if (q-&gt;keynum == (m + 1) / 2 - 2)</span><br><span class="line">            &#123;</span><br><span class="line">                //调用借兄弟的函数</span><br><span class="line">                if (borrowBNode(q) == EMPTY) T = NULL;</span><br><span class="line">                else renewParent(T);</span><br><span class="line">            &#125;</span><br><span class="line">            return OK;</span><br><span class="line">        &#125;</span><br><span class="line">        return OK;</span><br><span class="line">    &#125;</span><br><span class="line">    return ERROR;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="合并"><a href="#合并" class="headerlink" title="合并"></a>合并</h3><p>首先先向兄弟结点借元素，如果兄弟能够借给你元素的话（即借了你之后并不会小于最少的分支），那么直接从兄弟那里取元素，否则，和兄弟合并。<br>合并其实是分裂反过来的情况，从父亲结点那里取出一个key值介于要合并的两个结点之间的元素，插入左部分最末尾处，同时右部分插到左部分后面，然后父亲结点元素依次往前挪。从而实现合并操作。之后，也必须对父亲结点进行判断是否小于最小的分支数，如果也小于，对父亲节点进行递归操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><span class="line">/***</span><br><span class="line">*  @name           Status borrowBNode(BTree &amp;T)</span><br><span class="line">*  @description    递归实现，向兄弟借元素，否则和兄弟合并</span><br><span class="line">*  @return         成功返回OK,否则返回ERROR</span><br><span class="line">*  @notice         这种情况应该是T为单元素结点</span><br><span class="line">***/</span><br><span class="line">Status borrowBNode(BTree T)</span><br><span class="line">&#123;</span><br><span class="line">    int mynum, bronum, index;</span><br><span class="line">    BTree b = NULL, f = NULL;</span><br><span class="line">    if (T == NULL) return ERROR;</span><br><span class="line">    f = T-&gt;parent;</span><br><span class="line">    if (f == NULL)//考虑父亲结点不存在的情况</span><br><span class="line">    &#123;</span><br><span class="line">        if (T-&gt;keynum == 0)</span><br><span class="line">        &#123;</span><br><span class="line">            f = T-&gt;ptr[0];</span><br><span class="line">            if (f == NULL)</span><br><span class="line">            &#123;</span><br><span class="line">                free(T);</span><br><span class="line">                return EMPTY;</span><br><span class="line">            &#125;</span><br><span class="line">            for (index = 0;index &lt;= f-&gt;keynum;index++)</span><br><span class="line">            &#123;</span><br><span class="line">                T-&gt;key[index] = f-&gt;key[index];</span><br><span class="line">                T-&gt;ptr[index] = f-&gt;ptr[index];</span><br><span class="line">            &#125;</span><br><span class="line">            T-&gt;keynum = f-&gt;keynum;</span><br><span class="line">            free(f);</span><br><span class="line">            renewParent(T);</span><br><span class="line">        &#125;</span><br><span class="line">        return OK;</span><br><span class="line">    &#125;</span><br><span class="line">    mynum = whichSon(T);</span><br><span class="line">    if (mynum == 0)</span><br><span class="line">        bronum = 1;</span><br><span class="line">    else</span><br><span class="line">        bronum = mynum - 1;</span><br><span class="line">    b = f-&gt;ptr[bronum];</span><br><span class="line">    if (b-&gt;keynum == (m + 1) / 2 - 1) //如果兄弟帮不了你了</span><br><span class="line">    &#123;</span><br><span class="line">        //那么就和这个兄弟合体</span><br><span class="line">        if (bronum &lt; mynum)                    //如果我不是第一个</span><br><span class="line">        &#123;</span><br><span class="line">            b-&gt;keynum++;</span><br><span class="line">            b-&gt;key[b-&gt;keynum] = f-&gt;key[mynum];</span><br><span class="line">            b-&gt;ptr[b-&gt;keynum] = T-&gt;ptr[0];</span><br><span class="line">            for (index = 1;index &lt;= T-&gt;keynum;index++)</span><br><span class="line">            &#123;</span><br><span class="line">                b-&gt;key[index + b-&gt;keynum] = T-&gt;key[index];</span><br><span class="line">                b-&gt;ptr[index + b-&gt;keynum] = T-&gt;ptr[index];</span><br><span class="line">                b-&gt;keynum++;</span><br><span class="line">            &#125;</span><br><span class="line">            free(T);</span><br><span class="line">            for (index = mynum;index &lt;= f-&gt;keynum;index++)</span><br><span class="line">            &#123;</span><br><span class="line">                f-&gt;key[index] = f-&gt;key[index + 1];</span><br><span class="line">                f-&gt;ptr[index] = f-&gt;ptr[index + 1];</span><br><span class="line">            &#125;</span><br><span class="line">            f-&gt;keynum--;</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            T-&gt;keynum++;</span><br><span class="line">            T-&gt;key[T-&gt;keynum] = f-&gt;key[bronum];</span><br><span class="line">            T-&gt;ptr[T-&gt;keynum] = b-&gt;ptr[0];</span><br><span class="line">            for (index = 1;index &lt;= b-&gt;keynum;index++)</span><br><span class="line">            &#123;</span><br><span class="line">                T-&gt;key[index + T-&gt;keynum] = b-&gt;key[index];</span><br><span class="line">                T-&gt;ptr[index + T-&gt;keynum] = b-&gt;ptr[index];</span><br><span class="line">                T-&gt;keynum++;</span><br><span class="line">            &#125;</span><br><span class="line">            free(b);</span><br><span class="line">            for (index = bronum;index &lt;= f-&gt;keynum;index++)</span><br><span class="line">            &#123;</span><br><span class="line">                f-&gt;key[index] = f-&gt;key[index + 1];</span><br><span class="line">                f-&gt;ptr[index] = f-&gt;ptr[index + 1];</span><br><span class="line">            &#125;</span><br><span class="line">            f-&gt;keynum--;</span><br><span class="line">        &#125;</span><br><span class="line">        renewParent(f);</span><br><span class="line">        if (f-&gt;keynum == (m + 1) / 2 - 2)</span><br><span class="line">        &#123;</span><br><span class="line">            //调用借兄弟的函数</span><br><span class="line">            return borrowBNode(f);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    else//如果兄弟能够帮你</span><br><span class="line">    &#123;</span><br><span class="line">        if (bronum &lt; mynum)                    //如果我不是第一个</span><br><span class="line">        &#123;</span><br><span class="line">            for (index = 1;index &lt;= T-&gt;keynum;index++)</span><br><span class="line">            &#123;</span><br><span class="line">                T-&gt;key[index + 1] = T-&gt;key[index];</span><br><span class="line">                T-&gt;ptr[index + 1] = T-&gt;ptr[index];</span><br><span class="line">            &#125;</span><br><span class="line">            T-&gt;ptr[1] = T-&gt;ptr[0];</span><br><span class="line">            T-&gt;key[1] = f-&gt;key[mynum];</span><br><span class="line">            T-&gt;ptr[0] = b-&gt;ptr[b-&gt;keynum];</span><br><span class="line">            T-&gt;keynum++;</span><br><span class="line">            f-&gt;key[mynum] = b-&gt;key[b-&gt;keynum];</span><br><span class="line">            b-&gt;key[b-&gt;keynum] = 0;</span><br><span class="line">            b-&gt;ptr[b-&gt;keynum] = NULL;</span><br><span class="line">            b-&gt;keynum--;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        else                                    //如果我是第一个</span><br><span class="line">        &#123;</span><br><span class="line">            T-&gt;keynum++;</span><br><span class="line">            T-&gt;key[T-&gt;keynum] = f-&gt;key[1];</span><br><span class="line">            T-&gt;ptr[T-&gt;keynum] = b-&gt;ptr[0];</span><br><span class="line">            f-&gt;key[1] = b-&gt;key[1];</span><br><span class="line">            b-&gt;ptr[0] = b-&gt;ptr[1];</span><br><span class="line">            for (index = 1;index &lt;= b-&gt;keynum;index++)</span><br><span class="line">            &#123;</span><br><span class="line">                b-&gt;key[index] = b-&gt;key[index + 1];</span><br><span class="line">                b-&gt;ptr[index] = b-&gt;ptr[index + 1];</span><br><span class="line">            &#125;</span><br><span class="line">            b-&gt;keynum--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br><span class="line">487</span><br><span class="line">488</span><br><span class="line">489</span><br><span class="line">490</span><br><span class="line">491</span><br><span class="line">492</span><br><span class="line">493</span><br><span class="line">494</span><br><span class="line">495</span><br><span class="line">496</span><br><span class="line">497</span><br><span class="line">498</span><br><span class="line">499</span><br><span class="line">500</span><br><span class="line">501</span><br><span class="line">502</span><br><span class="line">503</span><br><span class="line">504</span><br><span class="line">505</span><br><span class="line">506</span><br><span class="line">507</span><br><span class="line">508</span><br><span class="line">509</span><br><span class="line">510</span><br><span class="line">511</span><br><span class="line">512</span><br><span class="line">513</span><br><span class="line">514</span><br><span class="line">515</span><br><span class="line">516</span><br><span class="line">517</span><br><span class="line">518</span><br><span class="line">519</span><br><span class="line">520</span><br><span class="line">521</span><br><span class="line">522</span><br><span class="line">523</span><br><span class="line">524</span><br><span class="line">525</span><br><span class="line">526</span><br><span class="line">527</span><br><span class="line">528</span><br><span class="line">529</span><br><span class="line">530</span><br><span class="line">531</span><br><span class="line">532</span><br><span class="line">533</span><br><span class="line">534</span><br><span class="line">535</span><br><span class="line">536</span><br><span class="line">537</span><br><span class="line">538</span><br><span class="line">539</span><br><span class="line">540</span><br><span class="line">541</span><br><span class="line">542</span><br><span class="line">543</span><br><span class="line">544</span><br><span class="line">545</span><br><span class="line">546</span><br><span class="line">547</span><br><span class="line">548</span><br><span class="line">549</span><br><span class="line">550</span><br><span class="line">551</span><br><span class="line">552</span><br><span class="line">553</span><br><span class="line">554</span><br><span class="line">555</span><br><span class="line">556</span><br><span class="line">557</span><br><span class="line">558</span><br><span class="line">559</span><br><span class="line">560</span><br><span class="line">561</span><br><span class="line">562</span><br><span class="line">563</span><br><span class="line">564</span><br><span class="line">565</span><br><span class="line">566</span><br><span class="line">567</span><br><span class="line">568</span><br><span class="line">569</span><br><span class="line">570</span><br><span class="line">571</span><br><span class="line">572</span><br><span class="line">573</span><br><span class="line">574</span><br><span class="line">575</span><br><span class="line">576</span><br><span class="line">577</span><br><span class="line">578</span><br><span class="line">579</span><br><span class="line">580</span><br><span class="line">581</span><br><span class="line">582</span><br><span class="line">583</span><br><span class="line">584</span><br><span class="line">585</span><br><span class="line">586</span><br><span class="line">587</span><br><span class="line">588</span><br><span class="line">589</span><br><span class="line">590</span><br><span class="line">591</span><br><span class="line">592</span><br><span class="line">593</span><br><span class="line">594</span><br><span class="line">595</span><br><span class="line">596</span><br><span class="line">597</span><br><span class="line">598</span><br><span class="line">599</span><br><span class="line">600</span><br><span class="line">601</span><br><span class="line">602</span><br><span class="line">603</span><br><span class="line">604</span><br><span class="line">605</span><br><span class="line">606</span><br><span class="line">607</span><br><span class="line">608</span><br><span class="line">609</span><br><span class="line">610</span><br><span class="line">611</span><br><span class="line">612</span><br><span class="line">613</span><br><span class="line">614</span><br><span class="line">615</span><br><span class="line">616</span><br><span class="line">617</span><br><span class="line">618</span><br><span class="line">619</span><br><span class="line">620</span><br><span class="line">621</span><br><span class="line">622</span><br><span class="line">623</span><br><span class="line">624</span><br><span class="line">625</span><br><span class="line">626</span><br><span class="line">627</span><br><span class="line">628</span><br><span class="line">629</span><br><span class="line">630</span><br><span class="line">631</span><br><span class="line">632</span><br><span class="line">633</span><br><span class="line">634</span><br><span class="line">635</span><br><span class="line">636</span><br><span class="line">637</span><br><span class="line">638</span><br><span class="line">639</span><br><span class="line">640</span><br><span class="line">641</span><br><span class="line">642</span><br><span class="line">643</span><br><span class="line">644</span><br><span class="line">645</span><br><span class="line">646</span><br><span class="line">647</span><br><span class="line">648</span><br><span class="line">649</span><br><span class="line">650</span><br><span class="line">651</span><br><span class="line">652</span><br><span class="line">653</span><br><span class="line">654</span><br><span class="line">655</span><br><span class="line">656</span><br><span class="line">657</span><br><span class="line">658</span><br><span class="line">659</span><br><span class="line">660</span><br><span class="line">661</span><br><span class="line">662</span><br><span class="line">663</span><br><span class="line">664</span><br><span class="line">665</span><br><span class="line">666</span><br><span class="line">667</span><br><span class="line">668</span><br><span class="line">669</span><br><span class="line">670</span><br><span class="line">671</span><br><span class="line">672</span><br><span class="line">673</span><br><span class="line">674</span><br><span class="line">675</span><br><span class="line">676</span><br><span class="line">677</span><br><span class="line">678</span><br><span class="line">679</span><br><span class="line">680</span><br><span class="line">681</span><br><span class="line">682</span><br><span class="line">683</span><br><span class="line">684</span><br><span class="line">685</span><br><span class="line">686</span><br><span class="line">687</span><br><span class="line">688</span><br><span class="line">689</span><br><span class="line">690</span><br><span class="line">691</span><br><span class="line">692</span><br><span class="line">693</span><br><span class="line">694</span><br><span class="line">695</span><br><span class="line">696</span><br></pre></td><td class="code"><pre><span class="line">1 #define _CRT_SECURE_NO_WARNINGS</span><br><span class="line">2 #include&lt;stdio.h&gt;         </span><br><span class="line">3 #include&lt;stdlib.h&gt;</span><br><span class="line">4 #include&lt;time.h&gt;  </span><br><span class="line">5 #define BTREELENGTH 50</span><br><span class="line">6 #define BTLEN (sizeof(BTNode))</span><br><span class="line">7 #define MAXINT 100  </span><br><span class="line">8 typedef enum status</span><br><span class="line">9 &#123;</span><br><span class="line"> 10     TRUE,</span><br><span class="line"> 11     FALSE,</span><br><span class="line"> 12     OK,</span><br><span class="line"> 13     ERROR,</span><br><span class="line"> 14     OVERFLOW,</span><br><span class="line"> 15     EMPTY</span><br><span class="line"> 16 &#125;Status;</span><br><span class="line"> 17 typedef int KeyType;</span><br><span class="line"> 18 </span><br><span class="line"> 19 //**********************************B树****************************************</span><br><span class="line"> 20 #define  m  3   // B树的阶，此设为4</span><br><span class="line"> 21 typedef struct </span><br><span class="line"> 22 &#123;</span><br><span class="line"> 23     KeyType  key;</span><br><span class="line"> 24     char     data;</span><br><span class="line"> 25 &#125; Record;</span><br><span class="line"> 26 typedef struct BTNode </span><br><span class="line"> 27 &#123;</span><br><span class="line"> 28     int             keynum;        // 结点中关键字个数，即结点的大小</span><br><span class="line"> 29     struct BTNode  *parent;        // 指向双亲结点</span><br><span class="line"> 30     KeyType         key[m + 1];      // 关键字向量，0号单元未用</span><br><span class="line"> 31     struct BTNode  *ptr[m + 1];      // 子树指针向量</span><br><span class="line"> 32 //  Record         *recptr[m + 1];   // 记录指针向量，0号单元未用</span><br><span class="line"> 33                                      //在此添加其他自定义数据</span><br><span class="line"> 34 &#125; BTNode, *BTree;                // B树结点和B树的类型</span><br><span class="line"> 35 typedef struct </span><br><span class="line"> 36 &#123;</span><br><span class="line"> 37     BTNode  *pt;      // 指向找到的结点</span><br><span class="line"> 38     int      i;       // 1..m，在结点中的关键字序号</span><br><span class="line"> 39     int      tag;     // 1:查找成功，0:查找失败</span><br><span class="line"> 40 &#125; Result;           // 在B树的查找结果类型   </span><br><span class="line"> 41 //**********************************B树****************************************</span><br><span class="line"> 42 </span><br><span class="line"> 43 //**********************************队列***************************************</span><br><span class="line"> 44 typedef struct LNode &#123;</span><br><span class="line"> 45     BTree data;     // 数据域</span><br><span class="line"> 46     struct LNode *next;     // 指针域</span><br><span class="line"> 47 &#125; LNode, *LinkList;</span><br><span class="line"> 48 //**********************************队列***************************************</span><br><span class="line"> 49 </span><br><span class="line"> 50 /***</span><br><span class="line"> 51 *  @name           Status InitQueue_L(LinkList &amp;L)</span><br><span class="line"> 52 *  @description    初始化队列</span><br><span class="line"> 53 *  @return         成功返回OK，开辟空间失败返回OVERFLOW</span><br><span class="line"> 54 *  @notice</span><br><span class="line"> 55 ***/</span><br><span class="line"> 56 Status InitQueue_L(LinkList &amp;L)</span><br><span class="line"> 57 &#123; // 初始化一个只含头结点的空单链表L</span><br><span class="line"> 58     if (NULL == (L = (LNode*)malloc(sizeof(LNode)))) // 生成新结点</span><br><span class="line"> 59         return OVERFLOW;</span><br><span class="line"> 60     L-&gt;next = NULL;</span><br><span class="line"> 61     return OK;</span><br><span class="line"> 62 &#125;</span><br><span class="line"> 63 /***</span><br><span class="line"> 64 *  @name           LNode* MakeNode_L(BTree e)</span><br><span class="line"> 65 *  @description    构造队列结点</span><br><span class="line"> 66 *  @return         返回结点地址</span><br><span class="line"> 67 *  @notice</span><br><span class="line"> 68 ***/</span><br><span class="line"> 69 LNode* MakeNode_L(BTree e)</span><br><span class="line"> 70 &#123; // 构造数据域为e的单链表结点</span><br><span class="line"> 71     LNode *p;</span><br><span class="line"> 72     p = (LNode*)malloc(sizeof(LNode)); // 分配结点空间</span><br><span class="line"> 73     if (p != NULL)</span><br><span class="line"> 74     &#123;</span><br><span class="line"> 75         p-&gt;data = e;</span><br><span class="line"> 76         p-&gt;next = NULL;</span><br><span class="line"> 77     &#125;</span><br><span class="line"> 78     return p;</span><br><span class="line"> 79 &#125;</span><br><span class="line"> 80 /***</span><br><span class="line"> 81 *  @name           Status Enqueue_L(LNode *p, BTree e)</span><br><span class="line"> 82 *  @description    队列的入队</span><br><span class="line"> 83 *  @return         成功返回OK，否则返回ERROR</span><br><span class="line"> 84 *  @notice</span><br><span class="line"> 85 ***/</span><br><span class="line"> 86 Status Enqueue_L(LNode *p, BTree e)</span><br><span class="line"> 87 &#123; //在p结点之后插入q结点</span><br><span class="line"> 88     if (NULL == p) return ERROR; // 参数不合理</span><br><span class="line"> 89     while (p-&gt;next != NULL)</span><br><span class="line"> 90         p = p-&gt;next;</span><br><span class="line"> 91     p-&gt;next = MakeNode_L(e);         // 对应图4.11（b）的②，修改p结点的指针域</span><br><span class="line"> 92     return OK;</span><br><span class="line"> 93 &#125;</span><br><span class="line"> 94 </span><br><span class="line"> 95 /***</span><br><span class="line"> 96 *  @name           Status Dequeue_L(LNode *p, BTree &amp;e)</span><br><span class="line"> 97 *  @description    队列的出队</span><br><span class="line"> 98 *  @return         成功返回OK，否则返回ERROR</span><br><span class="line"> 99 *  @notice</span><br><span class="line">100 ***/</span><br><span class="line">101 Status Dequeue_L(LNode *p, BTree &amp;e)</span><br><span class="line">102 &#123;</span><br><span class="line">103     // 删除p结点的直接后继结点并用参数e返回被删结点的值</span><br><span class="line">104     LNode *q;</span><br><span class="line">105     if (NULL == p || NULL == p-&gt;next) return ERROR; // 删除位置不合理 </span><br><span class="line">106     q = p-&gt;next;</span><br><span class="line">107     p-&gt;next = q-&gt;next; // 修改被删结点q的指针域</span><br><span class="line">108     e = q-&gt;data;</span><br><span class="line">109     free(q); // 释放结点q</span><br><span class="line">110     return OK;</span><br><span class="line">111 &#125;</span><br><span class="line">112 </span><br><span class="line">113 /***</span><br><span class="line">114 *  @name           void DestroyQueue(LinkList L)</span><br><span class="line">115 *  @description    队列的销毁</span><br><span class="line">116 *  @return         无返回</span><br><span class="line">117 *  @notice</span><br><span class="line">118 ***/</span><br><span class="line">119 void DestroyQueue(LinkList L)</span><br><span class="line">120 &#123;</span><br><span class="line">121     // 销毁整个链表</span><br><span class="line">122     LinkList p;</span><br><span class="line">123     if (L != NULL)</span><br><span class="line">124     &#123;</span><br><span class="line">125         p = L;</span><br><span class="line">126         L = L-&gt;next;</span><br><span class="line">127         free(p);</span><br><span class="line">128         DestroyQueue(L);</span><br><span class="line">129     &#125;</span><br><span class="line">130 &#125;</span><br><span class="line">131 /***</span><br><span class="line">132 *  @name           Status  IfEmpty(LinkList L)</span><br><span class="line">133 *  @description    判断队列是否为空</span><br><span class="line">134 *  @return         空返回TRUE，不空返回FALSE，否则返回ERROR</span><br><span class="line">135 *  @notice         </span><br><span class="line">136 ***/</span><br><span class="line">137 Status  IfEmpty(LinkList L)</span><br><span class="line">138 &#123;</span><br><span class="line">139     if (L == NULL) return ERROR;</span><br><span class="line">140     if (L-&gt;next == NULL) return TRUE;</span><br><span class="line">141     return FALSE;</span><br><span class="line">142 &#125;</span><br><span class="line">143 /***</span><br><span class="line">144 *  @name           Status ergodic(BTree T, LinkList L, int newline, int sum)</span><br><span class="line">145 *  @description    print需要用到的递归遍历程序</span><br><span class="line">146 *  @return         成功返回OK</span><br><span class="line">147 *  @notice         此处用到队列</span><br><span class="line">148 ***/</span><br><span class="line">149 Status ergodic(BTree T, LinkList L, int newline, int sum)</span><br><span class="line">150 &#123;</span><br><span class="line">151     int index;</span><br><span class="line">152     BTree p;</span><br><span class="line">153     if (T != NULL)</span><br><span class="line">154     &#123;</span><br><span class="line">155         printf(&quot;[ &quot;);</span><br><span class="line">156         Enqueue_L(L, T-&gt;ptr[0]);</span><br><span class="line">157         for (index = 1;index &lt;= T-&gt;keynum; index++)</span><br><span class="line">158         &#123;</span><br><span class="line">159             printf(&quot;%d &quot;, T-&gt;key[index]);</span><br><span class="line">160             Enqueue_L(L, T-&gt;ptr[index]);</span><br><span class="line">161         &#125;</span><br><span class="line">162         sum += T-&gt;keynum + 1;</span><br><span class="line">163         printf(&quot;]&quot;);</span><br><span class="line">164         if (newline == 0)</span><br><span class="line">165         &#123;</span><br><span class="line">166             printf(&quot;\n&quot;);</span><br><span class="line">167             newline = sum - 1;</span><br><span class="line">168             sum = 0;</span><br><span class="line">169         &#125;</span><br><span class="line">170         else</span><br><span class="line">171         &#123;</span><br><span class="line">172             --newline;</span><br><span class="line">173         &#125;</span><br><span class="line">174     &#125;</span><br><span class="line">175     if (IfEmpty(L) == FALSE)</span><br><span class="line">176     &#123;</span><br><span class="line">177         Dequeue_L(L, p);</span><br><span class="line">178         ergodic(p, L, newline, sum);</span><br><span class="line">179     &#125;</span><br><span class="line">180     return OK;</span><br><span class="line">181 &#125;</span><br><span class="line">182 /***</span><br><span class="line">183 *  @name           Status print(BTree T)</span><br><span class="line">184 *  @description    层次遍历并分层输出B树</span><br><span class="line">185 *  @return         成功返回OK</span><br><span class="line">186 *  @notice</span><br><span class="line">187 ***/</span><br><span class="line">188 Status print(BTree T)</span><br><span class="line">189 &#123;</span><br><span class="line">190     LinkList L;</span><br><span class="line">191     if (T == NULL)</span><br><span class="line">192     &#123;</span><br><span class="line">193         printf(&quot;[ ]\n&quot;);</span><br><span class="line">194         return OK;</span><br><span class="line">195     &#125;</span><br><span class="line">196     InitQueue_L(L);</span><br><span class="line">197     ergodic(T, L, 0, 0);</span><br><span class="line">198     DestroyQueue(L);</span><br><span class="line">199     return OK;</span><br><span class="line">200 &#125;</span><br><span class="line">201 </span><br><span class="line">202 /***</span><br><span class="line">203 *  @name           Status findMax(BTree T, BTree &amp;p,int ans)</span><br><span class="line">204 *  @description    寻找最大关键字的结点,T为要寻找的树，p为返回的节点,ans为第几个</span><br><span class="line">205 *  @return         成功返回OK,否则返回ERROR</span><br><span class="line">206 *  @notice</span><br><span class="line">207 ***/</span><br><span class="line">208 Status findMax(BTree T, BTree &amp;p, int &amp;ans)</span><br><span class="line">209 &#123;</span><br><span class="line">210     if (T == NULL)</span><br><span class="line">211         return ERROR;</span><br><span class="line">212     p = T;</span><br><span class="line">213     while (p-&gt;ptr[p-&gt;keynum] != NULL)</span><br><span class="line">214     &#123;</span><br><span class="line">215         p = p-&gt;ptr[p-&gt;keynum];</span><br><span class="line">216     &#125;</span><br><span class="line">217     ans = p-&gt;keynum;</span><br><span class="line">218     return OK;</span><br><span class="line">219 &#125;</span><br><span class="line">220 /***</span><br><span class="line">221 *  @name           Status findMin(BTree T, BTree &amp;p,int ans)</span><br><span class="line">222 *  @description    寻找最小关键字的结点,T为要寻找的树，p为返回的节点,ans为第几个</span><br><span class="line">223 *  @return         成功返回OK,否则返回ERROR</span><br><span class="line">224 *  @notice</span><br><span class="line">225 ***/</span><br><span class="line">226 /***</span><br><span class="line">227 *  @name           Status findBTree(BTree T, BTree &amp;p, int &amp;ans, KeyType k)</span><br><span class="line">228 *  @description    寻找 ,T为要寻找的树，p为返回的节点，ans为第几个元素，k为要找的值</span><br><span class="line">229 *  @return         成功返回OK,否则返回ERROR</span><br><span class="line">230 *  @notice</span><br><span class="line">231 ***/</span><br><span class="line">232 Status findBTree(BTree T, BTree &amp;p, int &amp;ans, KeyType k)</span><br><span class="line">233 &#123;</span><br><span class="line">234     BTree q;</span><br><span class="line">235     int index = 1;</span><br><span class="line">236     KeyType  keynow;</span><br><span class="line">237     if (T == NULL)</span><br><span class="line">238         return ERROR;</span><br><span class="line">239     q = T;</span><br><span class="line">240     keynow = T-&gt;key[1];</span><br><span class="line">241     while (q != NULL)                 //深度的遍历</span><br><span class="line">242     &#123;</span><br><span class="line">243         index = 1;</span><br><span class="line">244         keynow = q-&gt;key[index];</span><br><span class="line">245         while (index &lt;= q-&gt;keynum) //节点内对各真值进行遍历</span><br><span class="line">246         &#123;</span><br><span class="line">247             if (k == keynow)           //找到元素</span><br><span class="line">248             &#123;</span><br><span class="line">249                 p = q;</span><br><span class="line">250                 ans = index;</span><br><span class="line">251                 return TRUE;</span><br><span class="line">252             &#125;</span><br><span class="line">253             if (k &gt; keynow)</span><br><span class="line">254             &#123;</span><br><span class="line">255                 if (index == q-&gt;keynum)</span><br><span class="line">256                 &#123;</span><br><span class="line">257                     if (q-&gt;ptr[index] == NULL)</span><br><span class="line">258                     &#123;</span><br><span class="line">259                         p = q;</span><br><span class="line">260                         ans = q-&gt;keynum + 1;</span><br><span class="line">261                         return FALSE;</span><br><span class="line">262                     &#125;</span><br><span class="line">263                     q = q-&gt;ptr[index];</span><br><span class="line">264                     break;</span><br><span class="line">265                 &#125;</span><br><span class="line">266                 ++index;</span><br><span class="line">267                 keynow = q-&gt;key[index];</span><br><span class="line">268                 continue;</span><br><span class="line">269             &#125;</span><br><span class="line">270             if (k &lt; keynow)</span><br><span class="line">271             &#123;</span><br><span class="line">272                 if (q-&gt;ptr[index - 1] == NULL)</span><br><span class="line">273                 &#123;</span><br><span class="line">274                     p = q;</span><br><span class="line">275                     ans = index;</span><br><span class="line">276                     return FALSE;</span><br><span class="line">277                 &#125;</span><br><span class="line">278                 q = q-&gt;ptr[index - 1];</span><br><span class="line">279                 break;</span><br><span class="line">280             &#125;</span><br><span class="line">281         &#125;</span><br><span class="line">282     &#125;</span><br><span class="line">283 </span><br><span class="line">284     return ERROR;</span><br><span class="line">285 &#125;</span><br><span class="line">286 /***</span><br><span class="line">287 *  @name           Status renewParent(BTree p)</span><br><span class="line">288 *  @description    告诉孩子们亲身爸爸是谁</span><br><span class="line">289 *  @return         成功返回OK,否则返回ERROR</span><br><span class="line">290 *  @notice</span><br><span class="line">291 ***/</span><br><span class="line">292 Status renewParent(BTree p)</span><br><span class="line">293 &#123;</span><br><span class="line">294     int index;</span><br><span class="line">295     if (p == NULL) return ERROR;</span><br><span class="line">296     for (index = 0;index &lt;= p-&gt;keynum;++index)</span><br><span class="line">297     &#123;</span><br><span class="line">298         if (p-&gt;ptr[index] != NULL)</span><br><span class="line">299         &#123;</span><br><span class="line">300             p-&gt;ptr[index]-&gt;parent = p;</span><br><span class="line">301             renewParent(p-&gt;ptr[index]);</span><br><span class="line">302         &#125;</span><br><span class="line">303     &#125;</span><br><span class="line">304     return OK;</span><br><span class="line">305 &#125;</span><br><span class="line">306 /***</span><br><span class="line">307 *  @name           int whichSon(BTree T)</span><br><span class="line">308 *  @description    找出是父亲的第几个孩子</span><br><span class="line">309 *  @return         成功返回第几个孩子,否则返回-1</span><br><span class="line">310 *  @notice</span><br><span class="line">311 ***/</span><br><span class="line">312 int whichSon(BTree T)</span><br><span class="line">313 &#123;</span><br><span class="line">314     int index = -1;</span><br><span class="line">315     if (T == NULL) return -1;</span><br><span class="line">316     for (index = 0;index &lt;= T-&gt;parent-&gt;keynum;++index) //找出是父亲的第几个孩子</span><br><span class="line">317     &#123;</span><br><span class="line">318         if (T-&gt;parent-&gt;ptr[index] == T) return index;</span><br><span class="line">319     &#125;</span><br><span class="line">320     return -1;</span><br><span class="line">321 &#125;</span><br><span class="line">322 /***</span><br><span class="line">323 *  @name           status splitBTree(BTree T)</span><br><span class="line">324 *  @description    递归实现分裂节点操作</span><br><span class="line">325 *  @return         成功返回OK,否则返回ERROR</span><br><span class="line">326 *  @notice</span><br><span class="line">327 ***/</span><br><span class="line">328 Status splitBTree(BTree T) //此时分裂的节点一定会是超出最大值的。</span><br><span class="line">329 &#123;</span><br><span class="line">330     BTree t1, t2;</span><br><span class="line">331     int index, index_1;</span><br><span class="line">332     if (T-&gt;parent == NULL)</span><br><span class="line">333     &#123;</span><br><span class="line">334         t1 = (BTree)malloc(BTLEN);</span><br><span class="line">335         if (NULL == t1) return OVERFLOW;</span><br><span class="line">336         t2 = (BTree)malloc(BTLEN);</span><br><span class="line">337         if (NULL == t2) return OVERFLOW;</span><br><span class="line">338 </span><br><span class="line">339         t1-&gt;keynum = m / 2;</span><br><span class="line">340         t2-&gt;keynum = m - (m / 2) - 1;</span><br><span class="line">341         t1-&gt;parent = T;</span><br><span class="line">342         t2-&gt;parent = T;</span><br><span class="line">343         for (index = 0;index &lt;= m; ++index)  //先全部初始化</span><br><span class="line">344         &#123;</span><br><span class="line">345             t1-&gt;ptr[index] = NULL;</span><br><span class="line">346             t1-&gt;key[index] = 0;</span><br><span class="line">347             t2-&gt;ptr[index] = NULL;</span><br><span class="line">348             t2-&gt;key[index] = 0;</span><br><span class="line">349         &#125;</span><br><span class="line">350         for (index = 0;index &lt;= m / 2; ++index)  //初始化t1</span><br><span class="line">351         &#123;</span><br><span class="line">352             t1-&gt;ptr[index] = T-&gt;ptr[index];</span><br><span class="line">353             t1-&gt;key[index] = T-&gt;key[index];</span><br><span class="line">354         &#125;</span><br><span class="line">355         t2-&gt;ptr[0] = T-&gt;ptr[(m / 2) + 1];</span><br><span class="line">356         for (index = (m / 2) + 2;index &lt;= m; ++index)  //初始化t2</span><br><span class="line">357         &#123;</span><br><span class="line">358             t2-&gt;ptr[index - ((m / 2) + 1)] = T-&gt;ptr[index];</span><br><span class="line">359             t2-&gt;key[index - ((m / 2) + 1)] = T-&gt;key[index];</span><br><span class="line">360         &#125;</span><br><span class="line">361         T-&gt;keynum = 1;</span><br><span class="line">362         T-&gt;ptr[0] = t1;</span><br><span class="line">363         T-&gt;ptr[1] = t2;</span><br><span class="line">364         T-&gt;key[1] = T-&gt;key[m / 2 + 1];</span><br><span class="line">365         for (index = 2;index &lt;= m; ++index)  //初始化T</span><br><span class="line">366         &#123;</span><br><span class="line">367             T-&gt;ptr[index] = NULL;</span><br><span class="line">368             T-&gt;key[index] = 0;</span><br><span class="line">369         &#125;</span><br><span class="line">370         return OK;</span><br><span class="line">371     &#125;</span><br><span class="line">372 </span><br><span class="line">373     index = whichSon(T);</span><br><span class="line">374     for (index_1 = T-&gt;parent-&gt;keynum;index_1 &gt; index;--index_1) //腾出父亲的位置</span><br><span class="line">375     &#123;</span><br><span class="line">376         T-&gt;parent-&gt;ptr[index_1 + 1] = T-&gt;parent-&gt;ptr[index_1];</span><br><span class="line">377         T-&gt;parent-&gt;key[index_1 + 1] = T-&gt;parent-&gt;key[index_1];</span><br><span class="line">378     &#125;</span><br><span class="line">379     T-&gt;parent-&gt;keynum++;</span><br><span class="line">380     T-&gt;parent-&gt;key[index + 1] = T-&gt;key[m / 2 + 1];</span><br><span class="line">381     t2 = T-&gt;parent-&gt;ptr[index + 1] = (BTree)malloc(BTLEN);</span><br><span class="line">382     if (NULL == t2) return OVERFLOW;</span><br><span class="line">383     for (index = 0;index &lt;= m; ++index)  //先全部初始化</span><br><span class="line">384     &#123;</span><br><span class="line">385         t2-&gt;ptr[index] = NULL;</span><br><span class="line">386         t2-&gt;key[index] = 0;</span><br><span class="line">387     &#125;</span><br><span class="line">388     t2-&gt;keynum = m - (m / 2) - 1;</span><br><span class="line">389     t2-&gt;parent = T-&gt;parent;</span><br><span class="line">390     t2-&gt;ptr[0] = T-&gt;ptr[(m / 2) + 1];</span><br><span class="line">391     for (index = (m / 2) + 2;index &lt;= m; ++index)  //初始化t2</span><br><span class="line">392     &#123;</span><br><span class="line">393         t2-&gt;ptr[index - ((m / 2) + 1)] = T-&gt;ptr[index];</span><br><span class="line">394         t2-&gt;key[index - ((m / 2) + 1)] = T-&gt;key[index];</span><br><span class="line">395     &#125;</span><br><span class="line">396     T-&gt;keynum = m / 2;</span><br><span class="line">397     for (index = (m / 2) + 1;index &lt;= m; ++index)  //初始化t2</span><br><span class="line">398     &#123;</span><br><span class="line">399         T-&gt;ptr[index] = NULL;</span><br><span class="line">400         T-&gt;key[index] = 0;</span><br><span class="line">401     &#125;</span><br><span class="line">402     if (T-&gt;parent-&gt;keynum == m)</span><br><span class="line">403     &#123;</span><br><span class="line">404         splitBTree(T-&gt;parent);</span><br><span class="line">405     &#125;</span><br><span class="line">406     return OK;</span><br><span class="line">407 &#125;</span><br><span class="line">408 /***</span><br><span class="line">409 *  @name           Status insertBTree(BTree &amp;T, Record e)</span><br><span class="line">410 *  @description    插入实现元素的插入</span><br><span class="line">411 *  @return         成功返回OK,如果存在则返回FALSE，否则返回ERROR</span><br><span class="line">412 *  @notice</span><br><span class="line">413 ***/</span><br><span class="line">414 Status insertBTree(BTree &amp;T, Record e)</span><br><span class="line">415 &#123;</span><br><span class="line">416     BTree p;</span><br><span class="line">417     int index, temp;</span><br><span class="line">418     Status find_flag;</span><br><span class="line">419     if (NULL == T)</span><br><span class="line">420     &#123;</span><br><span class="line">421         T = (BTree)malloc(BTLEN);</span><br><span class="line">422         if (NULL == T) return OVERFLOW;</span><br><span class="line">423         T-&gt;keynum = 1;</span><br><span class="line">424         T-&gt;parent = NULL;</span><br><span class="line">425         for (index = 0;index &lt;= m; ++index)</span><br><span class="line">426         &#123;</span><br><span class="line">427             T-&gt;ptr[index] = NULL;</span><br><span class="line">428             T-&gt;key[index] = 0;</span><br><span class="line">429         &#125;</span><br><span class="line">430         T-&gt;key[1] = e.key;</span><br><span class="line">431         return OK;</span><br><span class="line">432     &#125;</span><br><span class="line">433     find_flag = findBTree(T, p, temp, e.key);</span><br><span class="line">434     if (find_flag == TRUE)</span><br><span class="line">435     &#123;</span><br><span class="line">436         return FALSE;</span><br><span class="line">437     &#125;</span><br><span class="line">438     if (find_flag == FALSE)</span><br><span class="line">439     &#123;                                //不管怎样先直接插入</span><br><span class="line">440         p-&gt;keynum++;</span><br><span class="line">441         for (index = p-&gt;keynum;index &gt; temp;--index) //挪位置</span><br><span class="line">442         &#123;</span><br><span class="line">443             p-&gt;key[index] = p-&gt;key[index - 1];</span><br><span class="line">444             p-&gt;ptr[index] = p-&gt;ptr[index - 1];</span><br><span class="line">445         &#125;</span><br><span class="line">446         p-&gt;ptr[temp] = NULL;</span><br><span class="line">447         p-&gt;key[temp] = e.key;</span><br><span class="line">448         if (p-&gt;keynum == m)      //这种情况得分裂</span><br><span class="line">449         &#123;</span><br><span class="line">450             splitBTree(p);</span><br><span class="line">451         &#125;</span><br><span class="line">452         renewParent(T);</span><br><span class="line">453         return OK;</span><br><span class="line">454     &#125;</span><br><span class="line">455     return ERROR;</span><br><span class="line">456 &#125;</span><br><span class="line">457 /***</span><br><span class="line">458 *  @name           Status borrowBNode(BTree &amp;T)</span><br><span class="line">459 *  @description    递归实现，向兄弟借元素，否则和兄弟合并</span><br><span class="line">460 *  @return         成功返回OK,否则返回ERROR</span><br><span class="line">461 *  @notice         这种情况应该是T为单元素结点</span><br><span class="line">462 ***/</span><br><span class="line">463 Status borrowBNode(BTree T)</span><br><span class="line">464 &#123;</span><br><span class="line">465     int mynum, bronum, index;</span><br><span class="line">466     BTree b = NULL, f = NULL;</span><br><span class="line">467     if (T == NULL) return ERROR;</span><br><span class="line">468     f = T-&gt;parent;</span><br><span class="line">469     if (f == NULL)//考虑父亲结点不存在的情况</span><br><span class="line">470     &#123;</span><br><span class="line">471         if (T-&gt;keynum == 0)</span><br><span class="line">472         &#123;</span><br><span class="line">473             f = T-&gt;ptr[0];</span><br><span class="line">474             if (f == NULL)</span><br><span class="line">475             &#123;</span><br><span class="line">476                 free(T);</span><br><span class="line">477                 return EMPTY;</span><br><span class="line">478             &#125;</span><br><span class="line">479             for (index = 0;index &lt;= f-&gt;keynum;index++)</span><br><span class="line">480             &#123;</span><br><span class="line">481                 T-&gt;key[index] = f-&gt;key[index];</span><br><span class="line">482                 T-&gt;ptr[index] = f-&gt;ptr[index];</span><br><span class="line">483             &#125;</span><br><span class="line">484             T-&gt;keynum = f-&gt;keynum;</span><br><span class="line">485             free(f);</span><br><span class="line">486             renewParent(T);</span><br><span class="line">487         &#125;</span><br><span class="line">488         return OK;</span><br><span class="line">489     &#125;</span><br><span class="line">490     mynum = whichSon(T);</span><br><span class="line">491     if (mynum == 0)</span><br><span class="line">492         bronum = 1;</span><br><span class="line">493     else</span><br><span class="line">494         bronum = mynum - 1;</span><br><span class="line">495     b = f-&gt;ptr[bronum];</span><br><span class="line">496     if (b-&gt;keynum == (m + 1) / 2 - 1) //如果兄弟帮不了你了</span><br><span class="line">497     &#123;</span><br><span class="line">498         //那么就和这个兄弟合体</span><br><span class="line">499         if (bronum &lt; mynum)                    //如果我不是第一个</span><br><span class="line">500         &#123;</span><br><span class="line">501             b-&gt;keynum++;</span><br><span class="line">502             b-&gt;key[b-&gt;keynum] = f-&gt;key[mynum];</span><br><span class="line">503             b-&gt;ptr[b-&gt;keynum] = T-&gt;ptr[0];</span><br><span class="line">504             for (index = 1;index &lt;= T-&gt;keynum;index++)</span><br><span class="line">505             &#123;</span><br><span class="line">506                 b-&gt;key[index + b-&gt;keynum] = T-&gt;key[index];</span><br><span class="line">507                 b-&gt;ptr[index + b-&gt;keynum] = T-&gt;ptr[index];</span><br><span class="line">508                 b-&gt;keynum++;</span><br><span class="line">509             &#125;</span><br><span class="line">510             free(T);</span><br><span class="line">511             for (index = mynum;index &lt;= f-&gt;keynum;index++)</span><br><span class="line">512             &#123;</span><br><span class="line">513                 f-&gt;key[index] = f-&gt;key[index + 1];</span><br><span class="line">514                 f-&gt;ptr[index] = f-&gt;ptr[index + 1];</span><br><span class="line">515             &#125;</span><br><span class="line">516             f-&gt;keynum--;</span><br><span class="line">517         &#125;</span><br><span class="line">518         else</span><br><span class="line">519         &#123;</span><br><span class="line">520             T-&gt;keynum++;</span><br><span class="line">521             T-&gt;key[T-&gt;keynum] = f-&gt;key[bronum];</span><br><span class="line">522             T-&gt;ptr[T-&gt;keynum] = b-&gt;ptr[0];</span><br><span class="line">523             for (index = 1;index &lt;= b-&gt;keynum;index++)</span><br><span class="line">524             &#123;</span><br><span class="line">525                 T-&gt;key[index + T-&gt;keynum] = b-&gt;key[index];</span><br><span class="line">526                 T-&gt;ptr[index + T-&gt;keynum] = b-&gt;ptr[index];</span><br><span class="line">527                 T-&gt;keynum++;</span><br><span class="line">528             &#125;</span><br><span class="line">529             free(b);</span><br><span class="line">530             for (index = bronum;index &lt;= f-&gt;keynum;index++)</span><br><span class="line">531             &#123;</span><br><span class="line">532                 f-&gt;key[index] = f-&gt;key[index + 1];</span><br><span class="line">533                 f-&gt;ptr[index] = f-&gt;ptr[index + 1];</span><br><span class="line">534             &#125;</span><br><span class="line">535             f-&gt;keynum--;</span><br><span class="line">536         &#125;</span><br><span class="line">537         renewParent(f);</span><br><span class="line">538         if (f-&gt;keynum == (m + 1) / 2 - 2)</span><br><span class="line">539         &#123;</span><br><span class="line">540             //调用借兄弟的函数</span><br><span class="line">541             return borrowBNode(f);</span><br><span class="line">542         &#125;</span><br><span class="line">543     &#125;</span><br><span class="line">544     else//如果兄弟能够帮你</span><br><span class="line">545     &#123;</span><br><span class="line">546         if (bronum &lt; mynum)                    //如果我不是第一个</span><br><span class="line">547         &#123;</span><br><span class="line">548             for (index = 1;index &lt;= T-&gt;keynum;index++)</span><br><span class="line">549             &#123;</span><br><span class="line">550                 T-&gt;key[index + 1] = T-&gt;key[index];</span><br><span class="line">551                 T-&gt;ptr[index + 1] = T-&gt;ptr[index];</span><br><span class="line">552             &#125;</span><br><span class="line">553             T-&gt;ptr[1] = T-&gt;ptr[0];</span><br><span class="line">554             T-&gt;key[1] = f-&gt;key[mynum];</span><br><span class="line">555             T-&gt;ptr[0] = b-&gt;ptr[b-&gt;keynum];</span><br><span class="line">556             T-&gt;keynum++;</span><br><span class="line">557             f-&gt;key[mynum] = b-&gt;key[b-&gt;keynum];</span><br><span class="line">558             b-&gt;key[b-&gt;keynum] = 0;</span><br><span class="line">559             b-&gt;ptr[b-&gt;keynum] = NULL;</span><br><span class="line">560             b-&gt;keynum--;</span><br><span class="line">561 </span><br><span class="line">562         &#125;</span><br><span class="line">563         else                                    //如果我是第一个</span><br><span class="line">564         &#123;</span><br><span class="line">565             T-&gt;keynum++;</span><br><span class="line">566             T-&gt;key[T-&gt;keynum] = f-&gt;key[1];</span><br><span class="line">567             T-&gt;ptr[T-&gt;keynum] = b-&gt;ptr[0];</span><br><span class="line">568             f-&gt;key[1] = b-&gt;key[1];</span><br><span class="line">569             b-&gt;ptr[0] = b-&gt;ptr[1];</span><br><span class="line">570             for (index = 1;index &lt;= b-&gt;keynum;index++)</span><br><span class="line">571             &#123;</span><br><span class="line">572                 b-&gt;key[index] = b-&gt;key[index + 1];</span><br><span class="line">573                 b-&gt;ptr[index] = b-&gt;ptr[index + 1];</span><br><span class="line">574             &#125;</span><br><span class="line">575             b-&gt;keynum--;</span><br><span class="line">576         &#125;</span><br><span class="line">577     &#125;</span><br><span class="line">578     return OK;</span><br><span class="line">579 &#125;</span><br><span class="line">580 </span><br><span class="line">581 /***</span><br><span class="line">582 *  @name           Status deleteBTreeRecord(BTree &amp;T, Record e)</span><br><span class="line">583 *  @description    实现B树元素的删除</span><br><span class="line">584 *  @return         成功返回OK,否则返回ERROR</span><br><span class="line">585 *  @notice</span><br><span class="line">586 ***/</span><br><span class="line">587 Status deleteBTreeRecord(BTree &amp;T, Record e)</span><br><span class="line">588 &#123;</span><br><span class="line">589     BTree p, q;</span><br><span class="line">590     int num, temp, index;</span><br><span class="line">591     Status find_flag;</span><br><span class="line">592     if (T == NULL)</span><br><span class="line">593         return ERROR;</span><br><span class="line">594     find_flag = findBTree(T, p, temp, e.key);</span><br><span class="line">595     if (find_flag == FALSE)</span><br><span class="line">596     &#123;</span><br><span class="line">597         return FALSE;</span><br><span class="line">598     &#125;</span><br><span class="line">599     if (find_flag == TRUE)</span><br><span class="line">600     &#123;</span><br><span class="line">601         //deleteBTreeBNode(p,temp);</span><br><span class="line">602         if (p-&gt;ptr[temp] == NULL)                //如果是叶子节点的话</span><br><span class="line">603         &#123;</span><br><span class="line">604             for (index = temp;index &lt;= p-&gt;keynum;++index)</span><br><span class="line">605             &#123;</span><br><span class="line">606                 p-&gt;key[index] = p-&gt;key[index + 1];</span><br><span class="line">607                 p-&gt;ptr[index] = p-&gt;ptr[index + 1];</span><br><span class="line">608             &#125;</span><br><span class="line">609             p-&gt;keynum--;</span><br><span class="line">610             if (p-&gt;keynum == (m + 1) / 2 - 2)</span><br><span class="line">611             &#123;</span><br><span class="line">612                 //调用借兄弟的函数</span><br><span class="line">613                 if (borrowBNode(p) == EMPTY) T = NULL;</span><br><span class="line">614                 else renewParent(T);</span><br><span class="line">615             &#125;</span><br><span class="line">616             return OK;</span><br><span class="line">617         &#125;</span><br><span class="line">618         else                                    //不是叶子结点的话</span><br><span class="line">619         &#123;</span><br><span class="line">620             //遍历</span><br><span class="line">621             findMax(p-&gt;ptr[temp - 1], q, num);//返回的q一定会是叶子节点</span><br><span class="line">622             p-&gt;key[temp] = q-&gt;key[num];</span><br><span class="line">623             q-&gt;key[num] = 0;</span><br><span class="line">624             q-&gt;keynum--;</span><br><span class="line">625             if (q-&gt;keynum == (m + 1) / 2 - 2)</span><br><span class="line">626             &#123;</span><br><span class="line">627                 //调用借兄弟的函数</span><br><span class="line">628                 if (borrowBNode(q) == EMPTY) T = NULL;</span><br><span class="line">629                 else renewParent(T);</span><br><span class="line">630             &#125;</span><br><span class="line">631             return OK;</span><br><span class="line">632         &#125;</span><br><span class="line">633         return OK;</span><br><span class="line">634     &#125;</span><br><span class="line">635     return ERROR;</span><br><span class="line">636 &#125;</span><br><span class="line">637 /***</span><br><span class="line">638 *  @name           Status initBTree(BTree &amp;t)</span><br><span class="line">639 *  @description    初始化一个空B树</span><br><span class="line">640 *  @return         成功返回OK</span><br><span class="line">641 *  @notice</span><br><span class="line">642 ***/</span><br><span class="line">643 Status initBTree(BTree &amp;t)</span><br><span class="line">644 &#123;</span><br><span class="line">645     t = NULL;</span><br><span class="line">646     return OK;</span><br><span class="line">647 &#125;</span><br><span class="line">648 /***</span><br><span class="line">649 *  @name           Status test()</span><br><span class="line">650 *  @description    针对数据结构实验做的测试函数</span><br><span class="line">651 *  @return         成功返回OK</span><br><span class="line">652 *  @notice</span><br><span class="line">653 ***/</span><br><span class="line">654 Status test()</span><br><span class="line">655 &#123;</span><br><span class="line">656     // 测试代码</span><br><span class="line">657     int n, i;</span><br><span class="line">658     int arr[BTREELENGTH];</span><br><span class="line">659     BTree a;</span><br><span class="line">660     Record  d;</span><br><span class="line">661     srand((unsigned)time(NULL));</span><br><span class="line">662     n = rand() % BTREELENGTH;</span><br><span class="line">663     //scanf(&quot;%d&quot;, &amp;n);                    //可以改为自己输入数据</span><br><span class="line">664     printf(&quot;B树的阶为:%d,插入次数为:%d\n&quot;, m, n);</span><br><span class="line">665     initBTree(a);</span><br><span class="line">666     for (i = 0;i &lt; n;i++)</span><br><span class="line">667     &#123;</span><br><span class="line">668         d.key = rand() % MAXINT;</span><br><span class="line">669         //scanf(&quot;%d&quot;, &amp;d.key);            //可以改为自己输入数据</span><br><span class="line">670         arr[i] = d.key;</span><br><span class="line">671         if (insertBTree(a, d) == OK)</span><br><span class="line">672             printf(&quot;第%d次插入%d:\n&quot;, i + 1, d.key);</span><br><span class="line">673         else</span><br><span class="line">674             printf(&quot;第%d次插入%d不成功:\n&quot;, i + 1, d.key);</span><br><span class="line">675         print(a);</span><br><span class="line">676     &#125;</span><br><span class="line">677     for (i = 0;i &lt; n;i++)</span><br><span class="line">678     &#123;</span><br><span class="line">679         d.key = arr[i];</span><br><span class="line">680         if (deleteBTreeRecord(a, d) == OK)</span><br><span class="line">681             printf(&quot;第%d次删除%d:\n&quot;, i + 1, d.key);</span><br><span class="line">682         else</span><br><span class="line">683             printf(&quot;第%d次删除%d不成功:\n&quot;, i + 1, d.key);</span><br><span class="line">684         print(a);</span><br><span class="line">685     &#125;</span><br><span class="line">686     return OK;</span><br><span class="line">687 </span><br><span class="line">688 &#125;</span><br><span class="line">689 /***</span><br><span class="line">690 主函数</span><br><span class="line">691 ***/</span><br><span class="line">692 int  main()</span><br><span class="line">693 &#123;</span><br><span class="line">694     test();</span><br><span class="line">695     return 0;</span><br><span class="line">696 &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="B-树"><a href="#B-树" class="headerlink" title="B+树"></a>B+树</h2><img src="/2020/09/13/B树与B-树/1.png">
+<img src="/2020/09/13/B树与B-树/2.png">
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2020/09/13/B树与B-树/">B树与B+树</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Twh233 的个人博客">Twh233</a></p>
+  <p><span>发布时间:</span>2020年09月13日 - 14:09</p>
+  <p><span>最后更新:</span>2020年09月13日 - 14:09</p>
+  <p><span>原始链接:</span><a href="/2020/09/13/B树与B-树/" title="B树与B+树">http://twh233.github.io/2020/09/13/B树与B-树/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://twh233.github.io/2020/09/13/B树与B-树/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({   
+          title: "",   
+          text: '复制成功',   
+          html: false,
+          timer: 500,   
+          showConfirmButton: false
+        });
+      });
+    }));  
+</script>
+
+      
+	</div>
+	
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/排序/" rel="tag"><i class="fa fa-tag"></i> 排序</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/09/12/查找与排序-KMP算法栈队列/" rel="next" title="查找与排序-KMP算法栈队列">
+                <i class="fa fa-chevron-left"></i> 查找与排序-KMP算法栈队列
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div onclick="showGitment()" id="gitment-display-button">显示 Gitment 评论</div>
+        <div id="gitment-container" style="display:none"></div>
+      
+    </div>
+
+  
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/logo.jpg" alt="Twh233">
+            
+              <p class="site-author-name" itemprop="name">Twh233</p>
+              <p class="site-description motion-element" itemprop="description">A man's best friends are his ten fingers.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/twh233" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:twh233@foxmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://blog.csdn.net/qq_36553623" target="_blank" title="Csdn">
+                      
+                        <i class="fa fa-fw fa-globe"></i>Csdn</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#B树性质"><span class="nav-number">1.</span> <span class="nav-text">B树性质</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#插入"><span class="nav-number">1.1.</span> <span class="nav-text">插入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分裂"><span class="nav-number">1.2.</span> <span class="nav-text">分裂</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除"><span class="nav-number">1.3.</span> <span class="nav-text">删除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#合并"><span class="nav-number">1.4.</span> <span class="nav-text">合并</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#完整代码"><span class="nav-number">1.5.</span> <span class="nav-text">完整代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-树"><span class="nav-number">2.</span> <span class="nav-text">B+树</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+	  <div id="music163player">
+		<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=570335578&auto=1&height=66"></iframe>
+      </div>
+	</div>
+
+</aside></div>
+
+  
+
+
+        
+      </main></div>
+    
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<!--
+<div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Twh233</span>
+<!--
+  
+ -->
+</div>
+
+<!--
+<div class="powered-by">
+<i class="fa fa-user-md"></i>
+<span id="busuanzi_container_site_pv">
+    您是第<span id="busuanzi_value_site_pv"></span>个小伙伴访问的哦
+</span>
+</div>
+-->
+
+
+
+-->
+        
+
+
+
+
+
+
+
+        
+      
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'twh233',
+            repo: 'twh233.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '12046f070b932ff4f528161ab23a08a23ae5fe4c',
+            
+                client_id: 'e03062ff070528383729'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      function showGitment(){
+        document.getElementById("gitment-display-button").style.display = "none";
+        document.getElementById("gitment-container").style.display = "block";
+        renderGitment();
+      }
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+  <div class="bg_content">
+	<canvas id="canvas"></canvas>
+  </div>
+
+
+
+</body>
+	<!-- 页面点击小红心 -->
+	<script type="text/javascript" src="/js/src/clicklove.js"></script>
+	<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
+	<!--崩溃欺骗-->
+	<script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+</html>
