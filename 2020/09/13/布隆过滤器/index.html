@@ -79,7 +79,7 @@
 
 
 
-  <meta name="keywords" content="A man's best friends are his ten fingers.">
+  <meta name="keywords" content="布隆过滤器,">
 
 
 
@@ -92,16 +92,20 @@
 
 
 
-<meta name="description" content="A man&apos;s best friends are his ten fingers.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Twh233&#39;s Blog">
-<meta property="og:url" content="http://twh233.github.io/archives/2019/07/index.html">
+<meta name="description" content="布隆过滤器一个空的布隆过滤器是一串被置为0的bit数组（假设由m位）。同时，应该声明k个不同的散列函数生成一个统一随机分布，每一个散列函数都将元素映射到m个bit中的一个（k是一个小于m的常数，与加入过滤器中的元素个数成比例）。k与相应的m的选择由误判率决定。 向过滤器中添加元素时，通过k个散列函数得到该元素对应的k个位置，并将这些位置置为1. 查询某个元素/测试是否与已有元素重复时，依旧通过k个">
+<meta name="keywords" content="布隆过滤器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="布隆过滤器">
+<meta property="og:url" content="http://twh233.github.io/2020/09/13/布隆过滤器/index.html">
 <meta property="og:site_name" content="Twh233&#39;s Blog">
-<meta property="og:description" content="A man&apos;s best friends are his ten fingers.">
+<meta property="og:description" content="布隆过滤器一个空的布隆过滤器是一串被置为0的bit数组（假设由m位）。同时，应该声明k个不同的散列函数生成一个统一随机分布，每一个散列函数都将元素映射到m个bit中的一个（k是一个小于m的常数，与加入过滤器中的元素个数成比例）。k与相应的m的选择由误判率决定。 向过滤器中添加元素时，通过k个散列函数得到该元素对应的k个位置，并将这些位置置为1. 查询某个元素/测试是否与已有元素重复时，依旧通过k个">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://twh233.github.io/2020/09/13/布隆过滤器/1.png">
+<meta property="og:updated_time" content="2020-09-13T09:51:43.121Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Twh233&#39;s Blog">
-<meta name="twitter:description" content="A man&apos;s best friends are his ten fingers.">
+<meta name="twitter:title" content="布隆过滤器">
+<meta name="twitter:description" content="布隆过滤器一个空的布隆过滤器是一串被置为0的bit数组（假设由m位）。同时，应该声明k个不同的散列函数生成一个统一随机分布，每一个散列函数都将元素映射到m个bit中的一个（k是一个小于m的常数，与加入过滤器中的元素个数成比例）。k与相应的m的选择由误判率决定。 向过滤器中添加元素时，通过k个散列函数得到该元素对应的k个位置，并将这些位置置为1. 查询某个元素/测试是否与已有元素重复时，依旧通过k个">
+<meta name="twitter:image" content="http://twh233.github.io/2020/09/13/布隆过滤器/1.png">
 
 
 
@@ -131,7 +135,7 @@
 
 
 
-  <link rel="canonical" href="http://twh233.github.io/archives/2019/07/">
+  <link rel="canonical" href="http://twh233.github.io/2020/09/13/布隆过滤器/">
 
 
 
@@ -139,7 +143,7 @@
 
 
 
-  <title>归档 | Twh233's Blog</title>
+  <title>布隆过滤器 | Twh233's Blog</title>
   
 
 
@@ -160,7 +164,7 @@
 
 
   
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -296,72 +300,254 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
-
-      <span class="archive-page-counter">
-        
-        
-        
-          
-        
-        嗯..! 目前共计 11 篇日志。 继续努力。
-      </span>
-
-      
-
-        
-        
-        
-
-        
-          
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2019">2019</h1>
-          </div>
-        
-        
-
-        
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://twh233.github.io/2020/09/13/布隆过滤器/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Twh233">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Twh233's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/07/15/实习笔记6/" itemprop="url">
-              
-                <span itemprop="name">实习笔记6</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">布隆过滤器</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-07-15T20:07:37+08:00" content="2019-07-15">
-          07-15
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-13T17:44:45+08:00">
+                2020-09-13
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/基础/" itemprop="url" rel="index">
+                    <span itemprop="name">基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/09/13/布隆过滤器/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2020/09/13/布隆过滤器/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  363
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
+      
 
+      
+        <h2 id="布隆过滤器"><a href="#布隆过滤器" class="headerlink" title="布隆过滤器"></a>布隆过滤器</h2><p>一个空的布隆过滤器是一串被置为0的bit数组（假设由m位）。同时，应该声明k个不同的散列函数生成一个统一随机分布，每一个散列函数都将元素映射到m个bit中的一个（k是一个小于m的常数，与加入过滤器中的元素个数成比例）。k与相应的m的选择由误判率决定。</p>
+<p>向过滤器中添加元素时，通过k个散列函数得到该元素对应的k个位置，并将这些位置置为1.</p>
+<p>查询某个元素/测试是否与已有元素重复时，依旧通过k个散列函数得到对应的k个位置，判断这些位置是否为1（若全为1则在集合内/重复）</p>
+<p>可以看如下图所示的一个例子，其中，{x,y,z}为集合，w为进行比对的元素，m=18，k=3，不同颜色的箭头表示散列映射关系。可以看出，w并不在{x,y,z}这个集合中。 </p>
+<img src="/2020/09/13/布隆过滤器/1.png">
+<h2 id="Bitmap"><a href="#Bitmap" class="headerlink" title="Bitmap"></a>Bitmap</h2><p>是用一个数组中的每个数据的每个二进制位表示一个数是否存在。1表示存在，0表示不存在。</p>
+<p>相当于把数组分成很多块的空间，每一块是32个比特位。</p>
+<p>原来32个比特位放一个数据，相当于现在一个位就可以放一个数据。</p>
+
+      
     </div>
+    
+    
+    
+
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2020/09/13/布隆过滤器/">布隆过滤器</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Twh233 的个人博客">Twh233</a></p>
+  <p><span>发布时间:</span>2020年09月13日 - 17:09</p>
+  <p><span>最后更新:</span>2020年09月13日 - 17:09</p>
+  <p><span>原始链接:</span><a href="/2020/09/13/布隆过滤器/" title="布隆过滤器">http://twh233.github.io/2020/09/13/布隆过滤器/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://twh233.github.io/2020/09/13/布隆过滤器/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({   
+          title: "",   
+          text: '复制成功',   
+          html: false,
+          timer: 500,   
+          showConfirmButton: false
+        });
+      });
+    }));  
+</script>
+
+      
+	</div>
+	
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/布隆过滤器/" rel="tag"><i class="fa fa-tag"></i> 布隆过滤器</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/09/13/B树与B-树/" rel="next" title="B树与B+树">
+                <i class="fa fa-chevron-left"></i> B树与B+树
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -369,6 +555,18 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      
+        <div onclick="showGitment()" id="gitment-display-button">显示 Gitment 评论</div>
+        <div id="gitment-container" style="display:none"></div>
+      
+    </div>
+
+  
+  
+
 
 
         </div>
@@ -389,8 +587,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -481,6 +688,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#布隆过滤器"><span class="nav-number">1.</span> <span class="nav-text">布隆过滤器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bitmap"><span class="nav-number">2.</span> <span class="nav-text">Bitmap</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -635,6 +858,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -681,6 +908,34 @@
 
     
 
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'twh233',
+            repo: 'twh233.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '12046f070b932ff4f528161ab23a08a23ae5fe4c',
+            
+                client_id: 'e03062ff070528383729'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      function showGitment(){
+        document.getElementById("gitment-display-button").style.display = "none";
+        document.getElementById("gitment-container").style.display = "block";
+        renderGitment();
+      }
+      
+      </script>
     
 
 
@@ -1022,26 +1277,6 @@
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
