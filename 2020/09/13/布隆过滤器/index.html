@@ -100,12 +100,12 @@
 <meta property="og:site_name" content="Twh233&#39;s Blog">
 <meta property="og:description" content="布隆过滤器一个空的布隆过滤器是一串被置为0的bit数组（假设由m位）。同时，应该声明k个不同的散列函数生成一个统一随机分布，每一个散列函数都将元素映射到m个bit中的一个（k是一个小于m的常数，与加入过滤器中的元素个数成比例）。k与相应的m的选择由误判率决定。 向过滤器中添加元素时，通过k个散列函数得到该元素对应的k个位置，并将这些位置置为1. 查询某个元素/测试是否与已有元素重复时，依旧通过k个">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://twh233.github.io/images/loading/loading.gif">
+<meta property="og:image" content="http://twh233.github.io/2020/09/13/布隆过滤器/09/13/布隆过滤器/1.png">
 <meta property="og:updated_time" content="2020-09-13T09:51:43.121Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="布隆过滤器">
 <meta name="twitter:description" content="布隆过滤器一个空的布隆过滤器是一串被置为0的bit数组（假设由m位）。同时，应该声明k个不同的散列函数生成一个统一随机分布，每一个散列函数都将元素映射到m个bit中的一个（k是一个小于m的常数，与加入过滤器中的元素个数成比例）。k与相应的m的选择由误判率决定。 向过滤器中添加元素时，通过k个散列函数得到该元素对应的k个位置，并将这些位置置为1. 查询某个元素/测试是否与已有元素重复时，依旧通过k个">
-<meta name="twitter:image" content="http://twh233.github.io/images/loading/loading.gif">
+<meta name="twitter:image" content="http://twh233.github.io/2020/09/13/布隆过滤器/09/13/布隆过滤器/1.png">
 
 
 
@@ -448,7 +448,7 @@
 <p>向过滤器中添加元素时，通过k个散列函数得到该元素对应的k个位置，并将这些位置置为1.</p>
 <p>查询某个元素/测试是否与已有元素重复时，依旧通过k个散列函数得到对应的k个位置，判断这些位置是否为1（若全为1则在集合内/重复）</p>
 <p>可以看如下图所示的一个例子，其中，{x,y,z}为集合，w为进行比对的元素，m=18，k=3，不同颜色的箭头表示散列映射关系。可以看出，w并不在{x,y,z}这个集合中。 </p>
-<img src="/images/loading/loading.gif" data-original="/2020/09/13/布隆过滤器/1.png">
+<img src="/2020/09/13/布隆过滤器/09/13/布隆过滤器/1.png">
 <h2 id="Bitmap"><a href="#Bitmap" class="headerlink" title="Bitmap"></a>Bitmap</h2><p>是用一个数组中的每个数据的每个二进制位表示一个数是否存在。1表示存在，0表示不存在。</p>
 <p>相当于把数组分成很多块的空间，每一块是32个比特位。</p>
 <p>原来32个比特位放一个数据，相当于现在一个位就可以放一个数据。</p>
@@ -605,7 +605,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/images/loading/loading.gif" data-original="/images/logo.jpg" alt="Twh233">
+              <img class="site-author-image" itemprop="image" src="/images/logo.jpg" alt="Twh233">
             
               <p class="site-author-name" itemprop="name">Twh233</p>
               <p class="site-description motion-element" itemprop="description">A man's best friends are his ten fingers.</p>
@@ -1295,12 +1295,7 @@
 
 
 
-<script>
-            window.imageLazyLoadSetting = {
-                isSPA: false,
-                processImages: null,
-            };
-        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var i=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,e,a=0;a<r.length;a++)t=r[a],e=void 0,0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+</body>
 	<!-- 页面点击小红心 -->
 	<script type="text/javascript" src="/js/src/clicklove.js"></script>
 	<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
