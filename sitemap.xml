@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://twh233.github.io/2020/09/20/redis%E8%A1%A5%E5%85%85/</loc>
+    
+    <lastmod>2020-09-20T13:36:09.088Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://twh233.github.io/2020/09/20/redis/</loc>
     
     <lastmod>2020-09-20T11:14:22.795Z</lastmod>
@@ -72,7 +79,7 @@
   </url>
   
   <url>
-    <loc>http://twh233.github.io/2018/04/16/12306%E6%9F%A5%E7%A5%A8%E8%AE%A2%E7%A5%A8/</loc>
+    <loc>http://twh233.github.io/2018/08/04/idea-maven%E5%B7%A5%E7%A8%8B%E9%85%8D%E7%BD%AE/</loc>
     
     <lastmod>2019-07-15T12:00:42.000Z</lastmod>
     
@@ -86,7 +93,7 @@
   </url>
   
   <url>
-    <loc>http://twh233.github.io/2018/08/04/idea-maven%E5%B7%A5%E7%A8%8B%E9%85%8D%E7%BD%AE/</loc>
+    <loc>http://twh233.github.io/2018/04/16/12306%E6%9F%A5%E7%A5%A8%E8%AE%A2%E7%A5%A8/</loc>
     
     <lastmod>2019-07-15T12:00:42.000Z</lastmod>
     
@@ -114,14 +121,14 @@
   </url>
   
   <url>
-    <loc>http://twh233.github.io/pageName/index.html</loc>
+    <loc>http://twh233.github.io/categories/index.html</loc>
     
     <lastmod>2019-07-15T12:00:42.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://twh233.github.io/categories/index.html</loc>
+    <loc>http://twh233.github.io/pageName/index.html</loc>
     
     <lastmod>2019-07-15T12:00:42.000Z</lastmod>
     

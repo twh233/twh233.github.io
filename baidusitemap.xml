@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://twh233.github.io/2020/09/20/redis%E8%A1%A5%E5%85%85/</loc>
+    <lastmod>2020-09-20T13:36:09.088Z</lastmod>
+    <data>
+        <display>
+        <title>redis补充</title>
+        <pubTime>2020-09-20T12:04:18.000Z</pubTime>
+        
+        <tag>redis</tag>
+         
+         
+           
+             
+              <breadCrumb title="redis" url="http://twh233.github.io/categories/redis/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://twh233.github.io/2020/09/20/redis/</loc>
     <lastmod>2020-09-20T11:14:22.795Z</lastmod>
     <data>
@@ -204,21 +224,19 @@
 
     
   <url>
-    <loc>http://twh233.github.io/2018/04/16/12306%E6%9F%A5%E7%A5%A8%E8%AE%A2%E7%A5%A8/</loc>
+    <loc>http://twh233.github.io/2018/08/04/idea-maven%E5%B7%A5%E7%A8%8B%E9%85%8D%E7%BD%AE/</loc>
     <lastmod>2019-07-15T12:00:42.000Z</lastmod>
     <data>
         <display>
-        <title>12306查票订票</title>
-        <pubTime>2018-04-16T10:45:26.000Z</pubTime>
+        <title>idea-maven工程配置</title>
+        <pubTime>2018-08-04T08:55:37.000Z</pubTime>
         
-        <tag>python</tag>
-         
-        <tag>爬虫</tag>
+        <tag>idea</tag>
          
          
            
              
-              <breadCrumb title="爬虫" url="http://twh233.github.io/categories/%E7%88%AC%E8%99%AB/"/>
+              <breadCrumb title="idea" url="http://twh233.github.io/categories/idea/"/>
           
         </display>
     </data>
@@ -246,19 +264,21 @@
 
     
   <url>
-    <loc>http://twh233.github.io/2018/08/04/idea-maven%E5%B7%A5%E7%A8%8B%E9%85%8D%E7%BD%AE/</loc>
+    <loc>http://twh233.github.io/2018/04/16/12306%E6%9F%A5%E7%A5%A8%E8%AE%A2%E7%A5%A8/</loc>
     <lastmod>2019-07-15T12:00:42.000Z</lastmod>
     <data>
         <display>
-        <title>idea-maven工程配置</title>
-        <pubTime>2018-08-04T08:55:37.000Z</pubTime>
+        <title>12306查票订票</title>
+        <pubTime>2018-04-16T10:45:26.000Z</pubTime>
         
-        <tag>idea</tag>
+        <tag>python</tag>
+         
+        <tag>爬虫</tag>
          
          
            
              
-              <breadCrumb title="idea" url="http://twh233.github.io/categories/idea/"/>
+              <breadCrumb title="爬虫" url="http://twh233.github.io/categories/%E7%88%AC%E8%99%AB/"/>
           
         </display>
     </data>

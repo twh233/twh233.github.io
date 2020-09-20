@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://twh233.github.io/"/>
-  <updated>2020-09-20T11:14:22.795Z</updated>
+  <updated>2020-09-20T13:36:09.088Z</updated>
   <id>http://twh233.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>redis补充</title>
+    <link href="http://twh233.github.io/2020/09/20/redis%E8%A1%A5%E5%85%85/"/>
+    <id>http://twh233.github.io/2020/09/20/redis补充/</id>
+    <published>2020-09-20T12:04:18.000Z</published>
+    <updated>2020-09-20T13:36:09.088Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="扩容与缩容"><a href="#扩容与缩容" class="headerlink" title="扩容与缩容"></a>扩容与缩容</h2><p>扩容<br>当used &gt; size 的时候扩容，当进行持久化aof,rdb,script(lua事务) block的时候，如果used &gt; 5size 翻倍扩容<br>缩容<br>当used &lt; size * 0.1的时候缩容<br>扩容和缩容导致rehash<br>scan<br>遇到扩充时</p><h2 id="io多线程"><a href="#io多线程" class="headerlink" title="io多线程"></a>io多线程</h2><img src="/2020/09/20/redis补充/1.png"> <h2 id="zset"><a href="#zset" class="headerlink" title="zset"></a>zset</h2><p>当数据量少的时候用压缩列表<br>当数据量大于128用跳表实现</p><h2 id="redis与mongo的区别"><a href="#redis与mongo的区别" class="headerlink" title="redis与mongo的区别"></a>redis与mongo的区别</h2><img src="/2020/09/20/redis补充/2.png"><h2 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h2><img src="/2020/09/20/redis补充/3.png">]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;扩容与缩容&quot;&gt;&lt;a href=&quot;#扩容与缩容&quot; class=&quot;headerlink&quot; title=&quot;扩容与缩容&quot;&gt;&lt;/a&gt;扩容与缩容&lt;/h2&gt;&lt;p&gt;扩容&lt;br&gt;当used &amp;gt; size 的时候扩容，当进行持久化aof,rdb,script(lua事务) bl
+      
+    
+    </summary>
+    
+      <category term="redis" scheme="http://twh233.github.io/categories/redis/"/>
+    
+    
+      <category term="redis" scheme="http://twh233.github.io/tags/redis/"/>
+    
+  </entry>
   
   <entry>
     <title>redis</title>
