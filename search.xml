@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[redis]]></title>
+    <url>%2F2020%2F09%2F20%2Fredis%2F</url>
+    <content type="text"><![CDATA[Redis基础数据类型string基本操作: set key value; get key; del key; mset; mget; strlen; append;数值增减 incr decr数据时效性 setex psetex(user:id:3506728370:fans 12210947 json) hash基本操作: hset key field value; hget key field; hgetall key; hdel key field1 [field2]; hmset; hmget; hlen(获取key数量); hexists扩展操作: hkeys; hvals; hincrby; hincrbyfloat; hsetnx(京东购物车) list底层是双向链表基本操作: lpush; rpush; lrange key start stop(朋友圈点赞、最新消息展示) set基本操作: sadd; smembers; srem; scard; sismember; srandmember; spop扩展操作: 交并补 sinter sunion sdiff; 到指定集合 sinterstore destination key1 key2 sunionstore; sdiffstore smove(热点歌单推荐、实现黑白名单) sorted_set基本操作: zadd key score1 member1 [score2 member2]; zrange key start stop [withscores]; zrevrange ;zrem ;zrangebyscore key min max [withscores] [limit]; zrevrangebyscore; zremrangebyrank; zremrangebyscore; zcard; zcount; zinterstore; zunionstore;扩展操作: zrank key member; zrevrank key member; zscore key member; zincrby key increment member; 通用命令key基本操作: del key; exists key; type key;扩展操作: expire key seconds; pexpire key milliseconds; expireat(timestamp); pexpireat; ttl key(有效时间); pttl; persist key(切换key从时效性转换到永久性);其他操作: rename key newkey; renamenx key newkey(如果对应的新newkey不存在再执行); sort; db基本操作: select index; quit; ping; echo massage;其他操作: move key db; dbsize; flushdb flushall; Redis高级持久化1.将当先数据状态进行保存2.将数据的操作过程进行保存 RDB1.save。save指令的执行会阻塞当前Redis服务器，知道当前RDB过程完成为止2.bgsave。 AOFAOF重写随着命令不断写入AOF，文件会越来越大，为了解决这个问题，Redis引入了AOF重写机制压缩文件体积。AOF文件重写是将Redis进程内的数据转化为写命令同步到新AOF文件的过程。简单说就是将对同一个数据的若干条命令执行结果转化成最终结果数据对应的指令进行记录。 事务开启: multi执行: exec取消: discard锁: watch key (watch 监控的指令一旦有人修改了，那么事务不会在执行) 取消锁: unwatch分布式锁: setnx lock-key value 有值返回失败，无值返回设置成功 expire lock-key second(解决死锁) del lock-key 删除策略定时删除惰性删除定期删除逐出策略 高级数据类型bitmaps:setbit time bit value; bitcountHyperLogLog:pfadd; pfcount; pfmergeGEO:geoadd key longitude latitude member; geopos key member; geodist key member member; georadius; georadiusbymember; geohash; 集群主从复制 主从复制常见问题:频繁的全量复制网络:数据不一致: 哨兵 集群 Redis应用企业级解决方案缓存预热问题:1.请求数量较高2.主从之间数据吞吐量较大，数据同步操作频度较高总结:缓存预热就是系统启动前，提前将相关的缓存数据直接加载到缓存系统。避免在用户请求的时候，先查询数据库，然后再将数据缓存的问题。 缓存雪崩问题:在一个较短的时间内，缓存中较多的key集中过期。我们去大量的访问了对应数据。总结:缓存雪崩就算瞬间过期数据量太大，导致对数据库服务器造成压力。如能够有效避免过期时间集中，可以有效解决雪崩现象的出现，配合其他策略一起使用，并监控服务器的运行数据，根据运行记录做快速调整。 缓存击穿问题:1.Redis中某个key过期，该key访问量巨大2.多个数据请求从服务器直接压到Redis后，均未命中3.Redis在短时间内发起了大量对数据库中同一数据的访问总结:缓存击穿就是单个高热数据过期的瞬间，数据访问量较大，未命中redis后，发起了大量对同一数据的数据库访问，导致对数据库服务器造成压力。应对策略应该在业务数据分析与预防方面进行，配合运行监控测试与即使调整策略。 缓存穿透问题:1.Redis中大面积出现未命中2.获取的数据在数据库中也不存在，数据库查询未得到对应数据总结:缓存击穿访问了不存在的数据，跳过了合法数据的Redis数据缓存阶段，每次访问数据库，导致对数据库服务器造成压力。]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[select/poll/epoll]]></title>
     <url>%2F2020%2F09%2F13%2Fselect-poll-epoll%2F</url>
     <content type="text"><![CDATA[传送门]]></content>
