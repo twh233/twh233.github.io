@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://twh233.github.io/2020/09/22/mysql/</loc>
+    
+    <lastmod>2020-09-22T13:18:00.367Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://twh233.github.io/2020/09/20/redis%E8%A1%A5%E5%85%85/</loc>
     
     <lastmod>2020-09-20T13:36:09.088Z</lastmod>
@@ -128,14 +135,14 @@
   </url>
   
   <url>
-    <loc>http://twh233.github.io/pageName/index.html</loc>
+    <loc>http://twh233.github.io/tags/index.html</loc>
     
     <lastmod>2019-07-15T12:00:42.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://twh233.github.io/tags/index.html</loc>
+    <loc>http://twh233.github.io/pageName/index.html</loc>
     
     <lastmod>2019-07-15T12:00:42.000Z</lastmod>
     

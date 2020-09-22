@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://twh233.github.io/"/>
-  <updated>2020-09-20T13:36:09.088Z</updated>
+  <updated>2020-09-22T13:18:00.367Z</updated>
   <id>http://twh233.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>mysql</title>
+    <link href="http://twh233.github.io/2020/09/22/mysql/"/>
+    <id>http://twh233.github.io/2020/09/22/mysql/</id>
+    <published>2020-09-22T12:57:48.000Z</published>
+    <updated>2020-09-22T13:18:00.367Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="数值类型"><a href="#数值类型" class="headerlink" title="数值类型"></a>数值类型</h2><img src="/2020/09/22/mysql/2.png"><h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><h3 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h3><p>事务四大特征：<br>原子性（Atomicity，或称不可分割性）、<br>一致性（Consistency）、<br>隔离性（Isolation，又称独立性）、<br>持久性（Durability）。<br>一致性：数据库在操作前和操作后，完整性不被破坏。<br>隔离性：多个事务可以同时执行，防止多个事务并发执行引起交叉执行数据不一致。<br>持久性：事务结束后，对数据的修改是永久的。</p><h3 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h3><p>（1）读未提交：read uncommitted（2）读已提交：read committed<br>（3）可重复读：repeatable read（4）串行化：serializable  </p><img src="/2020/09/22/mysql/1.png"><h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><p>四条从效果上第一条影响最大，后面越来越小。<br>① SQL语句及索引的优化 ② 数据库表结构的优化<br>③ 系统配置的优化<br>④ 硬件的优化</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;数值类型&quot;&gt;&lt;a href=&quot;#数值类型&quot; class=&quot;headerlink&quot; title=&quot;数值类型&quot;&gt;&lt;/a&gt;数值类型&lt;/h2&gt;&lt;img src=&quot;/2020/09/22/mysql/2.png&quot;&gt;
+&lt;h2 id=&quot;事务&quot;&gt;&lt;a href=&quot;#事务&quot; cla
+      
+    
+    </summary>
+    
+      <category term="mysql" scheme="http://twh233.github.io/categories/mysql/"/>
+    
+    
+      <category term="mysql" scheme="http://twh233.github.io/tags/mysql/"/>
+    
+  </entry>
   
   <entry>
     <title>redis补充</title>
