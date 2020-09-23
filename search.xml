@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[mysql]]></title>
     <url>%2F2020%2F09%2F22%2Fmysql%2F</url>
-    <content type="text"><![CDATA[数值类型 事务特征事务四大特征：原子性（Atomicity，或称不可分割性）、一致性（Consistency）、隔离性（Isolation，又称独立性）、持久性（Durability）。一致性：数据库在操作前和操作后，完整性不被破坏。隔离性：多个事务可以同时执行，防止多个事务并发执行引起交叉执行数据不一致。持久性：事务结束后，对数据的修改是永久的。 隔离级别（1）读未提交：read uncommitted（2）读已提交：read committed（3）可重复读：repeatable read（4）串行化：serializable 优化四条从效果上第一条影响最大，后面越来越小。① SQL语句及索引的优化 ② 数据库表结构的优化③ 系统配置的优化④ 硬件的优化]]></content>
+    <content type="text"><![CDATA[数值类型 事务特征事务四大特征：原子性（Atomicity，或称不可分割性）、一致性（Consistency）、隔离性（Isolation，又称独立性）、持久性（Durability）。一致性：数据库在操作前和操作后，完整性不被破坏。隔离性：多个事务可以同时执行，防止多个事务并发执行引起交叉执行数据不一致。持久性：事务结束后，对数据的修改是永久的。 隔离级别（1）读未提交：read uncommitted（2）读已提交：read committed（3）可重复读：repeatable read（4）串行化：serializable undolog每一个事务都有undolog，事务开启时一个临时表存事务的操作，这个临时表就是undolog，一旦有错误就X掉这次事务。 优化四条从效果上第一条影响最大，后面越来越小。① SQL语句及索引的优化 ② 数据库表结构的优化③ 系统配置的优化④ 硬件的优化 锁表级锁行级锁页级锁 引擎Myisam(表级锁) Innodb(行级锁)1.为什么Myisam快？因为Myisam B+树存的是引用，加载到内存快。 等Innodb加载完，Myisam都查完了2.为什么Innodb不支持全文索引？数据直接在叶子结点上，如果要全文索引，相当于复制了一份数据库，浪费空间 binlog binlog实际是除了select以外所有操作数据库动作的记录，方便恢复数据库。master主动推送到slave结点的relay log，从结点io线程去读relay log然后在sql线程去更新数据库。]]></content>
       <categories>
         <category>mysql</category>
       </categories>
