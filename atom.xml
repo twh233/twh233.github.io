@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://twh233.github.io/"/>
-  <updated>2020-09-23T15:44:39.610Z</updated>
+  <updated>2020-09-24T15:25:23.672Z</updated>
   <id>http://twh233.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>nginx</title>
+    <link href="http://twh233.github.io/2020/09/24/nginx/"/>
+    <id>http://twh233.github.io/2020/09/24/nginx/</id>
+    <published>2020-09-24T15:20:20.000Z</published>
+    <updated>2020-09-24T15:25:23.672Z</updated>
+    
+    <content type="html"><![CDATA[<p>负载均衡可以在多个层上去做，nginx只是在应用层上面的负载均衡。</p><h2 id="初识"><a href="#初识" class="headerlink" title="初识"></a>初识</h2><p>从配置入手</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">worker_processes 4; ##进程数</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">worker_connections 1024;  #连接数</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line"></span><br><span class="line">upstream backend &#123; #负载均衡</span><br><span class="line">server 192.168.142.128 weight=2;</span><br><span class="line">server 192.168.142.129 weight=1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">listen 8888;</span><br><span class="line">server_name localhost;</span><br><span class="line"></span><br><span class="line">client_max_body_size 100m; #客户端最大包体</span><br><span class="line"></span><br><span class="line">location / &#123;</span><br><span class="line">#root /usr/local/nginx/html/;</span><br><span class="line">#proxy_pass http://192.168.142.128;</span><br><span class="line">proxy_pass http://backend;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location /images/ &#123;</span><br><span class="line">root /usr/local/nginx/; #静态资源映射</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location ~ \.(mp3|mp4) &#123;</span><br><span class="line">root /usr/local/nginx/media/;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">listen 9000;</span><br><span class="line"></span><br><span class="line">location ~ \.cgi &#123;</span><br><span class="line">fastcgi_pass 127.0.0.1:9001;</span><br><span class="line">fastcgi_index index.cgi;</span><br><span class="line">fastcgi_param SCRIPT_FILENAME cgi$fastcgi_script_name;</span><br><span class="line">include ../conf/fastcgi_params;</span><br><span class="line">&#125;</span><br><span class="line">&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>cgi应用于在线编程工具，通过nginx映射到cgi端口，实际上并没有进入Server服务器，只是在cgi进程做的处理。<br>fastcgi用进程池去处理。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;负载均衡可以在多个层上去做，nginx只是在应用层上面的负载均衡。&lt;/p&gt;
+&lt;h2 id=&quot;初识&quot;&gt;&lt;a href=&quot;#初识&quot; class=&quot;headerlink&quot; title=&quot;初识&quot;&gt;&lt;/a&gt;初识&lt;/h2&gt;&lt;p&gt;从配置入手&lt;/p&gt;
+&lt;figure class=&quot;high
+      
+    
+    </summary>
+    
+      <category term="nginx" scheme="http://twh233.github.io/categories/nginx/"/>
+    
+    
+      <category term="nginx" scheme="http://twh233.github.io/tags/nginx/"/>
+    
+  </entry>
   
   <entry>
     <title>mysql</title>
