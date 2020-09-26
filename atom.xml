@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://twh233.github.io/"/>
-  <updated>2020-09-24T15:25:23.672Z</updated>
+  <updated>2020-09-26T11:12:44.267Z</updated>
   <id>http://twh233.github.io/</id>
   
   <author>
@@ -15,6 +15,57 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>设计模式</title>
+    <link href="http://twh233.github.io/2020/09/26/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    <id>http://twh233.github.io/2020/09/26/设计模式/</id>
+    <published>2020-09-26T11:12:02.000Z</published>
+    <updated>2020-09-26T11:12:44.267Z</updated>
+    
+    <content type="html"><![CDATA[<p>填坑，待补…..</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;填坑，待补…..&lt;/p&gt;
+
+      
+    
+    </summary>
+    
+      <category term="设计模式" scheme="http://twh233.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="设计模式" scheme="http://twh233.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>http</title>
+    <link href="http://twh233.github.io/2020/09/26/http/"/>
+    <id>http://twh233.github.io/2020/09/26/http/</id>
+    <published>2020-09-26T09:05:33.000Z</published>
+    <updated>2020-09-26T11:11:20.807Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>HTTP 协议，即超文本传输协议(Hypertext transfer protocol)。是一种详细规定了浏览器和<br>万维网(WWW = World Wide Web)服务器之间互相通信的规则，通过因特网传送万维网文档<br>的数据传送协议，可以传输文本，图片，视频等。  </p><img src="/2020/09/26/http/1.png"><p>简单快速：协议简单，通信速度快；<br>灵活：HTTP 允许传输任意类型的数据对象。正在传输的类型由 Content-Type 加以标记；<br>无状态：：HTTP 协议是无状态协议。无状态是指协议对于事务处理没有记忆能力。缺少状<br>态意味着如果后续处理需要前面的信息，则它必须重传，这样可能导致每次连接传送的数据<br>量增大。另一方面，在服务器不需要先前信息时它的应答就较快。</p><h2 id="http工作原理"><a href="#http工作原理" class="headerlink" title="http工作原理"></a>http工作原理</h2><p>以下是 HTTP 请求/响应的步骤：<br>1、客户端连接到 Web 服务器<br>一个 HTTP 客户端，通常是浏览器，与 Web 服务器的 HTTP 端口（默认为 80）建立一个 TCP<br>套接字连接。例如，<a href="http://www.0voice.com。" target="_blank" rel="noopener">http://www.0voice.com。</a><br>2、发送 HTTP 请求<br>通过 TCP 套接字，客户端向 Web 服务器发送一个文本的请求报文，一个请求报文由请求行、<br>请求头部、空行和请求数据 4 部分组成。<br>3、服务器接受请求并返回 HTTP 响应<br>Web 服务器解析请求，定位请求资源。服务器将资源复本写到 TCP 套接字，由客户端读取。<br>一个响应由状态行、响应头部、空行和响应数据 4 部分组成。<br>4、释放连接 TCP 连接<br>若 connection 模式为 close，则服务器主动关闭 TCP 连接，客户端被动关闭连接，释放 TCP<br>连接;若 connection 模式为 keepalive，则该连接会保持一段时间，在该时间内可以继续接收<br>请求;<br>5、客户端浏览器解析 HTML 内容<br>客户端浏览器首先解析状态行，查看表明请求是否成功的状态代码。然后解析每一个响应头，<br>响应头告知以下为若干字节的 HTML 文档和文档的字符集。客户端浏览器读取响应数据<br>HTML，根据 HTML 的语法对其进行格式化，并在浏览器窗口中显示。  </p><h2 id="http请求方法"><a href="#http请求方法" class="headerlink" title="http请求方法"></a>http请求方法</h2><p>根据 HTTP 标准，HTTP 请求可以使用多种请求方法。<br>HTTP1.0 定义了三种请求方法: GET、POST 和 HEAD 方法。<br>HTTP1.1 新增了六种请求方法: OPTIONS、PUT、PATCH、DELETE、TRACE 和 CONNECT 方法。  </p><p>1 GET 请求指定的页面信息，并返回实体主体。<br>2 HEAD 类似于 GET 请求，只不过返回的响应中没有具体的内容，用于获取<br>报头<br>3 POST 向指定资源提交数据进行处理请求（例如提交表单或者上传文件）。<br>数据被包含在请求体中。POST 请求可能会导致新的资源的建立和/<br>或已有资源的修改。<br>4 PUT 从客户端向服务器传送的数据取代指定的文档的内容。<br>5 DELETE 请求服务器删除指定的页面。<br>6 CONNECT HTTP/1.1 协议中预留给能够将连接改为管道方式的代理服务器。<br>7 OPTIONS 允许客户端查看服务器的性能。<br>8 TRACE 回显服务器收到的请求，主要用于测试或诊断。<br>9 PATCH 是对 PUT 方法的补充，用来对已知资源进行局部更新 。  </p><h2 id="GET和POST区别"><a href="#GET和POST区别" class="headerlink" title="GET和POST区别"></a>GET和POST区别</h2><p>1、GET 提交的数据会放在 URL 之后，以?分割 URL 和传输数据，参数之间以&amp;相连，<br>如<a href="http://localhost:8600/user?name=test1&amp;id=123456" target="_blank" rel="noopener">http://localhost:8600/user?name=test1&amp;id=123456</a>. POST 方法是把提交的数据放在 HTTP<br>包的 Body 中。<br>2、GET 提交的数据大小有限制（因为浏览器对 URL 的长度有限制），而 POST 方法提交的<br>数据没有限制。<br>3、GET 方式需要使用 Request.QueryString 来取得变量的值，而 POST 方式通过 Request.Form<br>来获取变量的值。<br>4、GET 方式提交数据，会带来安全问题，比如一个登录页面，通过 GET 方式提交数据时，<br>用户名和密码将出现在 URL 上，如果页面可以被缓存或者其他人可以访问这台机器，就可<br>以从历史记录获得该用户的账号和密码。</p><h2 id="http响应头信息"><a href="#http响应头信息" class="headerlink" title="http响应头信息"></a>http响应头信息</h2><img src="/2020/09/26/http/2.png"><img src="/2020/09/26/http/3.png"><img src="/2020/09/26/http/4.png"><h2 id="http状态码"><a href="#http状态码" class="headerlink" title="http状态码"></a>http状态码</h2><p>状态代码有三位数字组成，第一个数字定义了响应的类别，共分五种类别:<br>1xx：指示信息–表示请求已接收，继续处理<br>2xx：成功–表示请求已被成功接收、理解、接受<br>3xx：重定向–要完成请求必须进行更进一步的操作<br>4xx：客户端错误–请求有语法错误或请求无法实现<br>5xx：服务器端错误–服务器未能实现合法的请求  </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h2&gt;&lt;p&gt;HTTP 协议，即超文本传输协议(Hypertext transfer protocol)。是一种详细规定了浏览器和&lt;br&gt;万维网(WWW 
+      
+    
+    </summary>
+    
+      <category term="http" scheme="http://twh233.github.io/categories/http/"/>
+    
+    
+      <category term="http" scheme="http://twh233.github.io/tags/http/"/>
+    
+  </entry>
   
   <entry>
     <title>nginx</title>
@@ -74,9 +125,9 @@
     <link href="http://twh233.github.io/2020/09/20/redis%E8%A1%A5%E5%85%85/"/>
     <id>http://twh233.github.io/2020/09/20/redis补充/</id>
     <published>2020-09-20T12:04:18.000Z</published>
-    <updated>2020-09-20T13:36:09.088Z</updated>
+    <updated>2020-09-26T08:39:49.879Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="扩容与缩容"><a href="#扩容与缩容" class="headerlink" title="扩容与缩容"></a>扩容与缩容</h2><p>扩容<br>当used &gt; size 的时候扩容，当进行持久化aof,rdb,script(lua事务) block的时候，如果used &gt; 5size 翻倍扩容<br>缩容<br>当used &lt; size * 0.1的时候缩容<br>扩容和缩容导致rehash<br>scan<br>遇到扩充时</p><h2 id="io多线程"><a href="#io多线程" class="headerlink" title="io多线程"></a>io多线程</h2><img src="/2020/09/20/redis补充/1.png"> <h2 id="zset"><a href="#zset" class="headerlink" title="zset"></a>zset</h2><p>当数据量少的时候用压缩列表<br>当数据量大于128用跳表实现</p><h2 id="redis与mongo的区别"><a href="#redis与mongo的区别" class="headerlink" title="redis与mongo的区别"></a>redis与mongo的区别</h2><img src="/2020/09/20/redis补充/2.png"><h2 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h2><img src="/2020/09/20/redis补充/3.png">]]></content>
+    <content type="html"><![CDATA[<h2 id="扩容与缩容"><a href="#扩容与缩容" class="headerlink" title="扩容与缩容"></a>扩容与缩容</h2><p>扩容<br>当used &gt; size 的时候扩容，当进行持久化aof,rdb,script(lua事务) block的时候，如果used &gt; 5size 翻倍扩容<br>缩容<br>当used &lt; size * 0.1的时候缩容<br>扩容和缩容导致rehash<br>scan<br>遇到扩充时</p><h2 id="io多线程"><a href="#io多线程" class="headerlink" title="io多线程"></a>io多线程</h2><img src="/2020/09/20/redis补充/1.png"> <h2 id="zset"><a href="#zset" class="headerlink" title="zset"></a>zset</h2><p>当数据量少的时候用压缩列表<br>当数据量大于128用跳表实现</p><h2 id="redis与mongo的区别"><a href="#redis与mongo的区别" class="headerlink" title="redis与mongo的区别"></a>redis与mongo的区别</h2><img src="/2020/09/20/redis补充/2.png"><h2 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h2><img src="/2020/09/20/redis补充/3.png"><h2 id="C语言使用Redis"><a href="#C语言使用Redis" class="headerlink" title="C语言使用Redis"></a>C语言使用Redis</h2><h3 id="编译hiredis"><a href="#编译hiredis" class="headerlink" title="编译hiredis"></a>编译hiredis</h3><p>进入 redis-6.0.3/deps/hiredis<br>$ make<br>$ sudo make install<br>mkdir -p /usr/local/include/hiredis /usr/local/include/hiredis/adapters /usr/local/lib<br>cp -pPR hiredis.h async.h read.h sds.h /usr/local/include/hiredis<br>cp -pPR adapters/*.h /usr/local/include/hiredis/adapters<br>cp -pPR libhiredis.so /usr/local/lib/libhiredis.so.0.14<br>cd /usr/local/lib &amp;&amp; ln -sf libhiredis.so.0.14 libhiredis.so<br>cp -pPR libhiredis.a /usr/local/lib<br>mkdir -p /usr/local/lib/pkgconfig<br>cp -pPR hiredis.pc /usr/local/lib/pkgconfig<br>可以看到头文件、和库文件的安装目录  </p><h3 id="连接Redis服务"><a href="#连接Redis服务" class="headerlink" title="连接Redis服务"></a>连接Redis服务</h3><img src="/2020/09/20/redis补充/4.png"><h3 id="授权-Auth"><a href="#授权-Auth" class="headerlink" title="授权 Auth"></a>授权 Auth</h3><img src="/2020/09/20/redis补充/5.png"><h3 id="redisCommand-详解"><a href="#redisCommand-详解" class="headerlink" title="redisCommand 详解"></a>redisCommand 详解</h3><p>原型<br>void <em>redisCommand(redisContext </em>c, const char *format, …);  </p><p>参数说明<br>这个函数是一个带有不定参数的。可以按着 format 格式给出对应的参数，这就和 printf 函数类似。<br>c 是一个 reidsConnect 函数返回的一个对象。  </p><p>返回值<br>返回值是一个 void 类型的指针，实际为指向一个 redisReply 类型的指针。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">redisReply 的定义</span><br><span class="line">/* This is the reply object returned by redisCommand() */</span><br><span class="line">typedef struct redisReply &#123;</span><br><span class="line"> /*命令执行结果的返回类型*/</span><br><span class="line"> int type; /* REDIS_REPLY_* */</span><br><span class="line"> /*存储执行结果返回为整数*/</span><br><span class="line"> long long integer; /* The integer when type is REDIS_REPLY_INTEGER */</span><br><span class="line"> /*字符串值的长度*/</span><br><span class="line"> size_t len; /* Length of string */</span><br><span class="line"> /*存储命令执行结果返回是字符串*/</span><br><span class="line"> char *str; /* Used for both REDIS_REPLY_ERROR and REDIS_REPLY_STRING */</span><br><span class="line"> /*返回结果是数组的大小*/</span><br><span class="line"> size_t elements; /* number of elements, for REDIS_REPLY_ARRAY */</span><br><span class="line"> /*存储执行结果返回是数组*/</span><br><span class="line"> struct redisReply **element; /* elements vector for REDIS_REPLY_ARRAY */</span><br><span class="line">&#125; redisReply;</span><br></pre></td></tr></table></figure></p><p>返回结果的类型 reply-&gt;type,reply 为 redisReply* 类型。<br>• REDIS_REPLY_STRING == 1:返回值是字符串,字符串储存在 redis-&gt;str 当中,字符串长度<br>为 redis-&gt;len。<br>• REDIS_REPLY_ARRAY == 2：返回值是数组，数组大小存在 redis-&gt;elements 里面，数组<br>值存储在 redis-&gt;element[i]里面。数组里面存储的是指向 redisReply 的指针，数组里<br>面的返回值可以通过 redis-&gt;element[i]-&gt;str 来访问，数组的结果里全是<br>type==REDIS_REPLY_STRING 的 redisReply 对象指针。<br>• REDIS_REPLY_INTEGER == 3：返回值为整数 long long。<br>• REDIS_REPLY_NIL==4：返回值为空表示执行结果为空。<br>• REDIS_REPLY_STATUS ==5：返回命令执行的状态，比如 set foo bar 返回的状态为 OK，<br>存储在 str 当中 reply-&gt;str == “OK”。<br>• REDIS_REPLY_ERROR ==6 ：命令执行错误,错误信息存放在 reply-&gt;str 当中。  </p><img src="/2020/09/20/redis补充/6.png">]]></content>
     
     <summary type="html">
     
@@ -273,31 +324,6 @@
     
     
       <category term="排序" scheme="http://twh233.github.io/tags/%E6%8E%92%E5%BA%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>实习笔记6</title>
-    <link href="http://twh233.github.io/2019/07/15/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B06/"/>
-    <id>http://twh233.github.io/2019/07/15/实习笔记6/</id>
-    <published>2019-07-15T12:07:37.000Z</published>
-    <updated>2019-07-16T11:30:04.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="1-连接服务器"><a href="#1-连接服务器" class="headerlink" title="1. 连接服务器"></a>1. 连接服务器</h2><p>证书连接服务器<br><img src="/2019/07/15/实习笔记6/1.jpg"></p><img src="/2019/07/15/实习笔记6/2.jpg"><h2 id="2-gojsonq-一个用来查询JSON数据的简单Go包"><a href="#2-gojsonq-一个用来查询JSON数据的简单Go包" class="headerlink" title="2. gojsonq 一个用来查询JSON数据的简单Go包"></a>2. gojsonq 一个用来查询JSON数据的简单Go包</h2><p><a href="https://php.ctolib.com/thedevsaddam-gojsonq.html" target="_blank" rel="noopener">https://php.ctolib.com/thedevsaddam-gojsonq.html</a></p><img src="/2019/07/15/实习笔记6/gojson.png"><h2 id="3-golang-调用lua-插件"><a href="#3-golang-调用lua-插件" class="headerlink" title="3. golang 调用lua 插件"></a>3. golang 调用lua 插件</h2><p><a href="https://github.com/yuin/gopher-lua" target="_blank" rel="noopener">https://github.com/yuin/gopher-lua</a></p><h2 id="4-golang-exec"><a href="#4-golang-exec" class="headerlink" title="4. golang exec"></a>4. golang exec</h2><img src="/2019/07/15/实习笔记6/exec.png"><h2 id="5-常见lua-报错"><a href="#5-常见lua-报错" class="headerlink" title="5. 常见lua 报错"></a>5. 常见lua 报错</h2><p><a href="https://blog.csdn.net/yuanfengyun/article/details/78001988" target="_blank" rel="noopener">https://blog.csdn.net/yuanfengyun/article/details/78001988</a></p><h2 id="6-golang-解析-json"><a href="#6-golang-解析-json" class="headerlink" title="6. golang 解析 json"></a>6. golang 解析 json</h2><img src="/2019/07/15/实习笔记6/3.png"> ]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;1-连接服务器&quot;&gt;&lt;a href=&quot;#1-连接服务器&quot; class=&quot;headerlink&quot; title=&quot;1. 连接服务器&quot;&gt;&lt;/a&gt;1. 连接服务器&lt;/h2&gt;&lt;p&gt;证书连接服务器&lt;br&gt;&lt;img src=&quot;/2019/07/15/实习笔记6/1.jpg&quot;&gt;&lt;/
-      
-    
-    </summary>
-    
-      <category term="实习" scheme="http://twh233.github.io/categories/%E5%AE%9E%E4%B9%A0/"/>
-    
-    
-      <category term="实习" scheme="http://twh233.github.io/tags/%E5%AE%9E%E4%B9%A0/"/>
     
   </entry>
   
