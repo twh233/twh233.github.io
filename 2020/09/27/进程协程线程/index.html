@@ -79,7 +79,7 @@
 
 
 
-  <meta name="keywords" content="A man's best friends are his ten fingers.">
+  <meta name="keywords" content="操作系统,">
 
 
 
@@ -92,16 +92,21 @@
 
 
 
-<meta name="description" content="A man&apos;s best friends are his ten fingers.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Twh233&#39;s Blog">
-<meta property="og:url" content="http://twh233.github.io/categories/设计模式/index.html">
+<meta name="description" content="进程是一种资源单位，操作系统按照进程来分配资源管理资源。线程是进程内的，专门用来执行。   线程线程我们严格意义上来说指的是任务加上任务执行所需的资源，称之为线程，如果线程只是执行单位没有任何资源，称之为任务，它是可复用的，线程本身有状态的，因为线程执行时有线程栈，所以任务加上任务执行所需的线程栈等资源称之为线程。 系统线程与用户线程   系统线程指的是操作系统提供的的任务单元。用户线程指的是在用">
+<meta name="keywords" content="操作系统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="进程协程线程">
+<meta property="og:url" content="http://twh233.github.io/2020/09/27/进程协程线程/index.html">
 <meta property="og:site_name" content="Twh233&#39;s Blog">
-<meta property="og:description" content="A man&apos;s best friends are his ten fingers.">
+<meta property="og:description" content="进程是一种资源单位，操作系统按照进程来分配资源管理资源。线程是进程内的，专门用来执行。   线程线程我们严格意义上来说指的是任务加上任务执行所需的资源，称之为线程，如果线程只是执行单位没有任何资源，称之为任务，它是可复用的，线程本身有状态的，因为线程执行时有线程栈，所以任务加上任务执行所需的线程栈等资源称之为线程。 系统线程与用户线程   系统线程指的是操作系统提供的的任务单元。用户线程指的是在用">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://twh233.github.io/2020/09/27/进程协程线程/1.png">
+<meta property="og:image" content="http://twh233.github.io/2020/09/27/进程协程线程/2.png">
+<meta property="og:updated_time" content="2020-09-27T14:44:15.572Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Twh233&#39;s Blog">
-<meta name="twitter:description" content="A man&apos;s best friends are his ten fingers.">
+<meta name="twitter:title" content="进程协程线程">
+<meta name="twitter:description" content="进程是一种资源单位，操作系统按照进程来分配资源管理资源。线程是进程内的，专门用来执行。   线程线程我们严格意义上来说指的是任务加上任务执行所需的资源，称之为线程，如果线程只是执行单位没有任何资源，称之为任务，它是可复用的，线程本身有状态的，因为线程执行时有线程栈，所以任务加上任务执行所需的线程栈等资源称之为线程。 系统线程与用户线程   系统线程指的是操作系统提供的的任务单元。用户线程指的是在用">
+<meta name="twitter:image" content="http://twh233.github.io/2020/09/27/进程协程线程/1.png">
 
 
 
@@ -131,7 +136,7 @@
 
 
 
-  <link rel="canonical" href="http://twh233.github.io/categories/设计模式/">
+  <link rel="canonical" href="http://twh233.github.io/2020/09/27/进程协程线程/">
 
 
 
@@ -139,7 +144,7 @@
 
 
 
-  <title>分类: 设计模式 | Twh233's Blog</title>
+  <title>进程协程线程 | Twh233's Blog</title>
   
 
 
@@ -160,7 +165,7 @@
 
 
   
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -296,53 +301,257 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>设计模式<small>分类</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://twh233.github.io/2020/09/27/进程协程线程/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Twh233">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Twh233's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2020/09/26/设计模式/" itemprop="url">
-              
-                <span itemprop="name">设计模式</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">进程协程线程</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-09-26T19:12:02+08:00" content="2020-09-26">
-          09-26
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-27T22:34:51+08:00">
+                2020-09-27
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/操作系统/" itemprop="url" rel="index">
+                    <span itemprop="name">操作系统</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/09/27/进程协程线程/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2020/09/27/进程协程线程/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  783
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  3
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>进程是一种资源单位，操作系统按照进程来分配资源管理资源。线程是进程内的，专门用来执行。  </p>
+<h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><p>线程我们严格意义上来说指的是任务加上任务执行所需的资源，称之为线程，如果线程只是执行单位没有任何资源，称之为任务，它是可复用的，线程本身有状态的，因为线程执行时有线程栈，所以任务加上任务执行所需的线程栈等资源称之为线程。</p>
+<h3 id="系统线程与用户线程"><a href="#系统线程与用户线程" class="headerlink" title="系统线程与用户线程"></a>系统线程与用户线程</h3><img src="/2020/09/27/进程协程线程/1.png">  
+<p>系统线程指的是操作系统提供的的任务单元。用户线程指的是在用户空间实现的一些并发任务，跟操作系统没关系。</p>
+<h3 id="线程池模型"><a href="#线程池模型" class="headerlink" title="线程池模型"></a>线程池模型</h3><p>使用池模型不再需要频繁的创建系统线程，用户态可以创建很多用来存储状态的执行单位。执行时把它绑定到一个系统线程上去执行，执行完把系统线程释放，系统线程把绑定状态删除放到池中，不需要杀掉系统线程，接下来另外一个执行单位重新的绑定到这个系统线程上去执行。</p>
+<p>如下图所示：<br><img src="/2020/09/27/进程协程线程/2.png"></p>
+<p>首先创建一定数量的系统线程专门用来执行的。其次在用户态空间创建一些对象专门用来保存执行时所需要的状态，包括线程栈。它不负责执行，它只是很普通的数据抽象容器。它执行时把它绑定到某个系统线程上，这个系统线程就具备了普通线程状态然后去执行，执行完把这个线程的状态全部剥离，这个线程就恢复成原始状态，接下来可以执行其他的任务。</p>
+<p>实现用户态的执行和系统态的执行分离，避免反复系统调用所消耗的资源。</p>
+<h2 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h2><p>为了充分利用时间片，利用异步机制，在用户态实现调度机制把阻塞的时间片执行其他的任务，当任务执行完成时，下次再执行时去检查返回的事件，把事件返回的结果返还给原先任务。</p>
+<p>很明显，协程是串行不是并行，它的执行序是执行 A 任务，当 A 任务阻塞时唤醒 B 任务，B 任务执行结束检查 A 的结果是否有返回，不断的切换实现多任务并发。</p>
+<h3 id="上下文切换对性能的影响"><a href="#上下文切换对性能的影响" class="headerlink" title="上下文切换对性能的影响"></a>上下文切换对性能的影响</h3><p>无论进程级别、线程级别、主动系统调用引发的上下文切换都会造成一定的性能损失。尽可能的减少系统调用实际上是减少上下文切换造成的性能损失。因为离 CPU 近的资源比如 L 级的 Cache，寄存器数据都要写回到主存，系统代码执行完要把主存数据读回来，相对 CPU 执行速度从主存操作数据非常慢。 </p>
 
       
     </div>
+    
+    
+    
 
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2020/09/27/进程协程线程/">进程协程线程</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Twh233 的个人博客">Twh233</a></p>
+  <p><span>发布时间:</span>2020年09月27日 - 22:09</p>
+  <p><span>最后更新:</span>2020年09月27日 - 22:09</p>
+  <p><span>原始链接:</span><a href="/2020/09/27/进程协程线程/" title="进程协程线程">http://twh233.github.io/2020/09/27/进程协程线程/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://twh233.github.io/2020/09/27/进程协程线程/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({   
+          title: "",   
+          text: '复制成功',   
+          html: false,
+          timer: 500,   
+          showConfirmButton: false
+        });
+      });
+    }));  
+</script>
+
+      
+	</div>
+	
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/操作系统/" rel="tag"><i class="fa fa-tag"></i> 操作系统</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/09/26/设计模式/" rel="next" title="设计模式">
+                <i class="fa fa-chevron-left"></i> 设计模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -350,6 +559,18 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      
+        <div onclick="showGitment()" id="gitment-display-button">显示 Gitment 评论</div>
+        <div id="gitment-container" style="display:none"></div>
+      
+    </div>
+
+  
+  
+
 
 
         </div>
@@ -370,8 +591,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -462,6 +692,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#线程"><span class="nav-number">1.</span> <span class="nav-text">线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#系统线程与用户线程"><span class="nav-number">1.1.</span> <span class="nav-text">系统线程与用户线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程池模型"><span class="nav-number">1.2.</span> <span class="nav-text">线程池模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#协程"><span class="nav-number">2.</span> <span class="nav-text">协程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#上下文切换对性能的影响"><span class="nav-number">2.1.</span> <span class="nav-text">上下文切换对性能的影响</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -616,6 +862,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -662,6 +912,34 @@
 
     
 
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'twh233',
+            repo: 'twh233.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '12046f070b932ff4f528161ab23a08a23ae5fe4c',
+            
+                client_id: 'e03062ff070528383729'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      function showGitment(){
+        document.getElementById("gitment-display-button").style.display = "none";
+        document.getElementById("gitment-container").style.display = "block";
+        renderGitment();
+      }
+      
+      </script>
     
 
 
@@ -1003,26 +1281,6 @@
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
