@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://twh233.github.io/"/>
-  <updated>2020-10-07T09:07:06.729Z</updated>
+  <updated>2020-10-08T07:17:22.526Z</updated>
   <id>http://twh233.github.io/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>字符编码Unicode原理数据流压缩Zlib与Miniz的实现</title>
+    <link href="http://twh233.github.io/2020/10/08/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81Unicode%E5%8E%9F%E7%90%86%E6%95%B0%E6%8D%AE%E6%B5%81%E5%8E%8B%E7%BC%A9Zlib%E4%B8%8EMiniz%E7%9A%84%E5%AE%9E%E7%8E%B0/"/>
+    <id>http://twh233.github.io/2020/10/08/字符编码Unicode原理数据流压缩Zlib与Miniz的实现/</id>
+    <published>2020-10-08T06:31:46.000Z</published>
+    <updated>2020-10-08T07:17:22.526Z</updated>
+    
+    <content type="html"><![CDATA[<p>字符Unicode其实是根据码表转化映射出图形。<br>根据码表找到位图文件显示出文字。</p><p>UTF-8 1-6字节<br>UTF-16 2或4字节<br>UTF-32 4字节  </p><p>通过前缀码，编译器可以知道是这个文件是按什么格式编码的。</p><p>Mysql的“uft8”不是真正的UTF-8，“utf8”只支持每个字符最多3个字节。</p><p>Mysql真正的UTF-8是”utf8mb4”。  </p><img src="/2020/10/08/字符编码Unicode原理数据流压缩Zlib与Miniz的实现/1.png">]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;字符Unicode其实是根据码表转化映射出图形。&lt;br&gt;根据码表找到位图文件显示出文字。&lt;/p&gt;
+&lt;p&gt;UTF-8 1-6字节&lt;br&gt;UTF-16 2或4字节&lt;br&gt;UTF-32 4字节  &lt;/p&gt;
+&lt;p&gt;通过前缀码，编译器可以知道是这个文件是按什么格式编码的。&lt;/p&gt;
+&lt;
+      
+    
+    </summary>
+    
+      <category term="基础" scheme="http://twh233.github.io/categories/%E5%9F%BA%E7%A1%80/"/>
+    
+    
+      <category term="基础" scheme="http://twh233.github.io/tags/%E5%9F%BA%E7%A1%80/"/>
+    
+  </entry>
   
   <entry>
     <title>Golang 系统监控</title>
@@ -510,31 +538,6 @@
     
     
       <category term="排序" scheme="http://twh233.github.io/tags/%E6%8E%92%E5%BA%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>idea-maven工程配置</title>
-    <link href="http://twh233.github.io/2018/08/04/idea-maven%E5%B7%A5%E7%A8%8B%E9%85%8D%E7%BD%AE/"/>
-    <id>http://twh233.github.io/2018/08/04/idea-maven工程配置/</id>
-    <published>2018-08-04T08:55:37.000Z</published>
-    <updated>2019-07-15T12:00:42.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="解决idea创建maven工程后无java-resouces文件问题"><a href="#解决idea创建maven工程后无java-resouces文件问题" class="headerlink" title="解决idea创建maven工程后无java,resouces文件问题"></a>解决idea创建maven工程后无java,resouces文件问题</h1><img src="/2018/08/04/idea-maven工程配置/1.png"><ul><li>Project Structure</li></ul><img src="/2018/08/04/idea-maven工程配置/2.png"><ul><li>Modules-Sources</li></ul><img src="/2018/08/04/idea-maven工程配置/3.png"><ul><li>New Folder</li></ul><img src="/2018/08/04/idea-maven工程配置/4.png"><img src="/2018/08/04/idea-maven工程配置/5.png"><h1 id="解决创建properties文件问题"><a href="#解决创建properties文件问题" class="headerlink" title="解决创建properties文件问题"></a>解决创建properties文件问题</h1><img src="/2018/08/04/idea-maven工程配置/6.png"><h1 id="解决idea-application-context-not-configured-for-this-file问题"><a href="#解决idea-application-context-not-configured-for-this-file问题" class="headerlink" title="解决idea application context not configured for this file问题"></a>解决idea application context not configured for this file问题</h1><p>spring配置文件中时常会出现这个提示，翻译过来大概意思就是没有配置该文件到项目中</p><p>于是进入到file-Project Structure中查看</p><p>可以很明显的看到下面有个感叹号，大概意思是下面的文件没有匹配</p><p>知道原因就很好解决问题了，只需要加到项目中去就可以了</p><img src="/2018/08/04/idea-maven工程配置/7.png"><h1 id="解决idea无法创建jsp文件问题"><a href="#解决idea无法创建jsp文件问题" class="headerlink" title="解决idea无法创建jsp文件问题"></a>解决idea无法创建jsp文件问题</h1><p>File-&gt;Project Struction -&gt;modules 按加号 新增web,双击web resource directory 修改路径 web resource directory path </p><p>为 当前项目目录/src/webapp -&gt;WEB-INF-&gt;JSP</p><img src="/2018/08/04/idea-maven工程配置/8.png">]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;解决idea创建maven工程后无java-resouces文件问题&quot;&gt;&lt;a href=&quot;#解决idea创建maven工程后无java-resouces文件问题&quot; class=&quot;headerlink&quot; title=&quot;解决idea创建maven工程后无java,re
-      
-    
-    </summary>
-    
-      <category term="idea" scheme="http://twh233.github.io/categories/idea/"/>
-    
-    
-      <category term="idea" scheme="http://twh233.github.io/tags/idea/"/>
     
   </entry>
   

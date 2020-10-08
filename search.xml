@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[字符编码Unicode原理数据流压缩Zlib与Miniz的实现]]></title>
+    <url>%2F2020%2F10%2F08%2F%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81Unicode%E5%8E%9F%E7%90%86%E6%95%B0%E6%8D%AE%E6%B5%81%E5%8E%8B%E7%BC%A9Zlib%E4%B8%8EMiniz%E7%9A%84%E5%AE%9E%E7%8E%B0%2F</url>
+    <content type="text"><![CDATA[字符Unicode其实是根据码表转化映射出图形。根据码表找到位图文件显示出文字。 UTF-8 1-6字节UTF-16 2或4字节UTF-32 4字节 通过前缀码，编译器可以知道是这个文件是按什么格式编码的。 Mysql的“uft8”不是真正的UTF-8，“utf8”只支持每个字符最多3个字节。 Mysql真正的UTF-8是”utf8mb4”。]]></content>
+      <categories>
+        <category>基础</category>
+      </categories>
+      <tags>
+        <tag>基础</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Golang 系统监控]]></title>
     <url>%2F2020%2F10%2F07%2FGolang-%E7%B3%BB%E7%BB%9F%E7%9B%91%E6%8E%A7%2F</url>
     <content type="text"><![CDATA[系统监控程序会定期的检查上次垃圾回收器什么时候执行的，如果发现已经有很长时间没有执行垃圾回收操作了，它就强制执行一次回收。 它来定期扫描自由内存块，如果长时间不用，它就会建议操作系统把物理内存收回去。 在函数头部插入一段汇编指令：第一件事用来判断栈帧空间够不够用，不够用进行扩张第二件事检查当前的G执行多长，如果系统调度发出抢占通知，立即中止G执行。]]></content>
