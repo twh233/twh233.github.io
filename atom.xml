@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://twh233.github.io/"/>
-  <updated>2020-10-13T14:39:53.550Z</updated>
+  <updated>2020-10-18T07:02:12.461Z</updated>
   <id>http://twh233.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Valgrind/gdb</title>
+    <link href="http://twh233.github.io/2020/10/15/Valgrind-gdb/"/>
+    <id>http://twh233.github.io/2020/10/15/Valgrind-gdb/</id>
+    <published>2020-10-15T06:47:03.000Z</published>
+    <updated>2020-10-18T07:02:12.461Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Valgrind"><a href="#Valgrind" class="headerlink" title="Valgrind"></a>Valgrind</h1><p>Valgrind 是一套 Linux 下，开放源代码（ GPL V2）的仿真调试工具的集合。 Valgrind<br>由内核（ core）以及基于内核的其他调试工具组成。内核类似于一个框架（ framework），<br>它模拟了一个 CPU 环境，并提供服务给其他工具；而其他工具则类似于插件 (plug-in)，<br>利用内核提供的服务完成各种特定的内存调试任务。</p><p>1.编译安装 Valgrind<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">wget https://fossies.org/linux/misc/valgrind-3.15.0.tar.bz2</span><br><span class="line">tar -jxvf valgrind-3.15.0.tar.bz2</span><br><span class="line">cd valgrind-3.15.0</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">sudo make install</span><br><span class="line">示例：</span><br><span class="line">alpha@alpha:~/share/gdb/valgrind$</span><br><span class="line">-g sample.c -o sample</span><br><span class="line">alpha@alpha:~/share/gdb/valgrind$ ls</span><br><span class="line">badacc.c badleak2.cpp badloop.c README.md sample.c valgrind-3.15.0</span><br><span class="line">badlap.c badleak.cpp badmac.cpp sample uninitial.c valgrind-3.15.0.tar.bz2</span><br><span class="line">alpha@alpha:~/share/gdb/valgrind$ valgrind ./sample</span><br><span class="line">==31558== Memcheck, a memory error detector</span><br><span class="line">==31558== LEAK SUMMARY:</span><br><span class="line">==31558== definitely lost: 40 bytes in 1 blocks</span><br><span class="line">==31558== indirectly lost: 0 bytes in 0 blocks</span><br><span class="line">==31558== possibly lost: 0 bytes in 0 blocks</span><br><span class="line">==31558== still reachable: 0 bytes in 0 blocks</span><br><span class="line">==31558== suppressed: 0 bytes in 0 blocks</span><br><span class="line">==31558== Rerun with --leak-check=full to see details of leaked memory</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">void fun( )</span><br><span class="line">&#123;</span><br><span class="line">int *p = (int *)malloc(10*sizeof(int));</span><br><span class="line">p[10] = 0;</span><br><span class="line">&#125;</span><br><span class="line">int main(void)</span><br><span class="line">&#123;</span><br><span class="line">fun();</span><br><span class="line">return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>申请了空间，但是没有被释放<br>物理内存不一定连续，虚拟地址是连续的</p><h1 id="gdb"><a href="#gdb" class="headerlink" title="gdb"></a>gdb</h1><p>在编译时需要加上-g<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">–g –o hello_server hello_server.c</span><br><span class="line">alpha@alpha:~/share/gdb/gdb$ ls</span><br><span class="line">core_dump.c hello_server.c jump.c next.c redis-4.0.11.tar.gz step1.c watch.c</span><br><span class="line">alpha@alpha:~/share/gdb/gdb$</span><br><span class="line">-o hello_server hello_server.c</span><br><span class="line">alpha@alpha:~/share/gdb/gdb$ gdb hello_server</span><br><span class="line">GNU gdb (Ubuntu 7.7.1-0ubuntu5~14.04.3) 7.7.1</span><br><span class="line">Copyright (C) 2014 Free Software Foundation, Inc.</span><br><span class="line">License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;</span><br><span class="line">This is free software: you are free to change and redistribute it.</span><br><span class="line">There is NO WARRANTY, to the extent permitted by law. Type &quot;show copying&quot;</span><br><span class="line">and &quot;show warranty&quot; for details.</span><br><span class="line">This GDB was configured as &quot;x86_64-linux-gnu&quot;.</span><br><span class="line">Type &quot;show configuration&quot; for configuration details.</span><br><span class="line">For bug reporting instructions, please see:</span><br><span class="line">&lt;http://www.gnu.org/software/gdb/bugs/&gt;.</span><br><span class="line">Find the GDB manual and other documentation resources online at:</span><br><span class="line">&lt;http://www.gnu.org/software/gdb/documentation/&gt;.</span><br><span class="line">For help, type &quot;help&quot;.</span><br><span class="line">Type &quot;apropos word&quot; to search for commands related to &quot;word&quot;...</span><br><span class="line">Reading symbols from hello_server...(no debugging symbols found)...done.</span><br></pre></td></tr></table></figure></p><h2 id="调试-redis"><a href="#调试-redis" class="headerlink" title="调试 redis"></a>调试 redis</h2><p>安装 redis<br>1.下载源码并解压<br>wget <a href="http://download.redis.io/releases/redis-4.0.11.tar.gz" target="_blank" rel="noopener">http://download.redis.io/releases/redis-4.0.11.tar.gz</a><br>tar zxvf redis-4.0.11.tar.gz  </p><ol start="2"><li>进入 redis 源码目录并编译，注意编译时要生成调试符号并且关闭编译器优化选<br>项。<br>cd redis-4.0.11<br>make CFLAGS=”-g -O0” -j 2<br>由于 redis 是纯 C 项目，使用的编译器是 ，因而这里设置编译器的选项时使用的是 CFLAGS 选项；如<br>果项目使用的语言是 C++，那么使用的编译器一般是 g++，相对应的编译器选项是 CXXFLAGS。这点请<br>读者注意区别。另外，这里 makefile 使用了 -j 选项，其值是 2，表示开启 2 个进程同时编译，加<br>快编译速度。编译成功后，会在 src 目录下生成多个可执行程序，其中 redis-server 和 redis-cli 是需要调<br>试的程序。 进入 src 目录，使用 GDB 启动 redis-server 这个程序：<br>cd src<br>gdb ./redis-server  </li></ol><img src="/2020/10/15/Valgrind-gdb/1.png"><h2 id="gdb三种调试方式"><a href="#gdb三种调试方式" class="headerlink" title="gdb三种调试方式"></a>gdb三种调试方式</h2><h3 id="gdb-filename-直接调试目标程序"><a href="#gdb-filename-直接调试目标程序" class="headerlink" title="gdb filename 直接调试目标程序"></a>gdb filename 直接调试目标程序</h3><p>gdb ./hello_server  </p><h3 id="gdb-attach-pid-附加进程"><a href="#gdb-attach-pid-附加进程" class="headerlink" title="gdb attach pid 附加进程"></a>gdb attach pid 附加进程</h3><p>在某些情况下，一个程序已经启动了，我们想调试这个程序，但是又不想重启这个程序。 比如调试 redis。<br><img src="/2020/10/15/Valgrind-gdb/2.png"></p><p>得到 redis 进程 PID 为 35456，然后使用 gdb attach 35456，如果不是 root 权限需要加上 sudo，即是<br>sudo gdb attach 35456。</p><img src="/2020/10/15/Valgrind-gdb/3.png"><p>当用 gdb attach 上目标进程后，调试器会暂停下来，此时可以使用 continue 命令让程序继续运行，或者加<br>上相应的断点再继续运行程序。当调试完程序想结束此次调试时，而且不对当前进程 redis 有任何影响，<br>也就是说想让这个程序继续运行，可以在GDB 的命令行界面输入 detach 命令让程序与 GDB调试器分离，<br>这样 redis 就可以继续运行了：</p><img src="/2020/10/15/Valgrind-gdb/4.png"><h3 id="gdb-filename-corename-调试-core-文件"><a href="#gdb-filename-corename-调试-core-文件" class="headerlink" title="gdb filename corename 调试 core 文件"></a>gdb filename corename 调试 core 文件</h3><p>ulimit –c unlimited  暂时生效<br>产生 coredump 的条件发现 core file size 那一行默认是 0，表示关闭生成 core 文件，可以使用“ ulimit 选项名 设置值”来修改。例如，可以将 core 文件生成改成具体某个值（最大允许的字节数），这里我们使用 ulimit -c unlimited （ unlimited 是 -c 选项值）直接修改成不限制大小。将 ulimit -c unlimited 放入/etc/profile 中，然后执行 source /etc/profile 即可立即生效。即是：<br>（ 1） 将 ulimit -c unlimited 放入/etc/profile<br>（ 2） source /etc/profile<br>（ 3） 再次查看 ulimit -a<br>alpha@alpha:~/share/redis-4.0.11/src$ ulimit -a core file size          (blocks, -c) unlimited   </p><p>范例测试<br><img src="/2020/10/15/Valgrind-gdb/5.png"></p><p>编译运行<br><img src="/2020/10/15/Valgrind-gdb/6.png"></p><img src="/2020/10/15/Valgrind-gdb/7.png"><img src="/2020/10/15/Valgrind-gdb/8.png">]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;Valgrind&quot;&gt;&lt;a href=&quot;#Valgrind&quot; class=&quot;headerlink&quot; title=&quot;Valgrind&quot;&gt;&lt;/a&gt;Valgrind&lt;/h1&gt;&lt;p&gt;Valgrind 是一套 Linux 下，开放源代码（ GPL V2）的仿真调试工具的集合。
+      
+    
+    </summary>
+    
+      <category term="测试" scheme="http://twh233.github.io/categories/%E6%B5%8B%E8%AF%95/"/>
+    
+    
+      <category term="测试" scheme="http://twh233.github.io/tags/%E6%B5%8B%E8%AF%95/"/>
+    
+  </entry>
   
   <entry>
     <title>log4cpp</title>
@@ -512,33 +537,6 @@
     
     
       <category term="linux" scheme="http://twh233.github.io/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>计网概括</title>
-    <link href="http://twh233.github.io/2020/09/13/%E8%AE%A1%E7%BD%91%E6%A6%82%E6%8B%AC/"/>
-    <id>http://twh233.github.io/2020/09/13/计网概括/</id>
-    <published>2020-09-13T11:44:08.000Z</published>
-    <updated>2020-09-13T12:14:00.150Z</updated>
-    
-    <content type="html"><![CDATA[<img src="/2020/09/13/计网概括/1.jpg"><img src="/2020/09/13/计网概括/2.jpg"><p><a href="https://www.bilibili.com/video/BV124411k7uV" target="_blank" rel="noopener">传送门</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;img src=&quot;/2020/09/13/计网概括/1.jpg&quot;&gt;
-&lt;img src=&quot;/2020/09/13/计网概括/2.jpg&quot;&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.bilibili.com/video/BV124411k7uV&quot; target=&quot;_blan
-      
-    
-    </summary>
-    
-      <category term="计网" scheme="http://twh233.github.io/categories/%E8%AE%A1%E7%BD%91/"/>
-    
-    
-      <category term="计网" scheme="http://twh233.github.io/tags/%E8%AE%A1%E7%BD%91/"/>
     
   </entry>
   
