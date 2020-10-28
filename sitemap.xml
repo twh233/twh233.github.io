@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://twh233.github.io/2020/10/28/FastDFS/</loc>
+    
+    <lastmod>2020-10-28T15:49:49.314Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://twh233.github.io/2020/10/27/FastCGI/</loc>
+    
+    <lastmod>2020-10-28T15:39:17.227Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://twh233.github.io/2020/10/22/Makefile/</loc>
     
     <lastmod>2020-10-25T03:20:28.250Z</lastmod>
@@ -247,14 +261,14 @@
   </url>
   
   <url>
-    <loc>http://twh233.github.io/pageName/index.html</loc>
+    <loc>http://twh233.github.io/categories/index.html</loc>
     
     <lastmod>2019-07-15T12:00:42.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://twh233.github.io/categories/index.html</loc>
+    <loc>http://twh233.github.io/pageName/index.html</loc>
     
     <lastmod>2019-07-15T12:00:42.000Z</lastmod>
     
