@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://twh233.github.io/2020/11/02/mysql%E9%9D%A2%E8%AF%95%E5%89%8D%E7%9C%8B/</loc>
+    
+    <lastmod>2020-11-02T15:43:13.585Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://twh233.github.io/2020/11/02/%E4%BA%91%E7%9B%98%E9%A1%B9%E7%9B%AE/</loc>
+    
+    <lastmod>2020-11-02T15:41:45.145Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://twh233.github.io/2020/10/28/FastDFS/</loc>
     
     <lastmod>2020-10-28T15:49:49.314Z</lastmod>
@@ -268,14 +282,14 @@
   </url>
   
   <url>
-    <loc>http://twh233.github.io/pageName/index.html</loc>
+    <loc>http://twh233.github.io/tags/index.html</loc>
     
     <lastmod>2019-07-15T12:00:42.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://twh233.github.io/tags/index.html</loc>
+    <loc>http://twh233.github.io/pageName/index.html</loc>
     
     <lastmod>2019-07-15T12:00:42.000Z</lastmod>
     
