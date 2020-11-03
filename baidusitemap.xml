@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://twh233.github.io/2020/11/03/Nginx%E6%B7%BB%E5%8A%A0Handle%E6%A8%A1%E5%9D%97/</loc>
+    <lastmod>2020-11-03T15:17:12.408Z</lastmod>
+    <data>
+        <display>
+        <title>Nginx添加Handle模块</title>
+        <pubTime>2020-11-03T15:01:42.000Z</pubTime>
+        
+        <tag>nginx</tag>
+         
+         
+           
+             
+              <breadCrumb title="nginx" url="http://twh233.github.io/categories/nginx/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://twh233.github.io/2020/11/02/mysql%E9%9D%A2%E8%AF%95%E5%89%8D%E7%9C%8B/</loc>
     <lastmod>2020-11-02T15:43:13.585Z</lastmod>
     <data>
