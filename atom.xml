@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://twh233.github.io/"/>
-  <updated>2020-11-03T15:17:12.408Z</updated>
+  <updated>2020-11-04T14:16:00.099Z</updated>
   <id>http://twh233.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>工作中遇到的问题</title>
+    <link href="http://twh233.github.io/2020/11/04/%E5%B7%A5%E4%BD%9C%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/"/>
+    <id>http://twh233.github.io/2020/11/04/工作中遇到的问题/</id>
+    <published>2020-11-04T14:15:10.000Z</published>
+    <updated>2020-11-04T14:16:00.099Z</updated>
+    
+    <content type="html"><![CDATA[<p>1.result 等字段可重用的可以考虑重用节约内存<br>2.不要在客户端请求的时候处理数据，提前处理好，客户端请求直接返回<br>3.从数据库拿出来的数据都是数组，需要取ret[1]<br>4.可以从过参数传递函数，做定时器处理<br>5.数据库日志分得越详细越好，不同功能的表尽量分开<br>6.节点与节点间尽量一次性调用，避免绕圈调用<br>7.逻辑不与客户端同步，尽量保持单请求也能有反馈<br>8.在agent的监听，下线记得清除或者在task_msg_center.lua去统一<br>9.lua是协程，有的情况也得考虑下锁的问题<br>10.mysql中，<br>varchar 存储变长的字符串，但需要1个或2个额外字节记录字符串长度；<br>char 存储定长的字符串。<br>DataTime 8字节，TimeStamp 4字节。<br>能用TinyInt的话不要用Int。<br>索引在where条件查询和group by查询的时候特别有效。<br>11.查询优化：<br>(1 避免查找无关列<br>(2 分解关联查询，减少锁竞争<br>(3 用=不用&lt;&gt;，”=” 增加了索引使用几率<br>(4 UNION ALL 不去重，效率高于UNION<br>(5 数据行长度不要超过8020字节，超过这个长度会占用两行<br>(6 能用数字类型的字段尽量选择数字类型而不用字符串类型（电话号码），这会降低查询和连接性能，并会增加存储开销<br>(7 对于不可变char和可变varchar，char查询快，但是耗空间，varchar慢一些，但是节省存储空间<br>(8 避免在where子句进行null判断或者用or来连接条件<br>select id from t where num = 10 or num = 20;<br>select id from t where num = 10 union all select id from t where num = 20;<br>(9 in 和 not in 慎用。对于连续的数值能用between就不要用in<br>select id from t where num in (1,2,3);<br>select id from t where num between 1 and 3;<br>(10 避免在where子句中对字段进行操作<br>select id from t where substring(name,1,3) = ‘abc’;<br>select <em> from T1 where F1 = 100 </em> 2;<br>12.DATA.match_config.signup_data_config.signup_dur 变量过长用简写local变量代替<br>13.数据结构先行，不能到后面再来补数据结构<br>14.有些数据可以考虑不写数据库<br>15.lua for k,v in pairs(table)  如果v是普通类型，直接修改v不会导致table的数据变化，如果v也是table 修改v同时会修改table<br>16.用local变量等于一张表的时候，对local变量修改之后，最后把变量重新赋值给表  </p><pre><code>local s = _table   s.v = 1  _table = s  </code></pre><p>17.设计功能时，考虑多方面情况，例如托管节点崩溃，上一场的崩溃是否影响下一场，避免这种情况<br>18.脑里构建模块化，无论是函数还是功能，可以分函数，分文件来写<br>19.做完功能，设计好处理崩溃的函数，例如查询在比赛里的人或者PUBLIC.exit()  </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;1.result 等字段可重用的可以考虑重用节约内存&lt;br&gt;2.不要在客户端请求的时候处理数据，提前处理好，客户端请求直接返回&lt;br&gt;3.从数据库拿出来的数据都是数组，需要取ret[1]&lt;br&gt;4.可以从过参数传递函数，做定时器处理&lt;br&gt;5.数据库日志分得越详细越好，不同
+      
+    
+    </summary>
+    
+      <category term="基础" scheme="http://twh233.github.io/categories/%E5%9F%BA%E7%A1%80/"/>
+    
+    
+      <category term="基础" scheme="http://twh233.github.io/tags/%E5%9F%BA%E7%A1%80/"/>
+    
+  </entry>
   
   <entry>
     <title>Nginx添加Handle模块</title>
@@ -511,32 +536,6 @@
     
     
       <category term="CAS" scheme="http://twh233.github.io/tags/CAS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>进程协程线程</title>
-    <link href="http://twh233.github.io/2020/09/27/%E8%BF%9B%E7%A8%8B%E5%8D%8F%E7%A8%8B%E7%BA%BF%E7%A8%8B/"/>
-    <id>http://twh233.github.io/2020/09/27/进程协程线程/</id>
-    <published>2020-09-27T14:34:51.000Z</published>
-    <updated>2020-09-27T14:44:15.572Z</updated>
-    
-    <content type="html"><![CDATA[<p>进程是一种资源单位，操作系统按照进程来分配资源管理资源。线程是进程内的，专门用来执行。  </p><h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><p>线程我们严格意义上来说指的是任务加上任务执行所需的资源，称之为线程，如果线程只是执行单位没有任何资源，称之为任务，它是可复用的，线程本身有状态的，因为线程执行时有线程栈，所以任务加上任务执行所需的线程栈等资源称之为线程。</p><h3 id="系统线程与用户线程"><a href="#系统线程与用户线程" class="headerlink" title="系统线程与用户线程"></a>系统线程与用户线程</h3><img src="/2020/09/27/进程协程线程/1.png">  <p>系统线程指的是操作系统提供的的任务单元。用户线程指的是在用户空间实现的一些并发任务，跟操作系统没关系。</p><h3 id="线程池模型"><a href="#线程池模型" class="headerlink" title="线程池模型"></a>线程池模型</h3><p>使用池模型不再需要频繁的创建系统线程，用户态可以创建很多用来存储状态的执行单位。执行时把它绑定到一个系统线程上去执行，执行完把系统线程释放，系统线程把绑定状态删除放到池中，不需要杀掉系统线程，接下来另外一个执行单位重新的绑定到这个系统线程上去执行。</p><p>如下图所示：<br><img src="/2020/09/27/进程协程线程/2.png"></p><p>首先创建一定数量的系统线程专门用来执行的。其次在用户态空间创建一些对象专门用来保存执行时所需要的状态，包括线程栈。它不负责执行，它只是很普通的数据抽象容器。它执行时把它绑定到某个系统线程上，这个系统线程就具备了普通线程状态然后去执行，执行完把这个线程的状态全部剥离，这个线程就恢复成原始状态，接下来可以执行其他的任务。</p><p>实现用户态的执行和系统态的执行分离，避免反复系统调用所消耗的资源。</p><h2 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h2><p>为了充分利用时间片，利用异步机制，在用户态实现调度机制把阻塞的时间片执行其他的任务，当任务执行完成时，下次再执行时去检查返回的事件，把事件返回的结果返还给原先任务。</p><p>很明显，协程是串行不是并行，它的执行序是执行 A 任务，当 A 任务阻塞时唤醒 B 任务，B 任务执行结束检查 A 的结果是否有返回，不断的切换实现多任务并发。</p><h3 id="上下文切换对性能的影响"><a href="#上下文切换对性能的影响" class="headerlink" title="上下文切换对性能的影响"></a>上下文切换对性能的影响</h3><p>无论进程级别、线程级别、主动系统调用引发的上下文切换都会造成一定的性能损失。尽可能的减少系统调用实际上是减少上下文切换造成的性能损失。因为离 CPU 近的资源比如 L 级的 Cache，寄存器数据都要写回到主存，系统代码执行完要把主存数据读回来，相对 CPU 执行速度从主存操作数据非常慢。 </p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;进程是一种资源单位，操作系统按照进程来分配资源管理资源。线程是进程内的，专门用来执行。  &lt;/p&gt;
-&lt;h2 id=&quot;线程&quot;&gt;&lt;a href=&quot;#线程&quot; class=&quot;headerlink&quot; title=&quot;线程&quot;&gt;&lt;/a&gt;线程&lt;/h2&gt;&lt;p&gt;线程我们严格意义上来说指的是任务加
-      
-    
-    </summary>
-    
-      <category term="操作系统" scheme="http://twh233.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
-    
-    
-      <category term="操作系统" scheme="http://twh233.github.io/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
     
   </entry>
   
