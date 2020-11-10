@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://twh233.github.io/2020/11/10/%E5%86%85%E6%A0%B8%E7%A9%BA%E9%97%B4%E5%92%8C%E7%94%A8%E6%88%B7%E7%A9%BA%E9%97%B4/</loc>
+    <lastmod>2020-11-10T13:22:22.296Z</lastmod>
+    <data>
+        <display>
+        <title>内核空间和用户空间</title>
+        <pubTime>2020-11-10T13:17:02.000Z</pubTime>
+        
+        <tag>linux</tag>
+         
+         
+           
+             
+              <breadCrumb title="linux" url="http://twh233.github.io/categories/linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://twh233.github.io/2020/11/08/skynet/</loc>
     <lastmod>2020-11-08T12:25:31.920Z</lastmod>
     <data>
@@ -747,26 +767,6 @@
 
     
   <url>
-    <loc>http://twh233.github.io/2018/06/12/Python-%E5%85%B3%E4%BA%8Eexcel/</loc>
-    <lastmod>2019-07-15T12:00:42.000Z</lastmod>
-    <data>
-        <display>
-        <title>Python 关于excel</title>
-        <pubTime>2018-06-11T16:21:10.000Z</pubTime>
-        
-        <tag>python</tag>
-         
-         
-           
-             
-              <breadCrumb title="python" url="http://twh233.github.io/categories/python/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://twh233.github.io/2018/08/04/idea-maven%E5%B7%A5%E7%A8%8B%E9%85%8D%E7%BD%AE/</loc>
     <lastmod>2019-07-15T12:00:42.000Z</lastmod>
     <data>
@@ -780,6 +780,26 @@
            
              
               <breadCrumb title="idea" url="http://twh233.github.io/categories/idea/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://twh233.github.io/2018/06/12/Python-%E5%85%B3%E4%BA%8Eexcel/</loc>
+    <lastmod>2019-07-15T12:00:42.000Z</lastmod>
+    <data>
+        <display>
+        <title>Python 关于excel</title>
+        <pubTime>2018-06-11T16:21:10.000Z</pubTime>
+        
+        <tag>python</tag>
+         
+         
+           
+             
+              <breadCrumb title="python" url="http://twh233.github.io/categories/python/"/>
           
         </display>
     </data>
