@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://twh233.github.io/"/>
-  <updated>2020-11-10T13:22:22.296Z</updated>
+  <updated>2020-11-11T15:19:22.038Z</updated>
   <id>http://twh233.github.io/</id>
   
   <author>
@@ -15,6 +15,59 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>redis理解</title>
+    <link href="http://twh233.github.io/2020/11/11/redis%E7%90%86%E8%A7%A3/"/>
+    <id>http://twh233.github.io/2020/11/11/redis理解/</id>
+    <published>2020-11-11T15:02:18.000Z</published>
+    <updated>2020-11-11T15:19:22.038Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="redis的Hash如何解决冲突"><a href="#redis的Hash如何解决冲突" class="headerlink" title="redis的Hash如何解决冲突"></a>redis的Hash如何解决冲突</h2><p>链表法</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">typedef struct dictht &#123;</span><br><span class="line">dictEntry **table;</span><br><span class="line">unsigned long size;</span><br><span class="line"> unsigned long sizemask;</span><br><span class="line"> unsigned long used;</span><br><span class="line">&#125; dictht;</span><br></pre></td></tr></table></figure><p>table 属性是⼀个数组，数组中的每个元素都是⼀个指向 dict.h/dictEntry 结构的指针，每个dictEntry 结构保存着⼀个键值对；<br>size 属性记录了哈希表的⼤⼩,也即是 table 数组的⼤⼩，⽽ used 属性则记录了哈希表⽬前已有节点（键值对）的数量；<br>sizemask 属性的值总是等于 size - 1 ，这个属性和哈希值⼀起决定⼀个键应该被放到 table 数组的哪个索引上⾯；used属性，表示hash表⾥已有的数量。如下图展示了⼀个空的hash表：</p><img src="/2020/11/11/redis理解/1.png"><p>hash表的节点哈希表节点使⽤ dictEntry 结构表示， 每个 dictEntry 结构都保存着⼀个键值对</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">typedef struct dictEntry &#123;</span><br><span class="line">    // 键</span><br><span class="line">    void *key;  </span><br><span class="line">    </span><br><span class="line">    // 值</span><br><span class="line">union &#123;</span><br><span class="line">void *val;</span><br><span class="line">uint64_t u64;</span><br><span class="line">int64_t s64;</span><br><span class="line">double d;</span><br><span class="line">&#125; v; </span><br><span class="line">    </span><br><span class="line">// 指向下个哈希表节点，形成链表</span><br><span class="line">struct dictEntry *next;</span><br><span class="line">&#125; dictEntry;</span><br></pre></td></tr></table></figure><p>举个例⼦，下图就展示了如何通过 next 指针，将两个索引值相同的键 k1 和 k0 连接在⼀起。</p><img src="/2020/11/11/redis理解/2.png"><p>hash表是随着K-V数量的增⼤⽽逐步增⼤的，并不直接以key的hash值为下标去取值得，⽽是以hash &amp; sizemask去获取hash表的对应节点的；hash表的节点实际上是⼀个链表，如果hash &amp;sizemask有冲突，则也把冲突key放在hash表的链表上，取值得时候还得遍历hash表⾥的链表。</p><h2 id="rehash"><a href="#rehash" class="headerlink" title="rehash"></a>rehash</h2><p>随着操作的不断执⾏，哈希表保存的键值对会逐渐地增多或者减少，为了让哈希表的负载因⼦（ratio）维持在⼀个合理的范围之内，当哈希表保存的键值对数量太多或者太少时，程序需要对哈希表的⼤⼩进⾏相应的扩展或者收缩。</p><p>扩容的步骤如下：<br>1、为字典ht[1]哈希表分配合适的空间；<br>2、将ht[0]中所有的键值对rehash到ht[1]：rehash 指的是重新计算键的哈希值和索引值，然后将键值对放置到 ht[1] 哈希表的指定位置上；<br>3、当 ht[0] 包含的所有键值对都迁移到了 ht[1] 之后（ht[0] 变为空表） 释放 ht[0] ，将 ht[1] 设置为 ht[0] ，并在 ht[1] 新创建⼀个空⽩哈希表，为下⼀次 rehash 做准备。  </p><p>当然rehash指渐进式hash，如果在服务器运作直接扩容，那么会影响服务器性能。以下是哈希表渐进式 rehash 的详细步骤：  </p><ol><li>为 ht[1] 分配空间，让字典同时持有 ht[0] 和 ht[1] 两个哈希表。</li><li>在字典中维持⼀个索引计数器变量 rehashidx ，并将它的值设置0 ， 表示 rehash ⼯作正式开始。  </li><li>在 rehash 进⾏期间，每次对字典执⾏添加、删除、查找或者更新操作时，程序除了执⾏指定的操作以外，还会顺带将 ht[0] 哈希表rehashidx 索引上的所有键值对 rehash 到 ht[1] ，当 rehash ⼯作完成之后，程序将 rehashidx 属性的值增⼀。</li><li>随着字典操作的不断执⾏，最终在某个时间点上 ht[0] 的所有键对都会被 rehash ⾄ ht[1] ，这时程序将 rehashidx 属性的值设为 -1 ， 表示 rehash 操作已完成。</li></ol><p>插曲：</p><p>keys hkeys 枚举形式，是通过高位加1的方式进行next，这样的好处是让每次扩缩容，前面的for不用再进行遍历。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;redis的Hash如何解决冲突&quot;&gt;&lt;a href=&quot;#redis的Hash如何解决冲突&quot; class=&quot;headerlink&quot; title=&quot;redis的Hash如何解决冲突&quot;&gt;&lt;/a&gt;redis的Hash如何解决冲突&lt;/h2&gt;&lt;p&gt;链表法&lt;/p&gt;
+&lt;figur
+      
+    
+    </summary>
+    
+      <category term="redis" scheme="http://twh233.github.io/categories/redis/"/>
+    
+    
+      <category term="redis" scheme="http://twh233.github.io/tags/redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>x86段页式内存管理和页表映射机制</title>
+    <link href="http://twh233.github.io/2020/11/11/x86%E6%AE%B5%E9%A1%B5%E5%BC%8F%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%92%8C%E9%A1%B5%E8%A1%A8%E6%98%A0%E5%B0%84%E6%9C%BA%E5%88%B6/"/>
+    <id>http://twh233.github.io/2020/11/11/x86段页式内存管理和页表映射机制/</id>
+    <published>2020-11-11T14:51:04.000Z</published>
+    <updated>2020-11-11T15:01:37.572Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="页表映射"><a href="#页表映射" class="headerlink" title="页表映射"></a>页表映射</h2><p>如图二级页表：</p><img src="/2020/11/11/x86段页式内存管理和页表映射机制/1.png"><p>简单来说CPU在页表映射的时候，Dir 代表页目录表的索引，Offset是偏移，Table是页表的索引。</p><p>先定位页表地址，通过Table定位到物理块地址，再加上offset得到真正的物理地址。</p><p>内核用一个页目录表，但不同进程有各自的页目录表。</p><h2 id="逻辑地址到物理地址的转换"><a href="#逻辑地址到物理地址的转换" class="headerlink" title="逻辑地址到物理地址的转换"></a>逻辑地址到物理地址的转换</h2><p>从虚拟地址段页式的转化转化成线性地址，再线性地址页表映射转化成物理地址。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;页表映射&quot;&gt;&lt;a href=&quot;#页表映射&quot; class=&quot;headerlink&quot; title=&quot;页表映射&quot;&gt;&lt;/a&gt;页表映射&lt;/h2&gt;&lt;p&gt;如图二级页表：&lt;/p&gt;
+&lt;img src=&quot;/2020/11/11/x86段页式内存管理和页表映射机制/1.png&quot;&gt;
+&lt;p
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://twh233.github.io/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="http://twh233.github.io/tags/linux/"/>
+    
+  </entry>
   
   <entry>
     <title>内核空间和用户空间</title>
@@ -481,58 +534,6 @@
     
     
       <category term="Golang" scheme="http://twh233.github.io/tags/Golang/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>垃圾回收</title>
-    <link href="http://twh233.github.io/2020/10/07/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/"/>
-    <id>http://twh233.github.io/2020/10/07/垃圾回收/</id>
-    <published>2020-10-07T08:55:34.000Z</published>
-    <updated>2020-10-07T08:56:17.106Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="引用计数"><a href="#引用计数" class="headerlink" title="引用计数"></a>引用计数</h2><p>引用计数实现方式非常简单，每个对象头部有一个计数器，引用对象时计数器加一，取消引用时计数器减一，等于零时释放内存。</p><p>缺点：<br>1.易内存泄漏<br>2.不支持循环引用 </p><h2 id="代龄"><a href="#代龄" class="headerlink" title="代龄"></a>代龄</h2><p>代龄机制是这样的，对象通常分成三级代龄 0、1、2。新创建的对象的代龄是 0，每级代龄都有阈值，当 0 级对象数量超过阈值就会启动垃圾回收，垃圾回收扫描所有 0 级代龄对象，扫描完对象是活着或者死着两种状态。理论来说在第一次回收活着对象在第二次回收活着几率很高，垃圾回收器把第一次扫描活着对象标记为 1 级代龄对象，下次扫描 0 级代龄对象不用扫描第一次扫描过的对象，减少扫描对象的数量。当 1 级代龄对象数量超过阈值便扫描 1 级代龄对象，如果 1 级代龄还活着说明这个对象生命周期更长，就标记为 2 级代龄对象。  </p><p>优点1：减少扫描对象数量<br>优点2：支持内存压缩  </p><h2 id="标记清理"><a href="#标记清理" class="headerlink" title="标记清理"></a>标记清理</h2><p>回收器启动把所有对象标记成白色。A引用B，B变成灰色。白色可以释放。下次扫描灰色。<br>B变成黑色，如果B引用C。C依然是灰色。不断递归，只剩黑色和白色。那么黑色的都是活着的白色的都是死的。</p><h2 id="并发清理"><a href="#并发清理" class="headerlink" title="并发清理"></a>并发清理</h2><p>回收白色对象的时候可以和用户逻辑并发。</p><h2 id="写屏障"><a href="#写屏障" class="headerlink" title="写屏障"></a>写屏障</h2><p>一旦进入垃圾回收状态时进行短暂 STW 暂停，打开标记位标记为正在执行垃圾回收。扫描当时状态。<br>在垃圾回收阶段重新引用另外新对象，这个屏障把这种行为重新过滤。</p><h2 id="信用授权"><a href="#信用授权" class="headerlink" title="信用授权"></a>信用授权</h2><p>回收的速度跟不上分配的速度垃圾回收器会把用户逻辑暂停，用户逻辑暂停后不会有新的对象出现。<br>黑白对象标记完的对象数量累计到公共账户信用值，如果小于等于零则调度切换为垃圾回收，切换后不停的增加信用值和检查公共账户信用值，尽早提前结束切换执行用户代码，保证用户代码和垃圾回收的并行。  </p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;引用计数&quot;&gt;&lt;a href=&quot;#引用计数&quot; class=&quot;headerlink&quot; title=&quot;引用计数&quot;&gt;&lt;/a&gt;引用计数&lt;/h2&gt;&lt;p&gt;引用计数实现方式非常简单，每个对象头部有一个计数器，引用对象时计数器加一，取消引用时计数器减一，等于零时释放内存。&lt;/p&gt;
-
-      
-    
-    </summary>
-    
-      <category term="基础" scheme="http://twh233.github.io/categories/%E5%9F%BA%E7%A1%80/"/>
-    
-    
-      <category term="垃圾回收" scheme="http://twh233.github.io/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>内存分配器</title>
-    <link href="http://twh233.github.io/2020/10/07/%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E5%99%A8/"/>
-    <id>http://twh233.github.io/2020/10/07/内存分配器/</id>
-    <published>2020-10-07T08:54:21.000Z</published>
-    <updated>2020-10-07T08:55:13.154Z</updated>
-    
-    <content type="html"><![CDATA[<p>为了避免程序频繁的向操作系统申请，占用更多的空间延长内存的使用时间。可以一次性申请<br>多一部分的内存重复使用。例如：对象池、连接池。并且一次性申请大块内存可以做到连续分<br>配，通过相邻的地址空间的合并减少碎片化。  </p><h3 id="虚拟地址空间如何使用"><a href="#虚拟地址空间如何使用" class="headerlink" title="虚拟地址空间如何使用"></a>虚拟地址空间如何使用</h3><p>每个进程有一个虚拟地址空间，内存分配在某段虚拟地址空间内就能保证是连续的。</p><p>1.让操作系统随机开始，保留一段地址空间，如果失败，加上或者减去偏移量重新选择。<br>2.如果连续的方式不行使用分段的方式。空间扩展尝试同一方向扩展，失败则换个相反<br>方向扩展，这样空间还是连续的。操作系统随机从两个方向扩展的方式称之为稀疏堆。<br>3.使用一个数组。数组存储内存指针指向自由块，自由块有各种状态，比如当前使用多<br>少内存、是否是空闲状态等，形成类似反查表的作用。自由块的内存起始地址减去初始<br>位置得到偏移量，偏移量按页大小对齐作为数组索引。这样的优点是只需检查数组就知<br>道内存分配的信息、检查相邻的两项的是否空闲可以合并成大块内存。通过反查表实现<br>碎片化问题。</p><h3 id="Go管理内存框架"><a href="#Go管理内存框架" class="headerlink" title="Go管理内存框架"></a>Go管理内存框架</h3><p>内存分配的完整流程首先检查 Cache 里有没有自由块，有的话直接返回；没有的话计算<br>向哪个 Central 申请，如果 Central 有则取回一批，如果没有，则向Heap申请大块自由<br>块切割，如果Heap没有多余的自由块，Heap向操作系统申请。Go语言在初始化时建立一个<br>静态表，通过静态表知道一次取多少个，这个数字是基于大量的统计得到的，有些语言根<br>据程序运行期动态调整这个数字。  </p><p>任何时候内存管理都会涉及两个核心问题。  </p><p>第一个快速分配，比如实现无锁操作或者减少锁。因为 Central 被很多Cache共享，操作<br>数据必须加锁处理，Heap 被很多 Central 共享，操作数据要加锁。</p><p>第二个尽可能在内存复用方面做到平衡。快速操作意味着用批处理代替单次处理实现性能<br>提升，但是批处理会浪费大量的资源。所以一来用批处理来实现快速分配操作的性能，一<br>来实现内存节约避免快速消耗，需要在中间找到平衡点。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;为了避免程序频繁的向操作系统申请，占用更多的空间延长内存的使用时间。可以一次性申请&lt;br&gt;多一部分的内存重复使用。例如：对象池、连接池。并且一次性申请大块内存可以做到连续分&lt;br&gt;配，通过相邻的地址空间的合并减少碎片化。  &lt;/p&gt;
-&lt;h3 id=&quot;虚拟地址空间如何使用&quot;&gt;
-      
-    
-    </summary>
-    
-      <category term="基础" scheme="http://twh233.github.io/categories/%E5%9F%BA%E7%A1%80/"/>
-    
-    
-      <category term="内存" scheme="http://twh233.github.io/tags/%E5%86%85%E5%AD%98/"/>
     
   </entry>
   
