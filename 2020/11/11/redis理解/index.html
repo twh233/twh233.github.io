@@ -102,7 +102,8 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://twh233.github.io/2020/11/11/redis理解/1.png">
 <meta property="og:image" content="http://twh233.github.io/2020/11/11/redis理解/2.png">
-<meta property="og:updated_time" content="2020-11-11T15:19:22.038Z">
+<meta property="og:image" content="http://twh233.github.io/2020/11/11/redis理解/3.png">
+<meta property="og:updated_time" content="2020-11-14T10:00:48.980Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis理解">
 <meta name="twitter:description" content="redis的Hash如何解决冲突链表法 123456typedef struct dictht &amp;#123;	dictEntry **table;	unsigned long size; 	unsigned long sizemask; 	unsigned long used;&amp;#125; dictht; table 属性是⼀个数组，数组中的每个元素都是⼀个指向 dict.h/dictEntry">
@@ -408,7 +409,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  866
+                  1,089
                 </span>
               
 
@@ -424,7 +425,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  3
+                  4
                 </span>
               
             </div>
@@ -465,6 +466,13 @@
 </ol>
 <p>插曲：</p>
 <p>keys hkeys 枚举形式，是通过高位加1的方式进行next，这样的好处是让每次扩缩容，前面的for不用再进行遍历。</p>
+<h2 id="跳表"><a href="#跳表" class="headerlink" title="跳表"></a>跳表</h2><p>跳表与红黑树区别：<br>1) 结构的区别： 多层有序链表，二叉树<br>2）搜索的区别： 大概率的o(logn)<br>3) 功能性的区别： o(logn) zrange logn * o(logn)</p>
+<img src="/2020/11/11/redis理解/3.png">
+<h2 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h2><h3 id="2-8版本以前的方案：全量同步"><a href="#2-8版本以前的方案：全量同步" class="headerlink" title="2.8版本以前的方案：全量同步"></a>2.8版本以前的方案：全量同步</h3><p>1.master 持久化，之后的命令写入缓冲区，发送rdb<br>2.slave接受rdb，加载至内存<br>3.master 发送缓冲区的命令，slave依次处理  </p>
+<p>下面三种情况如何保证效率问题：<br>a.新加入从结点 b.主从连接故障  c.从结点重启 </p>
+<p>其实如果是b情况，只需要将少量写操作同步给从数据库就行了<br>于是引入2.8版本 </p>
+<h3 id="2-8版本"><a href="#2-8版本" class="headerlink" title="2.8版本"></a>2.8版本</h3><p>1.记录偏移量 psync<br>2.主master运行id </p>
+<h3 id="之后版本"><a href="#之后版本" class="headerlink" title="之后版本"></a>之后版本</h3><p>rdb保存运行id以及offset<br>主切换 从需要记录之前运行id以及偏移量</p>
 
       
     </div>
@@ -485,7 +493,7 @@
   <p><span>本文标题:</span><a href="/2020/11/11/redis理解/">redis理解</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Twh233 的个人博客">Twh233</a></p>
   <p><span>发布时间:</span>2020年11月11日 - 23:11</p>
-  <p><span>最后更新:</span>2020年11月11日 - 23:11</p>
+  <p><span>最后更新:</span>2020年11月14日 - 18:11</p>
   <p><span>原始链接:</span><a href="/2020/11/11/redis理解/" title="redis理解">http://twh233.github.io/2020/11/11/redis理解/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://twh233.github.io/2020/11/11/redis理解/" aria-label="复制成功！"></i></span>
   </p>
@@ -711,7 +719,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#redis的Hash如何解决冲突"><span class="nav-number">1.</span> <span class="nav-text">redis的Hash如何解决冲突</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rehash"><span class="nav-number">2.</span> <span class="nav-text">rehash</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#redis的Hash如何解决冲突"><span class="nav-number">1.</span> <span class="nav-text">redis的Hash如何解决冲突</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rehash"><span class="nav-number">2.</span> <span class="nav-text">rehash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#跳表"><span class="nav-number">3.</span> <span class="nav-text">跳表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主从复制"><span class="nav-number">4.</span> <span class="nav-text">主从复制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-8版本以前的方案：全量同步"><span class="nav-number">4.1.</span> <span class="nav-text">2.8版本以前的方案：全量同步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-8版本"><span class="nav-number">4.2.</span> <span class="nav-text">2.8版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#之后版本"><span class="nav-number">4.3.</span> <span class="nav-text">之后版本</span></a></li></ol></li></ol></div>
             
 
           </div>
