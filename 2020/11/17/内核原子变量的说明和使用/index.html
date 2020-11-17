@@ -79,7 +79,7 @@
 
 
 
-  <meta name="keywords" content="A man's best friends are his ten fingers.">
+  <meta name="keywords" content="linux,">
 
 
 
@@ -92,16 +92,20 @@
 
 
 
-<meta name="description" content="A man&apos;s best friends are his ten fingers.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Twh233&#39;s Blog">
-<meta property="og:url" content="http://twh233.github.io/categories/基础/index.html">
+<meta name="description" content="static atomic_t can_open = ATOMIC_INIT(1); atomic_dec_and_test 先减一，如果结果是0返回true，否则返回false。 第一次可以打开，第二次进入if。 atomic_inc 再加一，不会被打断。 原子的加法分三步，最底层调用汇编代码。">
+<meta name="keywords" content="linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="内核原子变量的说明和使用">
+<meta property="og:url" content="http://twh233.github.io/2020/11/17/内核原子变量的说明和使用/index.html">
 <meta property="og:site_name" content="Twh233&#39;s Blog">
-<meta property="og:description" content="A man&apos;s best friends are his ten fingers.">
+<meta property="og:description" content="static atomic_t can_open = ATOMIC_INIT(1); atomic_dec_and_test 先减一，如果结果是0返回true，否则返回false。 第一次可以打开，第二次进入if。 atomic_inc 再加一，不会被打断。 原子的加法分三步，最底层调用汇编代码。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://twh233.github.io/2020/11/17/内核原子变量的说明和使用/1.png">
+<meta property="og:updated_time" content="2020-11-17T13:22:11.222Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Twh233&#39;s Blog">
-<meta name="twitter:description" content="A man&apos;s best friends are his ten fingers.">
+<meta name="twitter:title" content="内核原子变量的说明和使用">
+<meta name="twitter:description" content="static atomic_t can_open = ATOMIC_INIT(1); atomic_dec_and_test 先减一，如果结果是0返回true，否则返回false。 第一次可以打开，第二次进入if。 atomic_inc 再加一，不会被打断。 原子的加法分三步，最底层调用汇编代码。">
+<meta name="twitter:image" content="http://twh233.github.io/2020/11/17/内核原子变量的说明和使用/1.png">
 
 
 
@@ -131,7 +135,7 @@
 
 
 
-  <link rel="canonical" href="http://twh233.github.io/categories/基础/">
+  <link rel="canonical" href="http://twh233.github.io/2020/11/17/内核原子变量的说明和使用/">
 
 
 
@@ -139,7 +143,7 @@
 
 
 
-  <title>分类: 基础 | Twh233's Blog</title>
+  <title>内核原子变量的说明和使用 | Twh233's Blog</title>
   
 
 
@@ -160,7 +164,7 @@
 
 
   
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -296,187 +300,251 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block category">
-
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>基础<small>分类</small>
-        </h1>
-      </div>
-
-      
-        
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://twh233.github.io/2020/11/17/内核原子变量的说明和使用/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Twh233">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Twh233's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2020/11/15/用户态协议栈TCPIP/" itemprop="url">
-              
-                <span itemprop="name">用户态协议栈TCPIP</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">内核原子变量的说明和使用</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-11-15T17:18:06+08:00" content="2020-11-15">
-          11-15
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-17T21:11:15+08:00">
+                2020-11-17
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/11/17/内核原子变量的说明和使用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2020/11/17/内核原子变量的说明和使用/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  61
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/11/04/工作中遇到的问题/" itemprop="url">
-              
-                <span itemprop="name">工作中遇到的问题</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-11-04T22:15:10+08:00" content="2020-11-04">
-          11-04
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/10/22/Makefile/" itemprop="url">
-              
-                <span itemprop="name">Makefile</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-10-22T22:19:42+08:00" content="2020-10-22">
-          10-22
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/10/12/reactor模型/" itemprop="url">
-              
-                <span itemprop="name">reactor模型</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-10-12T22:31:23+08:00" content="2020-10-12">
-          10-12
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/10/09/内存池/" itemprop="url">
-              
-                <span itemprop="name">内存池</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-10-09T16:02:09+08:00" content="2020-10-09">
-          10-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/10/08/字符编码Unicode原理数据流压缩Zlib与Miniz的实现/" itemprop="url">
-              
-                <span itemprop="name">字符编码Unicode原理数据流压缩Zlib与Miniz的实现</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-10-08T14:31:46+08:00" content="2020-10-08">
-          10-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+        <img src="/2020/11/17/内核原子变量的说明和使用/1.png">
+<p>static atomic_t can_open = ATOMIC_INIT(1);</p>
+<p>atomic_dec_and_test 先减一，如果结果是0返回true，否则返回false。</p>
+<p>第一次可以打开，第二次进入if。</p>
+<p>atomic_inc 再加一，不会被打断。 原子的加法分三步，最底层调用汇编代码。</p>
 
       
     </div>
+    
+    
+    
 
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2020/11/17/内核原子变量的说明和使用/">内核原子变量的说明和使用</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Twh233 的个人博客">Twh233</a></p>
+  <p><span>发布时间:</span>2020年11月17日 - 21:11</p>
+  <p><span>最后更新:</span>2020年11月17日 - 21:11</p>
+  <p><span>原始链接:</span><a href="/2020/11/17/内核原子变量的说明和使用/" title="内核原子变量的说明和使用">http://twh233.github.io/2020/11/17/内核原子变量的说明和使用/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://twh233.github.io/2020/11/17/内核原子变量的说明和使用/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({   
+          title: "",   
+          text: '复制成功',   
+          html: false,
+          timer: 500,   
+          showConfirmButton: false
+        });
+      });
+    }));  
+</script>
+
+      
+	</div>
+	
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/11/15/semaphore内核源码的实现/" rel="next" title="semaphore内核源码的实现">
+                <i class="fa fa-chevron-left"></i> semaphore内核源码的实现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/categories/基础/page/2/">2</a><a class="page-number" href="/categories/基础/page/3/">3</a><a class="extend next" rel="next" href="/categories/基础/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
+  </article>
 
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -484,6 +552,18 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      
+        <div onclick="showGitment()" id="gitment-display-button">显示 Gitment 评论</div>
+        <div id="gitment-container" style="display:none"></div>
+      
+    </div>
+
+  
+  
+
 
 
         </div>
@@ -750,6 +830,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -796,6 +880,34 @@
 
     
 
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'twh233',
+            repo: 'twh233.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '12046f070b932ff4f528161ab23a08a23ae5fe4c',
+            
+                client_id: 'e03062ff070528383729'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      function showGitment(){
+        document.getElementById("gitment-display-button").style.display = "none";
+        document.getElementById("gitment-container").style.display = "block";
+        renderGitment();
+      }
+      
+      </script>
     
 
 
@@ -1137,26 +1249,6 @@
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 

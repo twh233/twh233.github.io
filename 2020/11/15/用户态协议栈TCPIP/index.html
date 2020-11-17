@@ -104,7 +104,9 @@
 <meta property="og:image" content="http://twh233.github.io/2020/11/15/用户态协议栈TCPIP/2.png">
 <meta property="og:image" content="http://twh233.github.io/2020/11/15/用户态协议栈TCPIP/3.png">
 <meta property="og:image" content="http://twh233.github.io/2020/11/15/用户态协议栈TCPIP/4.png">
-<meta property="og:updated_time" content="2020-11-15T09:48:56.538Z">
+<meta property="og:image" content="http://twh233.github.io/2020/11/15/用户态协议栈TCPIP/5.png">
+<meta property="og:image" content="http://twh233.github.io/2020/11/15/用户态协议栈TCPIP/6.png">
+<meta property="og:updated_time" content="2020-11-17T13:09:27.269Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用户态协议栈TCPIP">
 <meta name="twitter:description" content="网卡是属于协议栈哪一层网卡不属于任何一层。物理层传输的是：光电信号数据链路层对应：数字信号 网卡作用：将光电信号转化成数字信号，数字信号转化为光电信号。 利用 netmap 实现协议栈123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585">
@@ -410,7 +412,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  884
+                  1,251
                 </span>
               
 
@@ -426,7 +428,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  4
+                  5
                 </span>
               
             </div>
@@ -465,7 +467,16 @@
 <h2 id="为什么会用udp做可靠传输"><a href="#为什么会用udp做可靠传输" class="headerlink" title="为什么会用udp做可靠传输"></a>为什么会用udp做可靠传输</h2><img src="/2020/11/15/用户态协议栈TCPIP/4.png">
 <p>下载的时候，TCP可以限制包数量，但是UDP不行。  </p>
 <p>游戏打团得实时，TCP要保持有序，卡了怎么办，所以可以牺牲效率保证实时。</p>
-<h2 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h2>
+<h2 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h2><img src="/2020/11/15/用户态协议栈TCPIP/5.png">
+<h3 id="为什么四次挥手是四次"><a href="#为什么四次挥手是四次" class="headerlink" title="为什么四次挥手是四次"></a>为什么四次挥手是四次</h3><p>因为对端都需要对方的确认，就像男女朋友，A提出分手，B先接受这个消息，表示我知道你要分手了。但是还需要一点时间消化，同意了再告诉A，我同意了。而且A提出分手的时候，B还有一些数据还在传，传完了之后再告诉A断开联系。所以必须是四次</p>
+<h3 id="为什么还有fin-wait2状态"><a href="#为什么还有fin-wait2状态" class="headerlink" title="为什么还有fin_wait2状态"></a>为什么还有fin_wait2状态</h3><p>因为还要收B的数据 </p>
+<h3 id="time-wait作用"><a href="#time-wait作用" class="headerlink" title="time_wait作用"></a>time_wait作用</h3><p>害怕最后一次ACK丢失，发送fin的时候有定时器，如果最后一次ACK可能丢失，如果在LAST_ACK状态的B收不到这个ACK的确认。B会超时重传FIN，所以time_wait是2MSL.A就能在这个时间内再次发送ACK确认，重新启动2MSL的计时器。并且有效防止了旧ACK的出现影响连接。下一个新的连接不会再出现这种旧的连接请求报文段。</p>
+<h3 id="出现大量close-wait状态"><a href="#出现大量close-wait状态" class="headerlink" title="出现大量close_wait状态"></a>出现大量close_wait状态</h3><p>因为B端 recv() 没有调用close() 或者时机不对 </p>
+<h3 id="如图，ACK丢失会怎样"><a href="#如图，ACK丢失会怎样" class="headerlink" title="如图，ACK丢失会怎样"></a>如图，ACK丢失会怎样</h3><p>A先收到FIN就出现closing状态，再收到ACK变为time_wait状态。</p>
+<h3 id="中间ACK和FIN同时调用"><a href="#中间ACK和FIN同时调用" class="headerlink" title="中间ACK和FIN同时调用"></a>中间ACK和FIN同时调用</h3><p>出现A也发送关闭FIN，B也同时发送FIN，那么两边都会成为closing状态，各自收到ACK变成time_wait状态，四次挥手就变成了三次</p>
+<h3 id="time-wait状态太多"><a href="#time-wait状态太多" class="headerlink" title="time_wait状态太多"></a>time_wait状态太多</h3><p>等待时间过长</p>
+<h2 id="tcp与epoll的触发"><a href="#tcp与epoll的触发" class="headerlink" title="tcp与epoll的触发"></a>tcp与epoll的触发</h2><img src="/2020/11/15/用户态协议栈TCPIP/6.png">
+
       
     </div>
     
@@ -485,7 +496,7 @@
   <p><span>本文标题:</span><a href="/2020/11/15/用户态协议栈TCPIP/">用户态协议栈TCPIP</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Twh233 的个人博客">Twh233</a></p>
   <p><span>发布时间:</span>2020年11月15日 - 17:11</p>
-  <p><span>最后更新:</span>2020年11月15日 - 17:11</p>
+  <p><span>最后更新:</span>2020年11月17日 - 21:11</p>
   <p><span>原始链接:</span><a href="/2020/11/15/用户态协议栈TCPIP/" title="用户态协议栈TCPIP">http://twh233.github.io/2020/11/15/用户态协议栈TCPIP/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://twh233.github.io/2020/11/15/用户态协议栈TCPIP/" aria-label="复制成功！"></i></span>
   </p>
@@ -631,7 +642,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-count">47</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -715,7 +726,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#网卡是属于协议栈哪一层"><span class="nav-number">1.</span> <span class="nav-text">网卡是属于协议栈哪一层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用-netmap-实现协议栈"><span class="nav-number">2.</span> <span class="nav-text">利用 netmap 实现协议栈</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么一会儿就不能接受发送到这个端口的数据了"><span class="nav-number">2.1.</span> <span class="nav-text">为什么一会儿就不能接受发送到这个端口的数据了</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fd端口只有65535，为什么并发能做到上百万"><span class="nav-number">3.</span> <span class="nav-text">fd端口只有65535，为什么并发能做到上百万</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三次握手"><span class="nav-number">4.</span> <span class="nav-text">三次握手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#滑动窗口"><span class="nav-number">5.</span> <span class="nav-text">滑动窗口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速重传"><span class="nav-number">6.</span> <span class="nav-text">快速重传</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拥塞控制"><span class="nav-number">7.</span> <span class="nav-text">拥塞控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么会用udp做可靠传输"><span class="nav-number">8.</span> <span class="nav-text">为什么会用udp做可靠传输</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四次挥手"><span class="nav-number">9.</span> <span class="nav-text">四次挥手</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#网卡是属于协议栈哪一层"><span class="nav-number">1.</span> <span class="nav-text">网卡是属于协议栈哪一层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用-netmap-实现协议栈"><span class="nav-number">2.</span> <span class="nav-text">利用 netmap 实现协议栈</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么一会儿就不能接受发送到这个端口的数据了"><span class="nav-number">2.1.</span> <span class="nav-text">为什么一会儿就不能接受发送到这个端口的数据了</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fd端口只有65535，为什么并发能做到上百万"><span class="nav-number">3.</span> <span class="nav-text">fd端口只有65535，为什么并发能做到上百万</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三次握手"><span class="nav-number">4.</span> <span class="nav-text">三次握手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#滑动窗口"><span class="nav-number">5.</span> <span class="nav-text">滑动窗口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速重传"><span class="nav-number">6.</span> <span class="nav-text">快速重传</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拥塞控制"><span class="nav-number">7.</span> <span class="nav-text">拥塞控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么会用udp做可靠传输"><span class="nav-number">8.</span> <span class="nav-text">为什么会用udp做可靠传输</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四次挥手"><span class="nav-number">9.</span> <span class="nav-text">四次挥手</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么四次挥手是四次"><span class="nav-number">9.1.</span> <span class="nav-text">为什么四次挥手是四次</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么还有fin-wait2状态"><span class="nav-number">9.2.</span> <span class="nav-text">为什么还有fin_wait2状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time-wait作用"><span class="nav-number">9.3.</span> <span class="nav-text">time_wait作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#出现大量close-wait状态"><span class="nav-number">9.4.</span> <span class="nav-text">出现大量close_wait状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如图，ACK丢失会怎样"><span class="nav-number">9.5.</span> <span class="nav-text">如图，ACK丢失会怎样</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中间ACK和FIN同时调用"><span class="nav-number">9.6.</span> <span class="nav-text">中间ACK和FIN同时调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time-wait状态太多"><span class="nav-number">9.7.</span> <span class="nav-text">time_wait状态太多</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tcp与epoll的触发"><span class="nav-number">10.</span> <span class="nav-text">tcp与epoll的触发</span></a></li></ol></div>
             
 
           </div>
