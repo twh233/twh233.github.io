@@ -92,18 +92,20 @@
 
 
 
-<meta name="description" content="A man&apos;s best friends are his ten fingers.">
+<meta name="description" content="定时器需要满足的需求： 1.能快速找到第一个时间快到的结点 2.插入删除 o(logn) 跳表利用跳表来实现，那么跳表最左下角的结点就是第一个结点。查找的效率o(1) 插入的效率趋近o(logn) 红黑树查找、插入的效率(logn) 查第一个结点的时候需要不断递归左子树 时间轮 如图是skynet的定时器设计，就像手表，层数越低代表时间越近。 层数越低就像秒针。第二层就像分针。第三层像时针。 等6">
 <meta name="keywords" content="定时器">
 <meta property="og:type" content="article">
 <meta property="og:title" content="定时器方案的实现">
 <meta property="og:url" content="http://twh233.github.io/2020/11/17/定时器方案的实现/index.html">
 <meta property="og:site_name" content="Twh233&#39;s Blog">
-<meta property="og:description" content="A man&apos;s best friends are his ten fingers.">
+<meta property="og:description" content="定时器需要满足的需求： 1.能快速找到第一个时间快到的结点 2.插入删除 o(logn) 跳表利用跳表来实现，那么跳表最左下角的结点就是第一个结点。查找的效率o(1) 插入的效率趋近o(logn) 红黑树查找、插入的效率(logn) 查第一个结点的时候需要不断递归左子树 时间轮 如图是skynet的定时器设计，就像手表，层数越低代表时间越近。 层数越低就像秒针。第二层就像分针。第三层像时针。 等6">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-11-17T15:18:02.815Z">
+<meta property="og:image" content="http://twh233.github.io/2020/11/17/定时器方案的实现/1.png">
+<meta property="og:updated_time" content="2020-11-19T14:20:49.112Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="定时器方案的实现">
-<meta name="twitter:description" content="A man&apos;s best friends are his ten fingers.">
+<meta name="twitter:description" content="定时器需要满足的需求： 1.能快速找到第一个时间快到的结点 2.插入删除 o(logn) 跳表利用跳表来实现，那么跳表最左下角的结点就是第一个结点。查找的效率o(1) 插入的效率趋近o(logn) 红黑树查找、插入的效率(logn) 查第一个结点的时候需要不断递归左子树 时间轮 如图是skynet的定时器设计，就像手表，层数越低代表时间越近。 层数越低就像秒针。第二层就像分针。第三层像时针。 等6">
+<meta name="twitter:image" content="http://twh233.github.io/2020/11/17/定时器方案的实现/1.png">
 
 
 
@@ -405,7 +407,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  0
+                  277
                 </span>
               
 
@@ -442,7 +444,21 @@
       
 
       
-        
+        <p>定时器需要满足的需求：</p>
+<p>1.能快速找到第一个时间快到的结点</p>
+<p>2.插入删除 o(logn)</p>
+<h2 id="跳表"><a href="#跳表" class="headerlink" title="跳表"></a>跳表</h2><p>利用跳表来实现，那么跳表最左下角的结点就是第一个结点。<br>查找的效率o(1)</p>
+<p>插入的效率趋近o(logn)</p>
+<h2 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h2><p>查找、插入的效率(logn)</p>
+<p>查第一个结点的时候<br>需要不断递归左子树</p>
+<h2 id="时间轮"><a href="#时间轮" class="headerlink" title="时间轮"></a>时间轮</h2><img src="/2020/11/17/定时器方案的实现/1.png">
+<p>如图是skynet的定时器设计，就像手表，层数越低代表时间越近。</p>
+<p>层数越低就像秒针。<br>第二层就像分针。<br>第三层像时针。</p>
+<p>等60秒转完，那么分针的数据push进秒针里。分针往后移一格。<br>时针同理，所以称作时间轮。</p>
+<p>缺点：<br>1.移动的，不好删除 + 引用计数  处理比较麻烦<br>2.像时钟一样运行，确保每10ms运行一次</p>
+<h3 id="如何取消呢？"><a href="#如何取消呢？" class="headerlink" title="如何取消呢？"></a>如何取消呢？</h3><p>如果加入定时器，还没触发之前又要删掉。</p>
+<p>只能在业务层处理屏蔽。因为时间轮这种方式是找不到对应的结点位置的。</p>
+
       
     </div>
     
@@ -462,7 +478,7 @@
   <p><span>本文标题:</span><a href="/2020/11/17/定时器方案的实现/">定时器方案的实现</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Twh233 的个人博客">Twh233</a></p>
   <p><span>发布时间:</span>2020年11月17日 - 22:11</p>
-  <p><span>最后更新:</span>2020年11月17日 - 23:11</p>
+  <p><span>最后更新:</span>2020年11月19日 - 22:11</p>
   <p><span>原始链接:</span><a href="/2020/11/17/定时器方案的实现/" title="定时器方案的实现">http://twh233.github.io/2020/11/17/定时器方案的实现/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://twh233.github.io/2020/11/17/定时器方案的实现/" aria-label="复制成功！"></i></span>
   </p>
@@ -581,8 +597,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -599,7 +624,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-count">51</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -673,6 +698,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#跳表"><span class="nav-number">1.</span> <span class="nav-text">跳表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#红黑树"><span class="nav-number">2.</span> <span class="nav-text">红黑树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时间轮"><span class="nav-number">3.</span> <span class="nav-text">时间轮</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何取消呢？"><span class="nav-number">3.1.</span> <span class="nav-text">如何取消呢？</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
