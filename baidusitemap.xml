@@ -4,6 +4,28 @@
 
     
   <url>
+    <loc>http://twh233.github.io/2020/12/03/Kafaka%E4%B8%8EZookeeper/</loc>
+    <lastmod>2020-12-03T15:13:20.471Z</lastmod>
+    <data>
+        <display>
+        <title>Kafaka与Zookeeper</title>
+        <pubTime>2020-12-03T15:11:34.000Z</pubTime>
+        
+        <tag>分布式</tag>
+         
+        <tag>Kafaka</tag>
+         
+         
+           
+             
+              <breadCrumb title="基础" url="http://twh233.github.io/categories/%E5%9F%BA%E7%A1%80/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://twh233.github.io/2020/11/30/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95Raft%E5%92%8CEtcd/</loc>
     <lastmod>2020-11-30T15:47:14.568Z</lastmod>
     <data>
@@ -51,9 +73,9 @@
         <title>Redis分布式</title>
         <pubTime>2020-11-25T13:43:01.000Z</pubTime>
         
-        <tag>redis</tag>
-         
         <tag>分布式</tag>
+         
+        <tag>redis</tag>
          
          
            

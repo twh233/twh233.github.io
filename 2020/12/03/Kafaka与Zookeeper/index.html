@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "f4a46794"
+    });
+  daovoice('update');
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_32.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="分布式,Kafaka,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Twh233's Blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="Kafaka 总体架构  Producer： 生产者，即消息发送者，Push 消息到 Kafka 集群的 Broker（就是 Server）中；Broker： Kafka 集群由多个 Kafka 实例（Server）组成，每个实例构成一个 Broker，其实就是服务器；Topic： Producer 向 Kafka 集群 Push 的消息会被归于某一类别，即 Topic。本质上，这只是一个逻辑概念">
+<meta name="keywords" content="分布式,Kafaka">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kafaka与Zookeeper">
+<meta property="og:url" content="http://twh233.github.io/2020/12/03/Kafaka与Zookeeper/index.html">
+<meta property="og:site_name" content="Twh233&#39;s Blog">
+<meta property="og:description" content="Kafaka 总体架构  Producer： 生产者，即消息发送者，Push 消息到 Kafka 集群的 Broker（就是 Server）中；Broker： Kafka 集群由多个 Kafka 实例（Server）组成，每个实例构成一个 Broker，其实就是服务器；Topic： Producer 向 Kafka 集群 Push 的消息会被归于某一类别，即 Topic。本质上，这只是一个逻辑概念">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://twh233.github.io/2020/12/03/Kafaka与Zookeeper/1.png">
+<meta property="og:image" content="http://twh233.github.io/2020/12/03/Kafaka与Zookeeper/2.png">
+<meta property="og:image" content="http://twh233.github.io/2020/12/03/Kafaka与Zookeeper/3.png">
+<meta property="og:image" content="http://twh233.github.io/2020/12/03/Kafaka与Zookeeper/4.png">
+<meta property="og:updated_time" content="2020-12-03T15:13:20.471Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kafaka与Zookeeper">
+<meta name="twitter:description" content="Kafaka 总体架构  Producer： 生产者，即消息发送者，Push 消息到 Kafka 集群的 Broker（就是 Server）中；Broker： Kafka 集群由多个 Kafka 实例（Server）组成，每个实例构成一个 Broker，其实就是服务器；Topic： Producer 向 Kafka 集群 Push 的消息会被归于某一类别，即 Topic。本质上，这只是一个逻辑概念">
+<meta name="twitter:image" content="http://twh233.github.io/2020/12/03/Kafaka与Zookeeper/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://twh233.github.io/2020/12/03/Kafaka与Zookeeper/">
+
+
+
+
+
+
+
+  <title>Kafaka与Zookeeper | Twh233's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+
+  
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Twh233's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Love Coding,Enjoy Life</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://twh233.github.io/2020/12/03/Kafaka与Zookeeper/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Twh233">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Twh233's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Kafaka与Zookeeper</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-03T23:11:34+08:00">
+                2020-12-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/基础/" itemprop="url" rel="index">
+                    <span itemprop="name">基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/12/03/Kafaka与Zookeeper/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2020/12/03/Kafaka与Zookeeper/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,872
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  11
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Kafaka-总体架构"><a href="#Kafaka-总体架构" class="headerlink" title="Kafaka 总体架构"></a>Kafaka 总体架构</h2><img src="/2020/12/03/Kafaka与Zookeeper/1.png">
+<img src="/2020/12/03/Kafaka与Zookeeper/2.png">
+<p>Producer： 生产者，即消息发送者，Push 消息到 Kafka 集群的 Broker（就是 Server）中；<br>Broker： Kafka 集群由多个 Kafka 实例（Server）组成，每个实例构成一个 Broker，其实就是服务器；<br>Topic： Producer 向 Kafka 集群 Push 的消息会被归于某一类别，即 Topic。本质上，这只是一个逻辑概念，面向的对象是 Producer 和 Consumer，Producer 只需关注将消息 Push 到哪一个 Topic 中，而 Consumer 只需关心自己订阅了哪个 Topic；<br>Partition： 每个 Topic 又被分为多个 Partition，即物理分区。出于负载均衡的考虑，同一个 Topic 的 Partition 分别存储于 Kafka 集群的多个 Broker 上。而为了提高可靠性，这些 Partition 可以由 Kafka 机制中的 Replicas 来设置备份的数量。如上面框架图所示，每个 Partition 都存在两个备份；<br>Consumer： 消费者，从 Kafka 集群的 Broker 中 Pull 消息、消费消息；<br>Consumer Group： High-Level Consumer API 中，每个 Consumer 都属于一个 Consumer Group，每条消息只能被 Consumer Group 中的一个 Consumer 消费，但可以被多个 Consumer Group 消费；<br>Replicas： Partition 的副本，保障 Partition 的高可用；<br>Leader： Replicas 中的一个角色， Producer 和 Consumer 只与 Leader 交互；<br>Follower： Replicas 中的一个角色，从 Leader 中复制数据，作为它的副本，同时一旦某 Leader 挂掉，便会从它的所有 Follower 中选举出一个新的 Leader 继续提供服务；<br>Controller： Kafka 集群中的一个服务器，用来进行 Leader Election 以及各种 Fail Over；<br>Zookeeper： Kafka 通过 ZooKeeper 存储集群的 Meta 信息等，文中将详述。  </p>
+<h2 id="Kafka-为什么要将-Topic-分区？"><a href="#Kafka-为什么要将-Topic-分区？" class="headerlink" title="Kafka 为什么要将 Topic 分区？"></a>Kafka 为什么要将 Topic 分区？</h2><p>Topic 只是逻辑概念，面向的是 Producer 和 Consumer，而 Partition 则是物理概念。可以想象，如果 Topic 不进行分区，而将 Topic 内的消息存储于一个 Broker，那么该 Topic 的所有读写请求都将由这个 Broker 处理，吞吐量很容易陷入瓶颈，这显然不适合高吞吐量应用场景。</p>
+<p>有了 Partition 概念，假设一个 Topic 被分为 10 个 Partition，Kafka 会根据一定的算法将 10 个 Partition 尽可能均匀地分布到不同的 Broker（服务器）上。</p>
+<h2 id="Kafka-文件存储机制"><a href="#Kafka-文件存储机制" class="headerlink" title="Kafka 文件存储机制"></a>Kafka 文件存储机制</h2><p>Partition 并不是最终的存储粒度，Partition 还可以进一步细分为 Segment。</p>
+<h2 id="为什么不能以-Partition-作为存储单位？"><a href="#为什么不能以-Partition-作为存储单位？" class="headerlink" title="为什么不能以 Partition 作为存储单位？"></a>为什么不能以 Partition 作为存储单位？</h2><p>任何一个 Topic 中的 Partition 数量受限于 Kafka Broker 的数量。为了保证可靠性，每个 Partition 都应有若干个副本（Replica），其中一个 Replica 为 Leader，其它都为 Follower。Leader 负责处理 Partition 的所有读写请求，Follower 则负责被动地复制 Leader 上的数据。<br>基于 Segment 机制，可以很方便地清理那些陈旧的消息（已被消费的消息），从而提高磁盘的利用率。</p>
+<h2 id="Segment-的工作原理是什么？"><a href="#Segment-的工作原理是什么？" class="headerlink" title="Segment 的工作原理是什么？"></a>Segment 的工作原理是什么？</h2><p>Partition 全局的第一个 Segment 从 0 开始，后续每个 Segment 文件名为上一个 Segment 文件最后一条消息的偏移量（Offset）值</p>
+<img src="/2020/12/03/Kafaka与Zookeeper/3.png">
+<h2 id="复制原理和同步方式"><a href="#复制原理和同步方式" class="headerlink" title="复制原理和同步方式"></a>复制原理和同步方式</h2><p>Leader 副本：响应 Client 端读写请求的副本，Producer 和 Consumer 只跟 Leader 交互；<br>Follower 副本：被动地备份 Leader 副本中的数据，不能响应 Client 端读写请求。一旦 Leader 挂掉，会从它的 Follower 中选举出一个新的 Leader 继续提供服务；<br>ISR 副本：包含了 Leader 副本和所有与 Leader 副本保持同步的 Follower 副本。如何判定是否与 Leader 同步，后面详述。  </p>
+<p>Leader 将负责维护和跟踪一个 ISR（In-Sync Replicas）列表，即同步副本队列，这个列表里面的副本与 Leader 保持同步，状态一致。</p>
+<h3 id="ISR"><a href="#ISR" class="headerlink" title="ISR"></a>ISR</h3><p>Follower 从 Leader 那里同步数据会有一些延迟（由参数 replica.lag.time.max.ms 设置超时阈值），超过阈值的 Follower 将被剔除出 ISR， 存入 OSR（Outof-Sync Replicas）列表，新加入的 Follower 也会先存放在 OSR 中，即有关系式 AR=ISR+OSR  </p>
+<h3 id="LEO-amp-HW"><a href="#LEO-amp-HW" class="headerlink" title="LEO &amp; HW"></a>LEO &amp; HW</h3><p>LEO=10、HW=7，则表示该副本保存了 10 条消息，而后面 3 条处于 Uncommitted 状态。</p>
+<p>每个 Replica （包含 Leader 和 Follower）都有 HW，它们各自负责更新自己的 HW 的状态。</p>
+<img src="/2020/12/03/Kafaka与Zookeeper/4.png">
+<h2 id="可靠性"><a href="#可靠性" class="headerlink" title="可靠性"></a>可靠性</h2><p>在客户端，可以通过 request.required.acks 参数来设置数据可靠性的级别<br>（1）request.required.acks = 1 Producer 发送数据到 Leader，只要 Leader 成功写入本地日志，即成功返回客户端，不要求 ISR 中的其它副本与 Leader 保持同步<br>（2）request.required.acks = 0 Producer 不停向 Leader 发送数据，而不需要 Leader 反馈成功消息<br>（3）request.required.acks = -1（all） 消息的强制备份数量为 ISR 列表中副本的数量，Leader收到消息后才向生产者返回成功</p>
+<p>Kafka 提供了这样一个参数：min.insync.replicas，该参数用于设定 ISR 中的最小副本数，默认值为 1，当且仅当 request.required.acks 参数设置为 -1 时，此参数才生效。</p>
+<h3 id="参数-batch-size"><a href="#参数-batch-size" class="headerlink" title="参数 batch.size"></a>参数 batch.size</h3><p>当多条消息的目标 Partition 相同时，Producer 会尝试将它们组装成一个批量消息，以便减少请求的数量，有助于提升客户端和服务器的性能。批量消息的大小由参数 batch.size 控制。</p>
+<h3 id="参数-linger-ms"><a href="#参数-linger-ms" class="headerlink" title="参数 linger.ms"></a>参数 linger.ms</h3><p>如果消息到达的速度比后台线程发送到 Partition 的速度快，则会出现消息堆积的问题。不过，在某些情况下，客户端可能通过添加人工延迟来减少请求数量。</p>
+<h3 id="参数-buffer-memory-和-max-block-ms"><a href="#参数-buffer-memory-和-max-block-ms" class="headerlink" title="参数 buffer.memory 和 max.block.ms"></a>参数 buffer.memory 和 max.block.ms</h3><p>Producer 可以用来缓冲等待发送给服务器的消息的总字节数。如果消息的发送速度快于传送到服务器的速度，那么缓冲区将被占满，之后 Producer 将阻塞 max.block.ms，随后将抛出异常。buffer.memory 的大小大致与 Producer 可使用的总内存相对应</p>
+<p>在 buffer.memory 指定的缓存被占满后，Producer 相关的方法可阻塞的最大时间由 max.block.ms 控制，之后将抛出异常。</p>
+<h3 id="参数-retries"><a href="#参数-retries" class="headerlink" title="参数 retries"></a>参数 retries</h3><p>发送消息具有“重试机制”，由参数 retries 控制</p>
+<h3 id="避免消息重排序"><a href="#避免消息重排序" class="headerlink" title="避免消息重排序"></a>避免消息重排序</h3><p>先T1、T2，T1失败，T2成功，T1重试</p>
+<p>max.in.flight.requests.per.connection，通过它，客户端可以设置在单个连接上发送的未确认请求的最大数目。如果设置大于 1，并且发送失败，则存在由于重试（如果启用了重试机制）而导致消息重新排序的风险。</p>
+<h3 id="消息接收的可靠性"><a href="#消息接收的可靠性" class="headerlink" title="消息接收的可靠性"></a>消息接收的可靠性</h3><p>为了保证消息接收的可靠性，通常将参数 enable.auto.commit 设置为 False，防止程序自动提交。</p>
+<h3 id="消息存储的可靠性"><a href="#消息存储的可靠性" class="headerlink" title="消息存储的可靠性"></a>消息存储的可靠性</h3><p>Kafka 通过持久化消息到磁盘来保障消息存储的可靠性，但存在矛盾点：由于磁盘的 IO 瓶颈，过于频繁的“刷盘”会降低 Kafka 的性能。但是，“刷盘” 的时间间隔过长又存在消息丢失的风险，降低可靠性</p>
+<p>log.flush.interval.ms 用于控制日志刷盘的时间间隔，即每隔多长时间将消息刷到磁盘上</p>
+<p>log.flush.interval.messages 用于控制日志刷盘的消息量，即每积累多少条消息后将消息刷到磁盘上</p>
+<h2 id="Kafka-选举-Leader-的策略是怎样的？"><a href="#Kafka-选举-Leader-的策略是怎样的？" class="headerlink" title="Kafka 选举 Leader 的策略是怎样的？"></a>Kafka 选举 Leader 的策略是怎样的？</h2><p>Kafka 通过 ZooKeeper 为每一个 Partition 动态维护了一个 ISR 列表。对于任意一条消息，只有它被 ISR 中的所有 Follower 都从 Leader 复制过去才会被认为 Committed，并返回信息给 Producer，从而保证可靠性。但与“少数服从多数”策略不同的是，Kafka ISR 列表中副本的数量不需要超过副本总数的一半，即不需要满足“多数派”原则，通常，ISR 列表副本数大于等于 2 即可，如此，便在可靠性和吞吐量方面取得平衡。</p>
+<h2 id="Kafka-架构中-ZooKeeper-以怎样的形式存在？"><a href="#Kafka-架构中-ZooKeeper-以怎样的形式存在？" class="headerlink" title="Kafka 架构中 ZooKeeper 以怎样的形式存在？"></a>Kafka 架构中 ZooKeeper 以怎样的形式存在？</h2><p>在基于 Kafka 的分布式消息队列中，ZooKeeper 的作用有 Broker 注册、Topic 注册、Producer 和 Consumer 负载均衡、维护 Partition 与 Consumer 的关系、记录消息消费的进度以及 Consumer 注册等。</p>
+<p>当 Producer Push 的消息写入 Partition（分区）时，作为 Leader 的 Broker（Kafka 节点）会将消息写入自己的分区，同时还会将此消息复制到各个 Follower，实现同步。如果某个 Follower 挂掉，Leader 会再找一个替代并同步消息；如果 Leader 挂了，Follower 们会选举出一个新的 Leader 替代，继续业务，这些都是由 ZooKeeper 完成的。</p>
+<h3 id="Consumer-在-ZooKeeper-中的注册"><a href="#Consumer-在-ZooKeeper-中的注册" class="headerlink" title="Consumer 在 ZooKeeper 中的注册"></a>Consumer 在 ZooKeeper 中的注册</h3><p>在 ZooKeeper 中，/consumers/{group_id} 虽然被称为节点，但本质上是一个目录。</p>
+<p>ids：Consumer Group 中有多个 Consumer，ids 用于记录这些 Consumer；<br>owners：记录该 Consumer Group 可消费的 Topic 信息；<br>offsets：记录 owners 中每个 Topic 的所有 Partition 的 Offset。  </p>
+<h3 id="Producers-负载均衡"><a href="#Producers-负载均衡" class="headerlink" title="Producers 负载均衡"></a>Producers 负载均衡</h3><p>Producers 会通过 Watcher 机制监听 Brokers 注册节点的变化。一旦 Brokers 发生变化，如增加、减少，Producers 可以收到通知并更新自己记录的 Broker 列表 。此外，基于 ZooKeeper 提供的 Watcher 机制，还可以监听其它在 ZooKeeper 上注册的节点，如 Topic、Consumer 等。</p>
+<h3 id="Consumer-负载均衡"><a href="#Consumer-负载均衡" class="headerlink" title="Consumer 负载均衡"></a>Consumer 负载均衡</h3><p>为 Consumer Group 中的各个 Consumer 分别指定不同的 Partition，只要保证该过程“相对公平”即可。</p>
+<h3 id="借助-ZooKeeper-实现负载均衡"><a href="#借助-ZooKeeper-实现负载均衡" class="headerlink" title="借助 ZooKeeper 实现负载均衡"></a>借助 ZooKeeper 实现负载均衡</h3><ol>
+<li>对任意一个 Topic 中所有的 Partirtion 进行排序，用数组 PT 记录；</li>
+<li>某一 Consumer Group 订阅了上述 Topic，对它的所有 Consumer 排序，用数组 CG 记录，第 i 个 Consumer 记为 CG[i]；</li>
+<li>比例系数为 F=size(PT)/size(CG)，向上取整；</li>
+<li>解除 CG[i] 对原来分配的 Partition 的消费权（i 从 0 开始，最大值为 size(CG)-1）;</li>
+<li>将第 i<em>F 到 (i+1)</em>F-1 个 Partition 分配给 CG[i]。</li>
+</ol>
+<h3 id="记录消费进度-Offset"><a href="#记录消费进度-Offset" class="headerlink" title="记录消费进度 Offset"></a>记录消费进度 Offset</h3><p>Offset 在 ZooKeeper 中，有一个专属的节点（目录）用于记录 Offset</p>
+<p>节点内容就是Offset的值。<br>/consumers/[group_id]/offsets/[topic]/[broker_id-partition_id]</p>
+<h2 id="全程解析"><a href="#全程解析" class="headerlink" title="全程解析"></a>全程解析</h2><h3 id="Producer-发布消息"><a href="#Producer-发布消息" class="headerlink" title="Producer 发布消息"></a>Producer 发布消息</h3><p>Producer 采用 Push 模式将消息发布到 Kafka Broker，根据负载均衡算法（如轮询、Hash 等），这些消息将均衡写入到相应 Topic 对应的各个 Partition 中。在存储层面，采用顺序写磁盘（即 Append）模式写入。</p>
+<ol>
+<li>Producer Push 消息，基于负载均衡算法获得目标 Partition 后，Producer 先从 ZooKeeper 的 /brokers/…/state 节点找到该Partition 的 Leader；</li>
+<li>Producer 将消息发送给该 Leader；</li>
+<li>Leader 将消息写入本地 Log；</li>
+<li>所有 Follower 主动从 Leader Pull 消息，写入本地 Log 后向 Leader 发送 ACK；</li>
+<li>Leader 收到所有 ISR 中所有 Replica 的 ACK 后，更新 HW（High Watermark，最后 Commit 的 Offset），并向 Producer 发送 ACK；</li>
+<li>Producer 接到 ACK，确认发送成功。</li>
+</ol>
+<h3 id="Broker-存储消息"><a href="#Broker-存储消息" class="headerlink" title="Broker 存储消息"></a>Broker 存储消息</h3><p>Topic 是逻辑概念，而 Topic 对应的 Partition 则是物理概念，每个 Partition 在存储层面都对应一个文件夹（目录）。由于 Partition 并不是最终的存储粒度，该文件夹下还有多个 Segment（消息索引和数据文件，它们是真正的存储文件）。</p>
+<h3 id="Consumer-消费消息"><a href="#Consumer-消费消息" class="headerlink" title="Consumer 消费消息"></a>Consumer 消费消息</h3><p>目前采用的高级 API，Consumer 在消费消息时，只需指定 Topic 即可，API 内部实现负载均衡，并将 Offset 记录到 ZooKeeper 上。<br>Consumer 采用 Pull 模式从 Broker 中读取数据，这是一种异步消费模式，与 Producer 采用的 Push 模式全然不同。Push 模式追求速度，越快越好，当然它取决于 Broker 的性能，而 Pull 模式则是追求自适应能力，Consumer 根据自己的消费能力消费。</p>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+      
+        
+      
+	</div>
+	
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/分布式/" rel="tag"><i class="fa fa-tag"></i> 分布式</a>
+          
+            <a href="/tags/Kafaka/" rel="tag"><i class="fa fa-tag"></i> Kafaka</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/11/30/分布式一致性算法Raft和Etcd/" rel="next" title="分布式一致性算法Raft和Etcd">
+                <i class="fa fa-chevron-left"></i> 分布式一致性算法Raft和Etcd
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div onclick="showGitment()" id="gitment-display-button">显示 Gitment 评论</div>
+        <div id="gitment-container" style="display:none"></div>
+      
+    </div>
+
+  
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/logo.jpg" alt="Twh233">
+            
+              <p class="site-author-name" itemprop="name">Twh233</p>
+              <p class="site-description motion-element" itemprop="description">经历这个你，活成这个我，细数自己</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/twh233" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:twh233@foxmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://blog.csdn.net/qq_36553623" target="_blank" title="Csdn">
+                      
+                        <i class="fa fa-fw fa-globe"></i>Csdn</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Kafaka-总体架构"><span class="nav-number">1.</span> <span class="nav-text">Kafaka 总体架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kafka-为什么要将-Topic-分区？"><span class="nav-number">2.</span> <span class="nav-text">Kafka 为什么要将 Topic 分区？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kafka-文件存储机制"><span class="nav-number">3.</span> <span class="nav-text">Kafka 文件存储机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么不能以-Partition-作为存储单位？"><span class="nav-number">4.</span> <span class="nav-text">为什么不能以 Partition 作为存储单位？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Segment-的工作原理是什么？"><span class="nav-number">5.</span> <span class="nav-text">Segment 的工作原理是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#复制原理和同步方式"><span class="nav-number">6.</span> <span class="nav-text">复制原理和同步方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ISR"><span class="nav-number">6.1.</span> <span class="nav-text">ISR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LEO-amp-HW"><span class="nav-number">6.2.</span> <span class="nav-text">LEO &amp; HW</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可靠性"><span class="nav-number">7.</span> <span class="nav-text">可靠性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参数-batch-size"><span class="nav-number">7.1.</span> <span class="nav-text">参数 batch.size</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数-linger-ms"><span class="nav-number">7.2.</span> <span class="nav-text">参数 linger.ms</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数-buffer-memory-和-max-block-ms"><span class="nav-number">7.3.</span> <span class="nav-text">参数 buffer.memory 和 max.block.ms</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数-retries"><span class="nav-number">7.4.</span> <span class="nav-text">参数 retries</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#避免消息重排序"><span class="nav-number">7.5.</span> <span class="nav-text">避免消息重排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消息接收的可靠性"><span class="nav-number">7.6.</span> <span class="nav-text">消息接收的可靠性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消息存储的可靠性"><span class="nav-number">7.7.</span> <span class="nav-text">消息存储的可靠性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kafka-选举-Leader-的策略是怎样的？"><span class="nav-number">8.</span> <span class="nav-text">Kafka 选举 Leader 的策略是怎样的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kafka-架构中-ZooKeeper-以怎样的形式存在？"><span class="nav-number">9.</span> <span class="nav-text">Kafka 架构中 ZooKeeper 以怎样的形式存在？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Consumer-在-ZooKeeper-中的注册"><span class="nav-number">9.1.</span> <span class="nav-text">Consumer 在 ZooKeeper 中的注册</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Producers-负载均衡"><span class="nav-number">9.2.</span> <span class="nav-text">Producers 负载均衡</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Consumer-负载均衡"><span class="nav-number">9.3.</span> <span class="nav-text">Consumer 负载均衡</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#借助-ZooKeeper-实现负载均衡"><span class="nav-number">9.4.</span> <span class="nav-text">借助 ZooKeeper 实现负载均衡</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#记录消费进度-Offset"><span class="nav-number">9.5.</span> <span class="nav-text">记录消费进度 Offset</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全程解析"><span class="nav-number">10.</span> <span class="nav-text">全程解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Producer-发布消息"><span class="nav-number">10.1.</span> <span class="nav-text">Producer 发布消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Broker-存储消息"><span class="nav-number">10.2.</span> <span class="nav-text">Broker 存储消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Consumer-消费消息"><span class="nav-number">10.3.</span> <span class="nav-text">Consumer 消费消息</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+	  <div id="music163player">
+		<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=1473552803&auto=1&height=66"></iframe>
+      </div>
+	</div>
+
+</aside></div>
+
+  
+
+
+        
+      </main></div>
+    
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<!--
+<div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Twh233</span>
+<!--
+  
+ -->
+</div>
+
+<!--
+<div class="powered-by">
+<i class="fa fa-user-md"></i>
+<span id="busuanzi_container_site_pv">
+    您是第<span id="busuanzi_value_site_pv"></span>个小伙伴访问的哦
+</span>
+</div>
+-->
+
+
+
+-->
+        
+
+
+
+
+
+
+
+        
+      
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'twh233',
+            repo: 'twh233.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '12046f070b932ff4f528161ab23a08a23ae5fe4c',
+            
+                client_id: 'e03062ff070528383729'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      function showGitment(){
+        document.getElementById("gitment-display-button").style.display = "none";
+        document.getElementById("gitment-container").style.display = "block";
+        renderGitment();
+      }
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+  <div class="bg_content">
+	<canvas id="canvas"></canvas>
+  </div>
+
+
+
+</body>
+	<!-- 页面点击小红心 -->
+	<script type="text/javascript" src="/js/src/clicklove.js"></script>
+	<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
+	<!--崩溃欺骗-->
+	<script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+</html>

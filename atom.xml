@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://twh233.github.io/"/>
-  <updated>2020-11-30T15:47:14.568Z</updated>
+  <updated>2020-12-03T15:13:20.471Z</updated>
   <id>http://twh233.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Kafaka与Zookeeper</title>
+    <link href="http://twh233.github.io/2020/12/03/Kafaka%E4%B8%8EZookeeper/"/>
+    <id>http://twh233.github.io/2020/12/03/Kafaka与Zookeeper/</id>
+    <published>2020-12-03T15:11:34.000Z</published>
+    <updated>2020-12-03T15:13:20.471Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Kafaka-总体架构"><a href="#Kafaka-总体架构" class="headerlink" title="Kafaka 总体架构"></a>Kafaka 总体架构</h2><img src="/2020/12/03/Kafaka与Zookeeper/1.png"><img src="/2020/12/03/Kafaka与Zookeeper/2.png"><p>Producer： 生产者，即消息发送者，Push 消息到 Kafka 集群的 Broker（就是 Server）中；<br>Broker： Kafka 集群由多个 Kafka 实例（Server）组成，每个实例构成一个 Broker，其实就是服务器；<br>Topic： Producer 向 Kafka 集群 Push 的消息会被归于某一类别，即 Topic。本质上，这只是一个逻辑概念，面向的对象是 Producer 和 Consumer，Producer 只需关注将消息 Push 到哪一个 Topic 中，而 Consumer 只需关心自己订阅了哪个 Topic；<br>Partition： 每个 Topic 又被分为多个 Partition，即物理分区。出于负载均衡的考虑，同一个 Topic 的 Partition 分别存储于 Kafka 集群的多个 Broker 上。而为了提高可靠性，这些 Partition 可以由 Kafka 机制中的 Replicas 来设置备份的数量。如上面框架图所示，每个 Partition 都存在两个备份；<br>Consumer： 消费者，从 Kafka 集群的 Broker 中 Pull 消息、消费消息；<br>Consumer Group： High-Level Consumer API 中，每个 Consumer 都属于一个 Consumer Group，每条消息只能被 Consumer Group 中的一个 Consumer 消费，但可以被多个 Consumer Group 消费；<br>Replicas： Partition 的副本，保障 Partition 的高可用；<br>Leader： Replicas 中的一个角色， Producer 和 Consumer 只与 Leader 交互；<br>Follower： Replicas 中的一个角色，从 Leader 中复制数据，作为它的副本，同时一旦某 Leader 挂掉，便会从它的所有 Follower 中选举出一个新的 Leader 继续提供服务；<br>Controller： Kafka 集群中的一个服务器，用来进行 Leader Election 以及各种 Fail Over；<br>Zookeeper： Kafka 通过 ZooKeeper 存储集群的 Meta 信息等，文中将详述。  </p><h2 id="Kafka-为什么要将-Topic-分区？"><a href="#Kafka-为什么要将-Topic-分区？" class="headerlink" title="Kafka 为什么要将 Topic 分区？"></a>Kafka 为什么要将 Topic 分区？</h2><p>Topic 只是逻辑概念，面向的是 Producer 和 Consumer，而 Partition 则是物理概念。可以想象，如果 Topic 不进行分区，而将 Topic 内的消息存储于一个 Broker，那么该 Topic 的所有读写请求都将由这个 Broker 处理，吞吐量很容易陷入瓶颈，这显然不适合高吞吐量应用场景。</p><p>有了 Partition 概念，假设一个 Topic 被分为 10 个 Partition，Kafka 会根据一定的算法将 10 个 Partition 尽可能均匀地分布到不同的 Broker（服务器）上。</p><h2 id="Kafka-文件存储机制"><a href="#Kafka-文件存储机制" class="headerlink" title="Kafka 文件存储机制"></a>Kafka 文件存储机制</h2><p>Partition 并不是最终的存储粒度，Partition 还可以进一步细分为 Segment。</p><h2 id="为什么不能以-Partition-作为存储单位？"><a href="#为什么不能以-Partition-作为存储单位？" class="headerlink" title="为什么不能以 Partition 作为存储单位？"></a>为什么不能以 Partition 作为存储单位？</h2><p>任何一个 Topic 中的 Partition 数量受限于 Kafka Broker 的数量。为了保证可靠性，每个 Partition 都应有若干个副本（Replica），其中一个 Replica 为 Leader，其它都为 Follower。Leader 负责处理 Partition 的所有读写请求，Follower 则负责被动地复制 Leader 上的数据。<br>基于 Segment 机制，可以很方便地清理那些陈旧的消息（已被消费的消息），从而提高磁盘的利用率。</p><h2 id="Segment-的工作原理是什么？"><a href="#Segment-的工作原理是什么？" class="headerlink" title="Segment 的工作原理是什么？"></a>Segment 的工作原理是什么？</h2><p>Partition 全局的第一个 Segment 从 0 开始，后续每个 Segment 文件名为上一个 Segment 文件最后一条消息的偏移量（Offset）值</p><img src="/2020/12/03/Kafaka与Zookeeper/3.png"><h2 id="复制原理和同步方式"><a href="#复制原理和同步方式" class="headerlink" title="复制原理和同步方式"></a>复制原理和同步方式</h2><p>Leader 副本：响应 Client 端读写请求的副本，Producer 和 Consumer 只跟 Leader 交互；<br>Follower 副本：被动地备份 Leader 副本中的数据，不能响应 Client 端读写请求。一旦 Leader 挂掉，会从它的 Follower 中选举出一个新的 Leader 继续提供服务；<br>ISR 副本：包含了 Leader 副本和所有与 Leader 副本保持同步的 Follower 副本。如何判定是否与 Leader 同步，后面详述。  </p><p>Leader 将负责维护和跟踪一个 ISR（In-Sync Replicas）列表，即同步副本队列，这个列表里面的副本与 Leader 保持同步，状态一致。</p><h3 id="ISR"><a href="#ISR" class="headerlink" title="ISR"></a>ISR</h3><p>Follower 从 Leader 那里同步数据会有一些延迟（由参数 replica.lag.time.max.ms 设置超时阈值），超过阈值的 Follower 将被剔除出 ISR， 存入 OSR（Outof-Sync Replicas）列表，新加入的 Follower 也会先存放在 OSR 中，即有关系式 AR=ISR+OSR  </p><h3 id="LEO-amp-HW"><a href="#LEO-amp-HW" class="headerlink" title="LEO &amp; HW"></a>LEO &amp; HW</h3><p>LEO=10、HW=7，则表示该副本保存了 10 条消息，而后面 3 条处于 Uncommitted 状态。</p><p>每个 Replica （包含 Leader 和 Follower）都有 HW，它们各自负责更新自己的 HW 的状态。</p><img src="/2020/12/03/Kafaka与Zookeeper/4.png"><h2 id="可靠性"><a href="#可靠性" class="headerlink" title="可靠性"></a>可靠性</h2><p>在客户端，可以通过 request.required.acks 参数来设置数据可靠性的级别<br>（1）request.required.acks = 1 Producer 发送数据到 Leader，只要 Leader 成功写入本地日志，即成功返回客户端，不要求 ISR 中的其它副本与 Leader 保持同步<br>（2）request.required.acks = 0 Producer 不停向 Leader 发送数据，而不需要 Leader 反馈成功消息<br>（3）request.required.acks = -1（all） 消息的强制备份数量为 ISR 列表中副本的数量，Leader收到消息后才向生产者返回成功</p><p>Kafka 提供了这样一个参数：min.insync.replicas，该参数用于设定 ISR 中的最小副本数，默认值为 1，当且仅当 request.required.acks 参数设置为 -1 时，此参数才生效。</p><h3 id="参数-batch-size"><a href="#参数-batch-size" class="headerlink" title="参数 batch.size"></a>参数 batch.size</h3><p>当多条消息的目标 Partition 相同时，Producer 会尝试将它们组装成一个批量消息，以便减少请求的数量，有助于提升客户端和服务器的性能。批量消息的大小由参数 batch.size 控制。</p><h3 id="参数-linger-ms"><a href="#参数-linger-ms" class="headerlink" title="参数 linger.ms"></a>参数 linger.ms</h3><p>如果消息到达的速度比后台线程发送到 Partition 的速度快，则会出现消息堆积的问题。不过，在某些情况下，客户端可能通过添加人工延迟来减少请求数量。</p><h3 id="参数-buffer-memory-和-max-block-ms"><a href="#参数-buffer-memory-和-max-block-ms" class="headerlink" title="参数 buffer.memory 和 max.block.ms"></a>参数 buffer.memory 和 max.block.ms</h3><p>Producer 可以用来缓冲等待发送给服务器的消息的总字节数。如果消息的发送速度快于传送到服务器的速度，那么缓冲区将被占满，之后 Producer 将阻塞 max.block.ms，随后将抛出异常。buffer.memory 的大小大致与 Producer 可使用的总内存相对应</p><p>在 buffer.memory 指定的缓存被占满后，Producer 相关的方法可阻塞的最大时间由 max.block.ms 控制，之后将抛出异常。</p><h3 id="参数-retries"><a href="#参数-retries" class="headerlink" title="参数 retries"></a>参数 retries</h3><p>发送消息具有“重试机制”，由参数 retries 控制</p><h3 id="避免消息重排序"><a href="#避免消息重排序" class="headerlink" title="避免消息重排序"></a>避免消息重排序</h3><p>先T1、T2，T1失败，T2成功，T1重试</p><p>max.in.flight.requests.per.connection，通过它，客户端可以设置在单个连接上发送的未确认请求的最大数目。如果设置大于 1，并且发送失败，则存在由于重试（如果启用了重试机制）而导致消息重新排序的风险。</p><h3 id="消息接收的可靠性"><a href="#消息接收的可靠性" class="headerlink" title="消息接收的可靠性"></a>消息接收的可靠性</h3><p>为了保证消息接收的可靠性，通常将参数 enable.auto.commit 设置为 False，防止程序自动提交。</p><h3 id="消息存储的可靠性"><a href="#消息存储的可靠性" class="headerlink" title="消息存储的可靠性"></a>消息存储的可靠性</h3><p>Kafka 通过持久化消息到磁盘来保障消息存储的可靠性，但存在矛盾点：由于磁盘的 IO 瓶颈，过于频繁的“刷盘”会降低 Kafka 的性能。但是，“刷盘” 的时间间隔过长又存在消息丢失的风险，降低可靠性</p><p>log.flush.interval.ms 用于控制日志刷盘的时间间隔，即每隔多长时间将消息刷到磁盘上</p><p>log.flush.interval.messages 用于控制日志刷盘的消息量，即每积累多少条消息后将消息刷到磁盘上</p><h2 id="Kafka-选举-Leader-的策略是怎样的？"><a href="#Kafka-选举-Leader-的策略是怎样的？" class="headerlink" title="Kafka 选举 Leader 的策略是怎样的？"></a>Kafka 选举 Leader 的策略是怎样的？</h2><p>Kafka 通过 ZooKeeper 为每一个 Partition 动态维护了一个 ISR 列表。对于任意一条消息，只有它被 ISR 中的所有 Follower 都从 Leader 复制过去才会被认为 Committed，并返回信息给 Producer，从而保证可靠性。但与“少数服从多数”策略不同的是，Kafka ISR 列表中副本的数量不需要超过副本总数的一半，即不需要满足“多数派”原则，通常，ISR 列表副本数大于等于 2 即可，如此，便在可靠性和吞吐量方面取得平衡。</p><h2 id="Kafka-架构中-ZooKeeper-以怎样的形式存在？"><a href="#Kafka-架构中-ZooKeeper-以怎样的形式存在？" class="headerlink" title="Kafka 架构中 ZooKeeper 以怎样的形式存在？"></a>Kafka 架构中 ZooKeeper 以怎样的形式存在？</h2><p>在基于 Kafka 的分布式消息队列中，ZooKeeper 的作用有 Broker 注册、Topic 注册、Producer 和 Consumer 负载均衡、维护 Partition 与 Consumer 的关系、记录消息消费的进度以及 Consumer 注册等。</p><p>当 Producer Push 的消息写入 Partition（分区）时，作为 Leader 的 Broker（Kafka 节点）会将消息写入自己的分区，同时还会将此消息复制到各个 Follower，实现同步。如果某个 Follower 挂掉，Leader 会再找一个替代并同步消息；如果 Leader 挂了，Follower 们会选举出一个新的 Leader 替代，继续业务，这些都是由 ZooKeeper 完成的。</p><h3 id="Consumer-在-ZooKeeper-中的注册"><a href="#Consumer-在-ZooKeeper-中的注册" class="headerlink" title="Consumer 在 ZooKeeper 中的注册"></a>Consumer 在 ZooKeeper 中的注册</h3><p>在 ZooKeeper 中，/consumers/{group_id} 虽然被称为节点，但本质上是一个目录。</p><p>ids：Consumer Group 中有多个 Consumer，ids 用于记录这些 Consumer；<br>owners：记录该 Consumer Group 可消费的 Topic 信息；<br>offsets：记录 owners 中每个 Topic 的所有 Partition 的 Offset。  </p><h3 id="Producers-负载均衡"><a href="#Producers-负载均衡" class="headerlink" title="Producers 负载均衡"></a>Producers 负载均衡</h3><p>Producers 会通过 Watcher 机制监听 Brokers 注册节点的变化。一旦 Brokers 发生变化，如增加、减少，Producers 可以收到通知并更新自己记录的 Broker 列表 。此外，基于 ZooKeeper 提供的 Watcher 机制，还可以监听其它在 ZooKeeper 上注册的节点，如 Topic、Consumer 等。</p><h3 id="Consumer-负载均衡"><a href="#Consumer-负载均衡" class="headerlink" title="Consumer 负载均衡"></a>Consumer 负载均衡</h3><p>为 Consumer Group 中的各个 Consumer 分别指定不同的 Partition，只要保证该过程“相对公平”即可。</p><h3 id="借助-ZooKeeper-实现负载均衡"><a href="#借助-ZooKeeper-实现负载均衡" class="headerlink" title="借助 ZooKeeper 实现负载均衡"></a>借助 ZooKeeper 实现负载均衡</h3><ol><li>对任意一个 Topic 中所有的 Partirtion 进行排序，用数组 PT 记录；</li><li>某一 Consumer Group 订阅了上述 Topic，对它的所有 Consumer 排序，用数组 CG 记录，第 i 个 Consumer 记为 CG[i]；</li><li>比例系数为 F=size(PT)/size(CG)，向上取整；</li><li>解除 CG[i] 对原来分配的 Partition 的消费权（i 从 0 开始，最大值为 size(CG)-1）;</li><li>将第 i<em>F 到 (i+1)</em>F-1 个 Partition 分配给 CG[i]。</li></ol><h3 id="记录消费进度-Offset"><a href="#记录消费进度-Offset" class="headerlink" title="记录消费进度 Offset"></a>记录消费进度 Offset</h3><p>Offset 在 ZooKeeper 中，有一个专属的节点（目录）用于记录 Offset</p><p>节点内容就是Offset的值。<br>/consumers/[group_id]/offsets/[topic]/[broker_id-partition_id]</p><h2 id="全程解析"><a href="#全程解析" class="headerlink" title="全程解析"></a>全程解析</h2><h3 id="Producer-发布消息"><a href="#Producer-发布消息" class="headerlink" title="Producer 发布消息"></a>Producer 发布消息</h3><p>Producer 采用 Push 模式将消息发布到 Kafka Broker，根据负载均衡算法（如轮询、Hash 等），这些消息将均衡写入到相应 Topic 对应的各个 Partition 中。在存储层面，采用顺序写磁盘（即 Append）模式写入。</p><ol><li>Producer Push 消息，基于负载均衡算法获得目标 Partition 后，Producer 先从 ZooKeeper 的 /brokers/…/state 节点找到该Partition 的 Leader；</li><li>Producer 将消息发送给该 Leader；</li><li>Leader 将消息写入本地 Log；</li><li>所有 Follower 主动从 Leader Pull 消息，写入本地 Log 后向 Leader 发送 ACK；</li><li>Leader 收到所有 ISR 中所有 Replica 的 ACK 后，更新 HW（High Watermark，最后 Commit 的 Offset），并向 Producer 发送 ACK；</li><li>Producer 接到 ACK，确认发送成功。</li></ol><h3 id="Broker-存储消息"><a href="#Broker-存储消息" class="headerlink" title="Broker 存储消息"></a>Broker 存储消息</h3><p>Topic 是逻辑概念，而 Topic 对应的 Partition 则是物理概念，每个 Partition 在存储层面都对应一个文件夹（目录）。由于 Partition 并不是最终的存储粒度，该文件夹下还有多个 Segment（消息索引和数据文件，它们是真正的存储文件）。</p><h3 id="Consumer-消费消息"><a href="#Consumer-消费消息" class="headerlink" title="Consumer 消费消息"></a>Consumer 消费消息</h3><p>目前采用的高级 API，Consumer 在消费消息时，只需指定 Topic 即可，API 内部实现负载均衡，并将 Offset 记录到 ZooKeeper 上。<br>Consumer 采用 Pull 模式从 Broker 中读取数据，这是一种异步消费模式，与 Producer 采用的 Push 模式全然不同。Push 模式追求速度，越快越好，当然它取决于 Broker 的性能，而 Pull 模式则是追求自适应能力，Consumer 根据自己的消费能力消费。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;Kafaka-总体架构&quot;&gt;&lt;a href=&quot;#Kafaka-总体架构&quot; class=&quot;headerlink&quot; title=&quot;Kafaka 总体架构&quot;&gt;&lt;/a&gt;Kafaka 总体架构&lt;/h2&gt;&lt;img src=&quot;/2020/12/03/Kafaka与Zookeepe
+      
+    
+    </summary>
+    
+      <category term="基础" scheme="http://twh233.github.io/categories/%E5%9F%BA%E7%A1%80/"/>
+    
+    
+      <category term="分布式" scheme="http://twh233.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+      <category term="Kafaka" scheme="http://twh233.github.io/tags/Kafaka/"/>
+    
+  </entry>
   
   <entry>
     <title>分布式一致性算法Raft和Etcd</title>
@@ -62,9 +89,9 @@
       <category term="基础" scheme="http://twh233.github.io/categories/%E5%9F%BA%E7%A1%80/"/>
     
     
-      <category term="redis" scheme="http://twh233.github.io/tags/redis/"/>
-    
       <category term="分布式" scheme="http://twh233.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+      <category term="redis" scheme="http://twh233.github.io/tags/redis/"/>
     
   </entry>
   
@@ -515,31 +542,6 @@
     
     
       <category term="nginx" scheme="http://twh233.github.io/tags/nginx/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>mysql面试前看</title>
-    <link href="http://twh233.github.io/2020/11/02/mysql%E9%9D%A2%E8%AF%95%E5%89%8D%E7%9C%8B/"/>
-    <id>http://twh233.github.io/2020/11/02/mysql面试前看/</id>
-    <published>2020-11-02T15:42:49.000Z</published>
-    <updated>2020-11-02T15:43:13.585Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="InnoDB-MyISAM-区别"><a href="#InnoDB-MyISAM-区别" class="headerlink" title="InnoDB MyISAM 区别"></a>InnoDB MyISAM 区别</h2><p>InnoDB 支持崩溃后安全恢复，MyISAM 不支持崩溃后安全恢复；<br>InnoDB 支持行级锁，MyISAM 不支持行级锁，只支持到表锁；<br>InnoDB 支持外键，MyISAM 不支持外键；<br>MyISAM 性能比 InnoDB 高；<br>MyISAM 支持 FULLTEXT 类型的全文索引，InnoDB 不支持 FULLTEXT 类型的全文索引，但是 InnoDB 可以使用 sphinx 插件支持全文索引，并且效果更好；<br>InnoDB 主键查询性能高于 MyISAM。</p><h3 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h3><p>1）插入缓冲<br>2）两次写<br>两次写给 InnoDB 带来的是可靠性，主要用来解决部分写失败</p><p>3）自适应哈希索引</p><p>InnoDB 自增主键持久化 Mysql重启后在redo log日志中恢复<br>InnoDB 使用事务实现，而事务的设计使用了多版本并发控制，不能把总条数记录下来。</p><p>在 InnoDB 引擎中 count(<em>)、count(1)、count(主键)、count(字段) 哪个性能最高？<br>count(字段)&lt;count(主键 id)&lt;count(1)≈count(</em>) 题目解析：</p><p>对于 count(主键 id) 来说，InnoDB 引擎会遍历整张表，把每一行的 id 值都取出来，返回给 server 层。server 层拿到 id 后，判断是不可能为空的，就按行累加。<br>对于 count(1) 来说，InnoDB 引擎遍历整张表，但不取值。server 层对于返回的每一行，放一个数字“1”进去，判断是不可能为空的，按行累加。<br>对于 count(字段) 来说，如果这个“字段”是定义为 not null 的话，一行行地从记录里面读出这个字段，判断不能为 null，按行累加；如果这个“字段”定义允许为 null，那么执行的时候，判断到有可能是 null，还要把值取出来再判断一下，不是 null 才累加。<br>对于 count(*) 来说，并不会把全部字段取出来，而是专门做了优化，不取值，直接按行累加。  </p><h2 id="重建表的执行流程"><a href="#重建表的执行流程" class="headerlink" title="重建表的执行流程"></a>重建表的执行流程</h2><p>建立一个临时文件，扫描表 t 主键的所有数据页；<br>用数据页中表 t 的记录生成 B+ 树，存储到临时文件中；<br>生成临时文件的过程中，将所有对 t 的操作记录在一个日志文件（row log）中；<br>临时文件生成后，将日志文件中的操作应用到临时文件，得到一个逻辑数据上与表 t相同的数据文件；<br>用临时文件替换表 t 的数据文件。  </p><h2 id="并发事务带来哪些问题"><a href="#并发事务带来哪些问题" class="headerlink" title="并发事务带来哪些问题"></a>并发事务带来哪些问题</h2><p>脏读 修改丢失 不可重复读 幻读</p><h3 id="什么是脏读和幻读？"><a href="#什么是脏读和幻读？" class="headerlink" title="什么是脏读和幻读？"></a>什么是脏读和幻读？</h3><p>脏读是一个事务在处理过程中读取了另外一个事务未提交的数据；幻读是指同一个事务内多次查询返回的结果集不一样（比如增加了或者减少了行记录）。</p><h3 id="如何避免幻读"><a href="#如何避免幻读" class="headerlink" title="如何避免幻读"></a>如何避免幻读</h3><p>使用间隙锁的方式来避免出现幻读。间隙锁，是专门用于解决幻读这种问题的锁，它锁的了行与行之间的间隙，能够阻塞新插入的操作 间隙锁的引入也带来了一些新的问题，比如：降低并发度，可能导致死锁。</p><h2 id="delete-和-truncate-区别"><a href="#delete-和-truncate-区别" class="headerlink" title="delete 和 truncate 区别"></a>delete 和 truncate 区别</h2><p>delete 可以添加 where 条件删除部分数据，truncate 不能添加 where 条件只能删除整张表；<br>delete 的删除信息会在 MySQL 的日志中记录，而 truncate 的删除信息不被记录在 MySQL 的日志中，因此 detele 的信息可以被找回而 truncate 的信息无法被找回；<br>truncate 因为不记录日志所以执行效率比 delete 快。  </p><h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><p>获取数据更容易，相对于多表查询来说；<br>视图能够对机密数据提供安全保护；<br>视图的修改不会影响基本表，提供了独立的操作单元，比较轻量。  </p><h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><h3 id="唯一索引和普通索引哪个性能更好？"><a href="#唯一索引和普通索引哪个性能更好？" class="headerlink" title="唯一索引和普通索引哪个性能更好？"></a>唯一索引和普通索引哪个性能更好？</h3><p>对于查询操作来说：普通索引和唯一索引的性能相近，都是从索引树中进行查询；<br>对于更新操作来说：唯一索引要比普通索引执行的慢，因为唯一索引需要先将数据读取到内存中，再在内存中进行数据的唯一效验，所以执行起来要比普通索引更慢。  </p><h3 id="如何优化身份证的索引？"><a href="#如何优化身份证的索引？" class="headerlink" title="如何优化身份证的索引？"></a>如何优化身份证的索引？</h3><p>在中国因为前 6 位代表的是地区，所以很多人的前六位都是相同的，如果我们使用前缀索引为 6 位的话，性能提升也并不是很明显，但如果设置的位数过长，那么占用的磁盘空间也越大，数据页能放下的索引值就越少，搜索效率也越低。针对这种情况优化方案有以下两种：  </p><p>使用身份证倒序存储，这样设置前六位的意义就很大了；<br>使用 hash 值，新创建一个字段用于存储身份证的 hash 值。  </p><h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><p>原子性（Atomic）：要么全部执行，要么全部不执行；<br>一致性（Consistency）：事务的执行使得数据库从一种正确状态转化为另一种正确状态；<br>隔离性（Isolation）：在事务正确提交之前，不允许把该事务对数据的任何改变提供给其他事务；<br>持久性（Durability）：事务提交后，其结果永久保存在数据库中。  </p><h3 id="四种事务隔离级别"><a href="#四种事务隔离级别" class="headerlink" title="四种事务隔离级别"></a>四种事务隔离级别</h3><p>read uncommited：未提交读，读到未提交数据；<br>read committed：读已提交，也叫不可重复读，两次读取到的数据不一致；<br>repetable read：可重复读；<br>serializable：串行化，读写数据都会锁住整张表，数据操作不会出错，但并发性能极低，开发中很少用到。  </p><h3 id="MVCC"><a href="#MVCC" class="headerlink" title="MVCC"></a>MVCC</h3><p>MVCC 全称是多版本并发控制系统，InnoDB 和 Falcon 存储引擎通过多版本并发控制（MVCC，Multiversion Concurrency Control）机制解决幻读问题。</p><p>InnoDB 的 MVCC 是通过在每行记录后面保存两个隐藏的列来实现，这两个列一个保存了行的创建时间，一个保存行的过期时间（删除时间）。当然存储的并不是真实的时间而是系统版本号（system version number）。每开始一个新的事务，系统版本号都会自动新增，事务开始时刻的系统版本号会作为事务的版本号，用来查询到每行记录的版本号进行比较。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;InnoDB-MyISAM-区别&quot;&gt;&lt;a href=&quot;#InnoDB-MyISAM-区别&quot; class=&quot;headerlink&quot; title=&quot;InnoDB MyISAM 区别&quot;&gt;&lt;/a&gt;InnoDB MyISAM 区别&lt;/h2&gt;&lt;p&gt;InnoDB 支持崩溃后安全
-      
-    
-    </summary>
-    
-      <category term="mysql" scheme="http://twh233.github.io/categories/mysql/"/>
-    
-    
-      <category term="mysql" scheme="http://twh233.github.io/tags/mysql/"/>
     
   </entry>
   
