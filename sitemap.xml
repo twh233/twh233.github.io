@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://twh233.github.io/2020/12/28/Mysql%E9%9B%86%E7%BE%A4%E4%B8%8E%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</loc>
+    
+    <lastmod>2020-12-28T12:12:01.216Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://twh233.github.io/2020/12/03/Kafaka%E4%B8%8EZookeeper/</loc>
     
     <lastmod>2020-12-03T15:13:20.471Z</lastmod>
@@ -415,13 +422,6 @@
   </url>
   
   <url>
-    <loc>http://twh233.github.io/pageName/index.html</loc>
-    
-    <lastmod>2019-07-15T12:00:42.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://twh233.github.io/categories/index.html</loc>
     
     <lastmod>2019-07-15T12:00:42.000Z</lastmod>
@@ -430,6 +430,13 @@
   
   <url>
     <loc>http://twh233.github.io/tags/index.html</loc>
+    
+    <lastmod>2019-07-15T12:00:42.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://twh233.github.io/pageName/index.html</loc>
     
     <lastmod>2019-07-15T12:00:42.000Z</lastmod>
     
