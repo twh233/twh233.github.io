@@ -100,13 +100,13 @@
 <meta property="og:site_name" content="Twh233&#39;s Blog">
 <meta property="og:description" content="Makefile就是在命令前加了⼀个‘@’。 这⼀符号告诉 make，在运⾏时不要将这⼀⾏命令显示出来。 make 在检查⼀个规则时，采⽤的⽅法是：如果先决条件中相关的⽂件的时间戳⼤于⽬标的时间戳，即先决条件中的⽂件⽐⽬标更新，则知道有变化，那么需要运⾏规则当中的命令重新构建⽬标。 假目标.PHONY: clean 变量自动变量$@⽤于表示⼀个规则中的⽬标。当我们的⼀个规则中有多个⽬标时，$@所指">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://twh233.github.io/2020/10/22/Makefile/10/22/Makefile/1.png">
-<meta property="og:image" content="http://twh233.github.io/2020/10/22/Makefile/10/22/Makefile/2.png">
+<meta property="og:image" content="http://twh233.github.io/2020/10/22/Makefile/1.png">
+<meta property="og:image" content="http://twh233.github.io/2020/10/22/Makefile/2.png">
 <meta property="og:updated_time" content="2020-10-25T03:20:28.250Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Makefile">
 <meta name="twitter:description" content="Makefile就是在命令前加了⼀个‘@’。 这⼀符号告诉 make，在运⾏时不要将这⼀⾏命令显示出来。 make 在检查⼀个规则时，采⽤的⽅法是：如果先决条件中相关的⽂件的时间戳⼤于⽬标的时间戳，即先决条件中的⽂件⽐⽬标更新，则知道有变化，那么需要运⾏规则当中的命令重新构建⽬标。 假目标.PHONY: clean 变量自动变量$@⽤于表示⼀个规则中的⽬标。当我们的⼀个规则中有多个⽬标时，$@所指">
-<meta name="twitter:image" content="http://twh233.github.io/2020/10/22/Makefile/10/22/Makefile/1.png">
+<meta name="twitter:image" content="http://twh233.github.io/2020/10/22/Makefile/1.png">
 
 
 
@@ -455,8 +455,8 @@
 <h3 id="引用替换"><a href="#引用替换" class="headerlink" title="引用替换"></a>引用替换</h3><p>Makefile<br>.PHONY: all<br>foo = a.o b.o c.o<br>bar := $(foo:.o=.c)<br>all:<br>@echo “bar = $(bar)”  </p>
 <p>执⾏<br>$make<br>bar = a.c b.c c.c  </p>
 <h3 id="override"><a href="#override" class="headerlink" title="override"></a>override</h3><p>手动替换</p>
-<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><img src="/2020/10/22/Makefile/10/22/Makefile/1.png">
-<img src="/2020/10/22/Makefile/10/22/Makefile/2.png">
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><img src="/2020/10/22/Makefile/1.png">
+<img src="/2020/10/22/Makefile/2.png">
 
 <h2 id="包含文件"><a href="#包含文件" class="headerlink" title="包含文件"></a>包含文件</h2><p>include $(DEPS)</p>
 <p>-include $(DEPS)  忽略文件</p>

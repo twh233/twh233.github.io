@@ -100,14 +100,14 @@
 <meta property="og:site_name" content="Twh233&#39;s Blog">
 <meta property="og:description" content="rpc是实现图中RPC协议部分。  等于是把接口写在存根里，然后通过同步或者异步的方式去调用对端的接口。这样做等于封装了框架，业务逻辑不用再管协议层，通过rpc来解决协议对接问题。 服务寻址可以使用 Call ID 映射，在 RPC 中，所有的函数都必须有自己的一个 ID 。因为在本地调用中，函数体是直接通过函数指针来指定的，但是在远程调用中，函数指针是不行的，因为两个进程的地址空间是完全不一样">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://twh233.github.io/2020/11/23/rpc应用和原理/11/23/rpc应用和原理/1.png">
-<meta property="og:image" content="http://twh233.github.io/2020/11/23/rpc应用和原理/11/23/rpc应用和原理/2.png">
-<meta property="og:image" content="http://twh233.github.io/2020/11/23/rpc应用和原理/11/23/rpc应用和原理/3.png">
+<meta property="og:image" content="http://twh233.github.io/2020/11/23/rpc应用和原理/1.png">
+<meta property="og:image" content="http://twh233.github.io/2020/11/23/rpc应用和原理/2.png">
+<meta property="og:image" content="http://twh233.github.io/2020/11/23/rpc应用和原理/3.png">
 <meta property="og:updated_time" content="2020-11-23T15:29:49.778Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="rpc应用和原理">
 <meta name="twitter:description" content="rpc是实现图中RPC协议部分。  等于是把接口写在存根里，然后通过同步或者异步的方式去调用对端的接口。这样做等于封装了框架，业务逻辑不用再管协议层，通过rpc来解决协议对接问题。 服务寻址可以使用 Call ID 映射，在 RPC 中，所有的函数都必须有自己的一个 ID 。因为在本地调用中，函数体是直接通过函数指针来指定的，但是在远程调用中，函数指针是不行的，因为两个进程的地址空间是完全不一样">
-<meta name="twitter:image" content="http://twh233.github.io/2020/11/23/rpc应用和原理/11/23/rpc应用和原理/1.png">
+<meta name="twitter:image" content="http://twh233.github.io/2020/11/23/rpc应用和原理/1.png">
 
 
 
@@ -446,9 +446,9 @@
       
 
       
-        <img src="/2020/11/23/rpc应用和原理/11/23/rpc应用和原理/1.png">
+        <img src="/2020/11/23/rpc应用和原理/1.png">
 <p>rpc是实现图中RPC协议部分。</p>
-<img src="/2020/11/23/rpc应用和原理/11/23/rpc应用和原理/2.png">
+<img src="/2020/11/23/rpc应用和原理/2.png">
 <p>等于是把接口写在存根里，然后通过同步或者异步的方式去调用对端的接口。这样做等于封装了框架，业务逻辑不用再管协议层，通过rpc来解决协议对接问题。</p>
 <p>服务寻址可以使用 Call ID 映射，在 RPC 中，所有的函数都必须有自己的一个 ID 。<br>因为在本地调用中，函数体是直接通过函数指针来指定的，但是在远程调用中，函数指针是不<br>行的，因为两个进程的地址空间是完全不一样的。</p>
 <p>客户端在做远程过程调用时，必须附上这个 ID。然后我们还需要在客户端和服务端分别维护一<br>个函数和Call ID的对应表。<br>当客户端需要进行远程调用时，它就查一下这个表，找出相应的 Call ID，然后把它传给服务端，<br>服务端也通过查表，来确定客户端需要调用的函数，然后执行相应函数的代码。</p>
@@ -461,7 +461,7 @@
 <p> 一端数据丢失，给另一端多次发送请求。另一端只处理一次</p>
 </li>
 <li><p>反向调用（Nat穿越）</p>
- <img src="/2020/11/23/rpc应用和原理/11/23/rpc应用和原理/3.png">
+ <img src="/2020/11/23/rpc应用和原理/3.png">
 <p> (1 客户机A1、B1顺利通过各自网关访问服务器C ，均没有问题（类似于登录）<br> (2 服务器C保存了 A1、B1各自在其网关的信息（1.2.3.4:62000、1.2.3.5:31000）没有问题。并可将该信息告知A1、B2。<br> (3 此时A1发送给B1网关的1.2.3.5:31000是否会被B1收到？答案是基本上不行（除非Y1设置为完全圆锥型，但这种设置非常少），因为Y1上检测到其存活的会话中没有一个的目的IP或端口与1.2.3.4:62000有关而将数据包全部丢弃！<br> (4 此时要实现A1、B1通过X1、Y1来互访，需要服务器C告诉它们各自在自己的网关上建立“UDP隧道”，即命令A1发送一个 192.168.0.8:4000——1.2.3.5:31000的数据报，B1发送一个192.168.1.8:4000——1.2.3.4:62000的数据报，UDP形式，这样X1、Y1上均存在了IP端口相同的两个不同会话（很显然，这要求网关为Cone NAT型–地址限制锥型或端口限制锥型），否则，对称型Symmetric NAT设置网关将导致对不同会话开启了不同端口，而该端口无法为服务器和对方所知，也就没有意义）。<br> (5 此时A1发给Y1，或者B1发给X1的数据报将不会被丢弃且正确的被对方收到.</p>
 <p> 综合P2P可实现的条件需要：</p>
 <p> 1、 中间服务器保存信息、并能发出建立UDP隧道的命令</p>

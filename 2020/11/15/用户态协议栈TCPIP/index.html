@@ -100,17 +100,17 @@
 <meta property="og:site_name" content="Twh233&#39;s Blog">
 <meta property="og:description" content="网卡是属于协议栈哪一层网卡不属于任何一层。物理层传输的是：光电信号数据链路层对应：数字信号 网卡作用：将光电信号转化成数字信号，数字信号转化为光电信号。 利用 netmap 实现协议栈123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://twh233.github.io/2020/11/15/用户态协议栈TCPIP/11/15/用户态协议栈TCPIP/1.png">
-<meta property="og:image" content="http://twh233.github.io/2020/11/15/用户态协议栈TCPIP/11/15/用户态协议栈TCPIP/2.png">
-<meta property="og:image" content="http://twh233.github.io/2020/11/15/用户态协议栈TCPIP/11/15/用户态协议栈TCPIP/3.png">
-<meta property="og:image" content="http://twh233.github.io/2020/11/15/用户态协议栈TCPIP/11/15/用户态协议栈TCPIP/4.png">
-<meta property="og:image" content="http://twh233.github.io/2020/11/15/用户态协议栈TCPIP/11/15/用户态协议栈TCPIP/5.png">
-<meta property="og:image" content="http://twh233.github.io/2020/11/15/用户态协议栈TCPIP/11/15/用户态协议栈TCPIP/6.png">
+<meta property="og:image" content="http://twh233.github.io/2020/11/15/用户态协议栈TCPIP/1.png">
+<meta property="og:image" content="http://twh233.github.io/2020/11/15/用户态协议栈TCPIP/2.png">
+<meta property="og:image" content="http://twh233.github.io/2020/11/15/用户态协议栈TCPIP/3.png">
+<meta property="og:image" content="http://twh233.github.io/2020/11/15/用户态协议栈TCPIP/4.png">
+<meta property="og:image" content="http://twh233.github.io/2020/11/15/用户态协议栈TCPIP/5.png">
+<meta property="og:image" content="http://twh233.github.io/2020/11/15/用户态协议栈TCPIP/6.png">
 <meta property="og:updated_time" content="2020-11-17T13:09:27.269Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用户态协议栈TCPIP">
 <meta name="twitter:description" content="网卡是属于协议栈哪一层网卡不属于任何一层。物理层传输的是：光电信号数据链路层对应：数字信号 网卡作用：将光电信号转化成数字信号，数字信号转化为光电信号。 利用 netmap 实现协议栈123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585">
-<meta name="twitter:image" content="http://twh233.github.io/2020/11/15/用户态协议栈TCPIP/11/15/用户态协议栈TCPIP/1.png">
+<meta name="twitter:image" content="http://twh233.github.io/2020/11/15/用户态协议栈TCPIP/1.png">
 
 
 
@@ -455,19 +455,19 @@
 <h3 id="为什么一会儿就不能接受发送到这个端口的数据了"><a href="#为什么一会儿就不能接受发送到这个端口的数据了" class="headerlink" title="为什么一会儿就不能接受发送到这个端口的数据了"></a>为什么一会儿就不能接受发送到这个端口的数据了</h3><p>因为arp过期了，icmp 会ping 对端，但是这个程序没有一直ping对端，导致arp过期。 不能再找到主机的MAC地址，所以发送不过去了。</p>
 <h2 id="fd端口只有65535，为什么并发能做到上百万"><a href="#fd端口只有65535，为什么并发能做到上百万" class="headerlink" title="fd端口只有65535，为什么并发能做到上百万"></a>fd端口只有65535，为什么并发能做到上百万</h2><p>fd –&gt;  五元组(sip,dip,sport,dport,proto)</p>
 <p>send(fd)的时候，fd 通过五元组判断客户端的唯一性</p>
-<h2 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h2><img src="/2020/11/15/用户态协议栈TCPIP/11/15/用户态协议栈TCPIP/1.png">
+<h2 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h2><img src="/2020/11/15/用户态协议栈TCPIP/1.png">
 <p>syn 队列 accept队列满时，会造成真正要连接的fd阻塞。只能加外网防火墙拦截。</p>
-<h2 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h2><img src="/2020/11/15/用户态协议栈TCPIP/11/15/用户态协议栈TCPIP/2.png">
+<h2 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h2><img src="/2020/11/15/用户态协议栈TCPIP/2.png">
 <p>如果接收到ACK，那么说明从这个包之前的包都已经成功接受到，可以往后滑动，发送新的包。<br>对端ACK应答把窗口大小带上。</p>
 <h2 id="快速重传"><a href="#快速重传" class="headerlink" title="快速重传"></a>快速重传</h2><p>当接收端收到比期望序号大的报文段时，便会重复发送最近一次确认的报文段的确认信号，我们称之为冗余ACK。<br>报文段1成功接收并被确认ACK 2，接收端的期待序号为2，当报文段2丢失，报文段3失序到来，与接收端的期望不匹配，接收端重复发送冗余ACK 2。</p>
-<img src="/2020/11/15/用户态协议栈TCPIP/11/15/用户态协议栈TCPIP/3.png">
+<img src="/2020/11/15/用户态协议栈TCPIP/3.png">
 <h2 id="拥塞控制"><a href="#拥塞控制" class="headerlink" title="拥塞控制"></a>拥塞控制</h2><p>滑动窗口可以是动态控制大小的。跟rtt有关系。</p>
 <p>rtt = 0.9 <em> oldrtt + 0.1 </em> newrtt</p>
 <p>而cwnd 由慢启动 cwnd = cwnd * 2 再到拥塞控制 1/2这个过程逐步趋于一个平稳值。</p>
-<h2 id="为什么会用udp做可靠传输"><a href="#为什么会用udp做可靠传输" class="headerlink" title="为什么会用udp做可靠传输"></a>为什么会用udp做可靠传输</h2><img src="/2020/11/15/用户态协议栈TCPIP/11/15/用户态协议栈TCPIP/4.png">
+<h2 id="为什么会用udp做可靠传输"><a href="#为什么会用udp做可靠传输" class="headerlink" title="为什么会用udp做可靠传输"></a>为什么会用udp做可靠传输</h2><img src="/2020/11/15/用户态协议栈TCPIP/4.png">
 <p>下载的时候，TCP可以限制包数量，但是UDP不行。  </p>
 <p>游戏打团得实时，TCP要保持有序，卡了怎么办，所以可以牺牲效率保证实时。</p>
-<h2 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h2><img src="/2020/11/15/用户态协议栈TCPIP/11/15/用户态协议栈TCPIP/5.png">
+<h2 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h2><img src="/2020/11/15/用户态协议栈TCPIP/5.png">
 <h3 id="为什么四次挥手是四次"><a href="#为什么四次挥手是四次" class="headerlink" title="为什么四次挥手是四次"></a>为什么四次挥手是四次</h3><p>因为对端都需要对方的确认，就像男女朋友，A提出分手，B先接受这个消息，表示我知道你要分手了。但是还需要一点时间消化，同意了再告诉A，我同意了。而且A提出分手的时候，B还有一些数据还在传，传完了之后再告诉A断开联系。所以必须是四次</p>
 <h3 id="为什么还有fin-wait2状态"><a href="#为什么还有fin-wait2状态" class="headerlink" title="为什么还有fin_wait2状态"></a>为什么还有fin_wait2状态</h3><p>因为还要收B的数据 </p>
 <h3 id="time-wait作用"><a href="#time-wait作用" class="headerlink" title="time_wait作用"></a>time_wait作用</h3><p>害怕最后一次ACK丢失，发送fin的时候有定时器，如果最后一次ACK可能丢失，如果在LAST_ACK状态的B收不到这个ACK的确认。B会超时重传FIN，所以time_wait是2MSL.A就能在这个时间内再次发送ACK确认，重新启动2MSL的计时器。并且有效防止了旧ACK的出现影响连接。下一个新的连接不会再出现这种旧的连接请求报文段。</p>
@@ -475,7 +475,7 @@
 <h3 id="如图，ACK丢失会怎样"><a href="#如图，ACK丢失会怎样" class="headerlink" title="如图，ACK丢失会怎样"></a>如图，ACK丢失会怎样</h3><p>A先收到FIN就出现closing状态，再收到ACK变为time_wait状态。</p>
 <h3 id="中间ACK和FIN同时调用"><a href="#中间ACK和FIN同时调用" class="headerlink" title="中间ACK和FIN同时调用"></a>中间ACK和FIN同时调用</h3><p>出现A也发送关闭FIN，B也同时发送FIN，那么两边都会成为closing状态，各自收到ACK变成time_wait状态，四次挥手就变成了三次</p>
 <h3 id="time-wait状态太多"><a href="#time-wait状态太多" class="headerlink" title="time_wait状态太多"></a>time_wait状态太多</h3><p>等待时间过长</p>
-<h2 id="tcp与epoll的触发"><a href="#tcp与epoll的触发" class="headerlink" title="tcp与epoll的触发"></a>tcp与epoll的触发</h2><img src="/2020/11/15/用户态协议栈TCPIP/11/15/用户态协议栈TCPIP/6.png">
+<h2 id="tcp与epoll的触发"><a href="#tcp与epoll的触发" class="headerlink" title="tcp与epoll的触发"></a>tcp与epoll的触发</h2><img src="/2020/11/15/用户态协议栈TCPIP/6.png">
 
       
     </div>

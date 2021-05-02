@@ -100,16 +100,16 @@
 <meta property="og:site_name" content="Twh233&#39;s Blog">
 <meta property="og:description" content="进程与进程之间同步，临界区代码要睡眠的话，一定不要使用自旋锁，用信号量。 获取自旋锁合适的方法：  int spin_trylock(spinlock_t *lock) 源码  owner表示持有这个数字的thread可以获取自旋锁 next表示如果后续再有thread请求获取这个自旋锁，就给它分配这个数字  汇编，把next位加一进入while循环。如果成了，那么进入临界区smp_mb()；如">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://twh233.github.io/2020/11/19/内核spinlock的说明和使用/11/19/内核spinlock的说明和使用/1.png">
-<meta property="og:image" content="http://twh233.github.io/2020/11/19/内核spinlock的说明和使用/11/19/内核spinlock的说明和使用/2.png">
-<meta property="og:image" content="http://twh233.github.io/2020/11/19/内核spinlock的说明和使用/11/19/内核spinlock的说明和使用/3.png">
-<meta property="og:image" content="http://twh233.github.io/2020/11/19/内核spinlock的说明和使用/11/19/内核spinlock的说明和使用/4.png">
-<meta property="og:image" content="http://twh233.github.io/2020/11/19/内核spinlock的说明和使用/11/19/内核spinlock的说明和使用/5.png">
+<meta property="og:image" content="http://twh233.github.io/2020/11/19/内核spinlock的说明和使用/1.png">
+<meta property="og:image" content="http://twh233.github.io/2020/11/19/内核spinlock的说明和使用/2.png">
+<meta property="og:image" content="http://twh233.github.io/2020/11/19/内核spinlock的说明和使用/3.png">
+<meta property="og:image" content="http://twh233.github.io/2020/11/19/内核spinlock的说明和使用/4.png">
+<meta property="og:image" content="http://twh233.github.io/2020/11/19/内核spinlock的说明和使用/5.png">
 <meta property="og:updated_time" content="2020-11-19T16:05:40.584Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="内核spinlock的说明和使用">
 <meta name="twitter:description" content="进程与进程之间同步，临界区代码要睡眠的话，一定不要使用自旋锁，用信号量。 获取自旋锁合适的方法：  int spin_trylock(spinlock_t *lock) 源码  owner表示持有这个数字的thread可以获取自旋锁 next表示如果后续再有thread请求获取这个自旋锁，就给它分配这个数字  汇编，把next位加一进入while循环。如果成了，那么进入临界区smp_mb()；如">
-<meta name="twitter:image" content="http://twh233.github.io/2020/11/19/内核spinlock的说明和使用/11/19/内核spinlock的说明和使用/1.png">
+<meta name="twitter:image" content="http://twh233.github.io/2020/11/19/内核spinlock的说明和使用/1.png">
 
 
 
@@ -448,16 +448,16 @@
       
 
       
-        <img src="/2020/11/19/内核spinlock的说明和使用/11/19/内核spinlock的说明和使用/1.png">
+        <img src="/2020/11/19/内核spinlock的说明和使用/1.png">
 <p>进程与进程之间同步，临界区代码要睡眠的话，一定不要使用自旋锁，<br>用信号量。</p>
 <p>获取自旋锁合适的方法：  int spin_trylock(spinlock_t *lock)</p>
-<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><img src="/2020/11/19/内核spinlock的说明和使用/11/19/内核spinlock的说明和使用/2.png">
-<img src="/2020/11/19/内核spinlock的说明和使用/11/19/内核spinlock的说明和使用/3.png">
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><img src="/2020/11/19/内核spinlock的说明和使用/2.png">
+<img src="/2020/11/19/内核spinlock的说明和使用/3.png">
 <p>owner表示持有这个数字的thread可以获取自旋锁</p>
 <p>next表示如果后续再有thread请求获取这个自旋锁，就给它分配这个数字</p>
-<img src="/2020/11/19/内核spinlock的说明和使用/11/19/内核spinlock的说明和使用/4.png">
+<img src="/2020/11/19/内核spinlock的说明和使用/4.png">
 <p>汇编，把next位加一进入while循环。如果成了，那么进入临界区smp_mb()；如果没有，那么wfe()睡眠，然后从内存ACCESS_ONCE读数据到内地lockval变量。所以说其他线程没拿到锁都会锁在这里忙等。</p>
-<img src="/2020/11/19/内核spinlock的说明和使用/11/19/内核spinlock的说明和使用/5.png">
+<img src="/2020/11/19/内核spinlock的说明和使用/5.png">
       
     </div>
     

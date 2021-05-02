@@ -100,16 +100,16 @@
 <meta property="og:site_name" content="Twh233&#39;s Blog">
 <meta property="og:description" content="首先down 是获取锁，如果获取到可以独占临界区资源执行下面语句，如果获取不到不断轮询去获取。  第一个进程只是把count–，而第二个进程才会去__down函数里  current 当前进程，把等待在信号量上的task加入waiter结构体里。 (如果有信号打断goto interrupted) 自旋锁的开销非常大，尽可能尽量少的代码在自旋锁的粒度里，所以才会有外面加锁，里面解锁又加锁。sch">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://twh233.github.io/2020/11/15/semaphore内核源码的实现/11/15/semaphore内核源码的实现/5.png">
-<meta property="og:image" content="http://twh233.github.io/2020/11/15/semaphore内核源码的实现/11/15/semaphore内核源码的实现/2.png">
-<meta property="og:image" content="http://twh233.github.io/2020/11/15/semaphore内核源码的实现/11/15/semaphore内核源码的实现/1.png">
-<meta property="og:image" content="http://twh233.github.io/2020/11/15/semaphore内核源码的实现/11/15/semaphore内核源码的实现/3.png">
-<meta property="og:image" content="http://twh233.github.io/2020/11/15/semaphore内核源码的实现/11/15/semaphore内核源码的实现/4.png">
+<meta property="og:image" content="http://twh233.github.io/2020/11/15/semaphore内核源码的实现/5.png">
+<meta property="og:image" content="http://twh233.github.io/2020/11/15/semaphore内核源码的实现/2.png">
+<meta property="og:image" content="http://twh233.github.io/2020/11/15/semaphore内核源码的实现/1.png">
+<meta property="og:image" content="http://twh233.github.io/2020/11/15/semaphore内核源码的实现/3.png">
+<meta property="og:image" content="http://twh233.github.io/2020/11/15/semaphore内核源码的实现/4.png">
 <meta property="og:updated_time" content="2020-11-15T10:21:55.067Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="semaphore内核源码的实现">
 <meta name="twitter:description" content="首先down 是获取锁，如果获取到可以独占临界区资源执行下面语句，如果获取不到不断轮询去获取。  第一个进程只是把count–，而第二个进程才会去__down函数里  current 当前进程，把等待在信号量上的task加入waiter结构体里。 (如果有信号打断goto interrupted) 自旋锁的开销非常大，尽可能尽量少的代码在自旋锁的粒度里，所以才会有外面加锁，里面解锁又加锁。sch">
-<meta name="twitter:image" content="http://twh233.github.io/2020/11/15/semaphore内核源码的实现/11/15/semaphore内核源码的实现/5.png">
+<meta name="twitter:image" content="http://twh233.github.io/2020/11/15/semaphore内核源码的实现/5.png">
 
 
 
@@ -448,17 +448,17 @@
       
 
       
-        <img src="/2020/11/15/semaphore内核源码的实现/11/15/semaphore内核源码的实现/5.png">
+        <img src="/2020/11/15/semaphore内核源码的实现/5.png">
 <p>首先down 是获取锁，如果获取到可以独占临界区资源执行下面语句，如果获取不到不断轮询去获取。</p>
-<img src="/2020/11/15/semaphore内核源码的实现/11/15/semaphore内核源码的实现/2.png">
+<img src="/2020/11/15/semaphore内核源码的实现/2.png">
 <p>第一个进程只是把count–，而第二个进程才会去__down函数里</p>
-<img src="/2020/11/15/semaphore内核源码的实现/11/15/semaphore内核源码的实现/1.png">
+<img src="/2020/11/15/semaphore内核源码的实现/1.png">
 <p>current 当前进程，把等待在信号量上的task加入waiter结构体里。</p>
 <p>(如果有信号打断goto interrupted)</p>
 <p>自旋锁的开销非常大，尽可能尽量少的代码在自旋锁的粒度里，所以才会有外面加锁，里面解锁又加锁。schedule_timeout会睡眠，所以没办法放进自旋锁的保护区里，当到进程二唤醒的时候接着加锁，waiter.up == true 返回 </p>
-<img src="/2020/11/15/semaphore内核源码的实现/11/15/semaphore内核源码的实现/3.png">
+<img src="/2020/11/15/semaphore内核源码的实现/3.png">
 <p>同理。进程count++，如果wait_list空，那么调用__up函数</p>
-<img src="/2020/11/15/semaphore内核源码的实现/11/15/semaphore内核源码的实现/4.png">
+<img src="/2020/11/15/semaphore内核源码的实现/4.png">
 <p>从刚才的容器里拿出来waiter， waiter-&gt;up = true</p>
 
       

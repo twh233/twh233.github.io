@@ -100,12 +100,12 @@
 <meta property="og:site_name" content="Twh233&#39;s Blog">
 <meta property="og:description" content="页表映射如图二级页表：  简单来说CPU在页表映射的时候，Dir 代表页目录表的索引，Offset是偏移，Table是页表的索引。 先定位页表地址，通过Table定位到物理块地址，再加上offset得到真正的物理地址。 内核用一个页目录表，但不同进程有各自的页目录表。 逻辑地址到物理地址的转换从虚拟地址段页式的转化转化成线性地址，再线性地址页表映射转化成物理地址。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://twh233.github.io/2020/11/11/x86段页式内存管理和页表映射机制/11/11/x86段页式内存管理和页表映射机制/1.png">
+<meta property="og:image" content="http://twh233.github.io/2020/11/11/x86段页式内存管理和页表映射机制/1.png">
 <meta property="og:updated_time" content="2020-11-11T15:01:37.572Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="x86段页式内存管理和页表映射机制">
 <meta name="twitter:description" content="页表映射如图二级页表：  简单来说CPU在页表映射的时候，Dir 代表页目录表的索引，Offset是偏移，Table是页表的索引。 先定位页表地址，通过Table定位到物理块地址，再加上offset得到真正的物理地址。 内核用一个页目录表，但不同进程有各自的页目录表。 逻辑地址到物理地址的转换从虚拟地址段页式的转化转化成线性地址，再线性地址页表映射转化成物理地址。">
-<meta name="twitter:image" content="http://twh233.github.io/2020/11/11/x86段页式内存管理和页表映射机制/11/11/x86段页式内存管理和页表映射机制/1.png">
+<meta name="twitter:image" content="http://twh233.github.io/2020/11/11/x86段页式内存管理和页表映射机制/1.png">
 
 
 
@@ -445,7 +445,7 @@
 
       
         <h2 id="页表映射"><a href="#页表映射" class="headerlink" title="页表映射"></a>页表映射</h2><p>如图二级页表：</p>
-<img src="/2020/11/11/x86段页式内存管理和页表映射机制/11/11/x86段页式内存管理和页表映射机制/1.png">
+<img src="/2020/11/11/x86段页式内存管理和页表映射机制/1.png">
 <p>简单来说CPU在页表映射的时候，Dir 代表页目录表的索引，Offset是偏移，Table是页表的索引。</p>
 <p>先定位页表地址，通过Table定位到物理块地址，再加上offset得到真正的物理地址。</p>
 <p>内核用一个页目录表，但不同进程有各自的页目录表。</p>

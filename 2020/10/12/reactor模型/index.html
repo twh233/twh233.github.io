@@ -100,12 +100,12 @@
 <meta property="og:site_name" content="Twh233&#39;s Blog">
 <meta property="og:description" content="作为一个高性能服务器程序通常需要考虑处理三类事件： I/O 事件，定时事件及信号。 应用程序需要提供相应的接口并注册到 Reactor 上，如果相应的时间发生，Reactor 将主动调用应用程序注册的接口，所以Reactor译为反应堆。 Reactor 模型有三个重要的组件： 多路复用器：由操作系统提供，在 linux 上一般是 select, poll, epoll 等系统调用。 事件分发器">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://twh233.github.io/2020/10/12/reactor模型/10/12/reactor模型/1.png">
+<meta property="og:image" content="http://twh233.github.io/2020/10/12/reactor模型/1.png">
 <meta property="og:updated_time" content="2020-10-18T07:27:47.831Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="reactor模型">
 <meta name="twitter:description" content="作为一个高性能服务器程序通常需要考虑处理三类事件： I/O 事件，定时事件及信号。 应用程序需要提供相应的接口并注册到 Reactor 上，如果相应的时间发生，Reactor 将主动调用应用程序注册的接口，所以Reactor译为反应堆。 Reactor 模型有三个重要的组件： 多路复用器：由操作系统提供，在 linux 上一般是 select, poll, epoll 等系统调用。 事件分发器">
-<meta name="twitter:image" content="http://twh233.github.io/2020/10/12/reactor模型/10/12/reactor模型/1.png">
+<meta name="twitter:image" content="http://twh233.github.io/2020/10/12/reactor模型/1.png">
 
 
 
@@ -452,7 +452,7 @@
 <h2 id="如何使用reactor实现百万并发"><a href="#如何使用reactor实现百万并发" class="headerlink" title="如何使用reactor实现百万并发"></a>如何使用reactor实现百万并发</h2><p>服务需要解决的问题：<br>1.操作系统fd的限制<br>2.Segmentation fault(core dumped)<br>3.端口的问题</p>
 <p>客户端端口以及服务器端口，并且同时listen多个端口</p>
 <p>遇到问题考虑tcp五元组(sip, dip, sport, dport, proto)  </p>
-<img src="/2020/10/12/reactor模型/10/12/reactor模型/1.png">
+<img src="/2020/10/12/reactor模型/1.png">
 
       
     </div>

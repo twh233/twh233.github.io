@@ -100,14 +100,14 @@
 <meta property="og:site_name" content="Twh233&#39;s Blog">
 <meta property="og:description" content="数值类型 事务特征事务四大特征：原子性（Atomicity，或称不可分割性）、一致性（Consistency）、隔离性（Isolation，又称独立性）、持久性（Durability）。一致性：数据库在操作前和操作后，完整性不被破坏。隔离性：多个事务可以同时执行，防止多个事务并发执行引起交叉执行数据不一致。持久性：事务结束后，对数据的修改是永久的。 隔离级别（1）读未提交：read uncommi">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://twh233.github.io/2020/09/22/mysql/09/22/mysql/2.png">
-<meta property="og:image" content="http://twh233.github.io/2020/09/22/mysql/09/22/mysql/1.png">
-<meta property="og:image" content="http://twh233.github.io/2020/09/22/mysql/09/22/mysql/3.png">
+<meta property="og:image" content="http://twh233.github.io/2020/09/22/mysql/2.png">
+<meta property="og:image" content="http://twh233.github.io/2020/09/22/mysql/1.png">
+<meta property="og:image" content="http://twh233.github.io/2020/09/22/mysql/3.png">
 <meta property="og:updated_time" content="2020-09-23T15:44:39.610Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql">
 <meta name="twitter:description" content="数值类型 事务特征事务四大特征：原子性（Atomicity，或称不可分割性）、一致性（Consistency）、隔离性（Isolation，又称独立性）、持久性（Durability）。一致性：数据库在操作前和操作后，完整性不被破坏。隔离性：多个事务可以同时执行，防止多个事务并发执行引起交叉执行数据不一致。持久性：事务结束后，对数据的修改是永久的。 隔离级别（1）读未提交：read uncommi">
-<meta name="twitter:image" content="http://twh233.github.io/2020/09/22/mysql/09/22/mysql/2.png">
+<meta name="twitter:image" content="http://twh233.github.io/2020/09/22/mysql/2.png">
 
 
 
@@ -446,15 +446,15 @@
       
 
       
-        <h2 id="数值类型"><a href="#数值类型" class="headerlink" title="数值类型"></a>数值类型</h2><img src="/2020/09/22/mysql/09/22/mysql/2.png">
+        <h2 id="数值类型"><a href="#数值类型" class="headerlink" title="数值类型"></a>数值类型</h2><img src="/2020/09/22/mysql/2.png">
 <h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><h3 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h3><p>事务四大特征：<br>原子性（Atomicity，或称不可分割性）、<br>一致性（Consistency）、<br>隔离性（Isolation，又称独立性）、<br>持久性（Durability）。<br>一致性：数据库在操作前和操作后，完整性不被破坏。<br>隔离性：多个事务可以同时执行，防止多个事务并发执行引起交叉执行数据不一致。<br>持久性：事务结束后，对数据的修改是永久的。</p>
 <h3 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h3><p>（1）读未提交：read uncommitted（2）读已提交：read committed<br>（3）可重复读：repeatable read（4）串行化：serializable  </p>
-<img src="/2020/09/22/mysql/09/22/mysql/1.png">
+<img src="/2020/09/22/mysql/1.png">
 <h3 id="undolog"><a href="#undolog" class="headerlink" title="undolog"></a>undolog</h3><p>每一个事务都有undolog，事务开启时一个临时表存事务的操作，这个临时表就是undolog，一旦有错误就X掉这次事务。</p>
 <h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><p>四条从效果上第一条影响最大，后面越来越小。<br>① SQL语句及索引的优化 ② 数据库表结构的优化<br>③ 系统配置的优化<br>④ 硬件的优化</p>
 <h2 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h2><p>表级锁<br>行级锁<br>页级锁  </p>
 <h2 id="引擎"><a href="#引擎" class="headerlink" title="引擎"></a>引擎</h2><p>Myisam(表级锁) Innodb(行级锁)<br>1.为什么Myisam快？<br>因为Myisam B+树存的是引用，加载到内存快。 等Innodb加载完，Myisam都查完了<br>2.为什么Innodb不支持全文索引？<br>数据直接在叶子结点上，如果要全文索引，相当于复制了一份数据库，浪费空间  </p>
-<h2 id="binlog"><a href="#binlog" class="headerlink" title="binlog"></a>binlog</h2><img src="/2020/09/22/mysql/09/22/mysql/3.png">
+<h2 id="binlog"><a href="#binlog" class="headerlink" title="binlog"></a>binlog</h2><img src="/2020/09/22/mysql/3.png">
 <p>binlog实际是除了select以外所有操作数据库动作的记录，方便恢复数据库。master主动推送到slave结点的relay log，从结点io线程去读relay log然后在sql线程去更新数据库。</p>
 
       

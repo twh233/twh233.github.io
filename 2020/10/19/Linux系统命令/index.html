@@ -100,16 +100,16 @@
 <meta property="og:site_name" content="Twh233&#39;s Blog">
 <meta property="og:description" content="grep grep login -r msg_server/反向查找，查找文件中，不包含 hello 的行。   grep -v login ImUser.cpp找出文件中包含 login 的行，并打印出行号 grep -n login ImUser.cpp找出文件中包含 login 的行，打印出行号，并显示前后 3 行 grep -C 3 -n login ImUser.cpp找出文件中包含 l">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://twh233.github.io/2020/10/19/Linux系统命令/10/19/Linux系统命令/1.png">
-<meta property="og:image" content="http://twh233.github.io/2020/10/19/Linux系统命令/10/19/Linux系统命令/2.png">
-<meta property="og:image" content="http://twh233.github.io/2020/10/19/Linux系统命令/10/19/Linux系统命令/3.png">
-<meta property="og:image" content="http://twh233.github.io/2020/10/19/Linux系统命令/10/19/Linux系统命令/4.png">
-<meta property="og:image" content="http://twh233.github.io/2020/10/19/Linux系统命令/10/19/Linux系统命令/5.png">
+<meta property="og:image" content="http://twh233.github.io/2020/10/19/Linux系统命令/1.png">
+<meta property="og:image" content="http://twh233.github.io/2020/10/19/Linux系统命令/2.png">
+<meta property="og:image" content="http://twh233.github.io/2020/10/19/Linux系统命令/3.png">
+<meta property="og:image" content="http://twh233.github.io/2020/10/19/Linux系统命令/4.png">
+<meta property="og:image" content="http://twh233.github.io/2020/10/19/Linux系统命令/5.png">
 <meta property="og:updated_time" content="2020-10-19T13:05:53.831Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux系统命令">
 <meta name="twitter:description" content="grep grep login -r msg_server/反向查找，查找文件中，不包含 hello 的行。   grep -v login ImUser.cpp找出文件中包含 login 的行，并打印出行号 grep -n login ImUser.cpp找出文件中包含 login 的行，打印出行号，并显示前后 3 行 grep -C 3 -n login ImUser.cpp找出文件中包含 l">
-<meta name="twitter:image" content="http://twh233.github.io/2020/10/19/Linux系统命令/10/19/Linux系统命令/1.png">
+<meta name="twitter:image" content="http://twh233.github.io/2020/10/19/Linux系统命令/1.png">
 
 
 
@@ -448,7 +448,7 @@
       
 
       
-        <h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><img src="/2020/10/19/Linux系统命令/10/19/Linux系统命令/1.png">
+        <h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><img src="/2020/10/19/Linux系统命令/1.png">
 <p>grep login -r msg_server/<br>反向查找，查找文件中，不包含 hello 的行。  </p>
 <p>grep -v login ImUser.cpp<br>找出文件中包含 login 的行，并打印出行号</p>
 <p>grep -n login ImUser.cpp<br>找出文件中包含 login 的行，打印出行号，并显示前后 3 行</p>
@@ -465,20 +465,20 @@
 <p>• -u：表示查看 cpu 相关的性能指标<br>• -w：表示查看上下文切换情况<br>• -t：查看线程相关的信息，默认是进程的;常与-w 结合使用(cpu 的上下文切换包<br>括进程的切换、线程的切换、中断的切换)<br>• -d：展示磁盘 I/O 统计数据<br>• -p：指明进程号<br>使用方式：pidstat [option] interval [count]  </p>
 <p>[root@VM_0_3_centos ~]# pidstat -urd -p 24615<br>Linux 3.10.0-957.5.1.el7.x86_64 (VM_0_3_centos) 08/22/2019 _x86_64_ (1<br>CPU)<br>输出 CPU 的使用信息 -u<br>03:48:12 PM UID PID %usr %system %guest %CPU CPU Command<br>03:48:12 PM 0 24615 0.00 0.00 0.00 0.00 0 nginx<br>输出内存的使用信息 -r<br>03:48:12 PM UID PID minflt/s majflt/s VSZ RSS %MEM<br>Command<br>03:48:12 PM 0 24615 0.00 0.00 58252 24940 1.32 nginx<br>输出磁盘 I/O 的使用信息 -d<br>03:48:12 PM UID PID kB_rd/s kB_wr/s kB_ccwr/s Command<br>03:48:12 PM 0 24615 0.07 0.00 0.00 nginx  </p>
 <p>03:20:54 PM UID PID cswch/s nvcswch/s Command<br>03:20:54 PM 0 24615 0.03 0.00 nginx</p>
-<h2 id="free"><a href="#free" class="headerlink" title="free"></a>free</h2><p>此命令用于显示系统内存的使用情况，包括总体内存、己经使用的内存；还可用于显<br>示系统内核使用的缓冲区，包括缓冲（buffer）和缓存（cache）等。<br>使用方式：free<br>命令输出：<br><img src="/2020/10/19/Linux系统命令/10/19/Linux系统命令/2.png"></p>
+<h2 id="free"><a href="#free" class="headerlink" title="free"></a>free</h2><p>此命令用于显示系统内存的使用情况，包括总体内存、己经使用的内存；还可用于显<br>示系统内核使用的缓冲区，包括缓冲（buffer）和缓存（cache）等。<br>使用方式：free<br>命令输出：<br><img src="/2020/10/19/Linux系统命令/2.png"></p>
 <p>buffer: 攒数据，然后批量写入，比如硬盘数据的写入</p>
 <p>cache: 低速设备到高速设备的缓存（预读），比如从硬盘读取数据，读取100字节，但实际读了4K到cache里面，下次直接从cache里取</p>
 <h2 id="mpstat"><a href="#mpstat" class="headerlink" title="mpstat"></a>mpstat</h2><p>此命令用于实时监控系统 CPU 的一些统计信息，这些信息存放在/proc/stat 文件中，在<br>多核 CPU 系统里，不但能查看所有 CPU 的平均使用信息，还能查看某个特定 CPU 的信息。<br>使用方式：mpstat [-P {cpu|ALL}] [internal [count]]<br>当 mpstat 不带参数时，输出为从系统启动以来的平均值。</p>
 <h2 id="df"><a href="#df" class="headerlink" title="df"></a>df</h2><p>硬盘使用情况</p>
 <p>df -h </p>
-<img src="/2020/10/19/Linux系统命令/10/19/Linux系统命令/3.png">
+<img src="/2020/10/19/Linux系统命令/3.png">
 <h2 id="nc"><a href="#nc" class="headerlink" title="nc"></a>nc</h2><p>验证服务器端口有没有开放</p>
 <p>参数<br>-l 用于指定 nc 将处于侦听模式。指定该参数，则意味着 nc 被当作 server，侦听并<br>接受连接，而非向其它地址发起连接。<br>-p 暂未用到（老版本的 nc 可能需要在端口号前加-p 参数，下面测试环境是<br>centos6.6，nc 版本是 nc-1.84，未用到-p 参数）<br>-s 指定发送数据的源 IP 地址，适用于多网卡机<br>-u 指定 nc 使用 UDP 协议，默认为 TCP<br>-v 输出交互或出错信息，新手调试时尤为有用<br>-w 超时秒数，后面跟数字  </p>
-<img src="/2020/10/19/Linux系统命令/10/19/Linux系统命令/4.png">
+<img src="/2020/10/19/Linux系统命令/4.png">
 <h2 id="nslookup"><a href="#nslookup" class="headerlink" title="nslookup"></a>nslookup</h2><p>解析IP地址</p>
 <p>nslookup sina.com</p>
 <h2 id="tcpdump"><a href="#tcpdump" class="headerlink" title="tcpdump"></a>tcpdump</h2><p>tcpdump 是网络状况分析和跟踪工具，是可以用来抓包的实用命令，使用前需要对<br>TCP/IP 有所熟悉，因为过滤使用的信息都是 TCP/IP 格式。</p>
-<img src="/2020/10/19/Linux系统命令/10/19/Linux系统命令/5.png">
+<img src="/2020/10/19/Linux系统命令/5.png">
 <h2 id="proc"><a href="#proc" class="headerlink" title="proc"></a>proc</h2><p>Linux 系统内核提供了通过/proc 文件系统查看运行时内核内部数据结构的能力，也可<br>以改变内核参数设置。  </p>
 <p>显示 CPU 信息：<br>cat /proc/cpuinfo</p>
 <p>显示内存信息：<br>cat /proc/meminfo</p>

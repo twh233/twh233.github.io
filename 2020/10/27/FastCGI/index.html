@@ -100,16 +100,16 @@
 <meta property="og:site_name" content="Twh233&#39;s Blog">
 <meta property="og:description" content="FastCGICGI公共网关接口Common Gateway Interface， 简称 CGI在物理层面上是一段程序， 运行在服务器上，提供同客户端 HTML 页面的接口 浏览器请求流程 CGI 工作流程 FastCGICGI每次都需要fork一个进程去处理，导致浪费服务器资源。于是有了FastCGI管理CGI  FastCGI 进程管理器fastcgi 可使用 spawn-fcgi 或者 ph">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://twh233.github.io/2020/10/27/FastCGI/10/27/FastCGI/1.png">
-<meta property="og:image" content="http://twh233.github.io/2020/10/27/FastCGI/10/27/FastCGI/2.png">
-<meta property="og:image" content="http://twh233.github.io/2020/10/27/FastCGI/10/27/FastCGI/3.png">
-<meta property="og:image" content="http://twh233.github.io/2020/10/27/FastCGI/10/27/FastCGI/4.png">
-<meta property="og:image" content="http://twh233.github.io/2020/10/27/FastCGI/10/27/FastCGI/5.png">
+<meta property="og:image" content="http://twh233.github.io/2020/10/27/FastCGI/1.png">
+<meta property="og:image" content="http://twh233.github.io/2020/10/27/FastCGI/2.png">
+<meta property="og:image" content="http://twh233.github.io/2020/10/27/FastCGI/3.png">
+<meta property="og:image" content="http://twh233.github.io/2020/10/27/FastCGI/4.png">
+<meta property="og:image" content="http://twh233.github.io/2020/10/27/FastCGI/5.png">
 <meta property="og:updated_time" content="2020-10-28T15:39:17.227Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="FastCGI">
 <meta name="twitter:description" content="FastCGICGI公共网关接口Common Gateway Interface， 简称 CGI在物理层面上是一段程序， 运行在服务器上，提供同客户端 HTML 页面的接口 浏览器请求流程 CGI 工作流程 FastCGICGI每次都需要fork一个进程去处理，导致浪费服务器资源。于是有了FastCGI管理CGI  FastCGI 进程管理器fastcgi 可使用 spawn-fcgi 或者 ph">
-<meta name="twitter:image" content="http://twh233.github.io/2020/10/27/FastCGI/10/27/FastCGI/1.png">
+<meta name="twitter:image" content="http://twh233.github.io/2020/10/27/FastCGI/1.png">
 
 
 
@@ -449,17 +449,17 @@
 
       
         <h1 id="FastCGI"><a href="#FastCGI" class="headerlink" title="FastCGI"></a>FastCGI</h1><h2 id="CGI"><a href="#CGI" class="headerlink" title="CGI"></a>CGI</h2><p>公共网关接口<br>Common Gateway Interface， 简称 CGI<br>在物理层面上是一段程序， 运行在服务器上，提供同客户端 HTML 页面的接口</p>
-<h2 id="浏览器请求流程"><a href="#浏览器请求流程" class="headerlink" title="浏览器请求流程"></a>浏览器请求流程</h2><img src="/2020/10/27/FastCGI/10/27/FastCGI/1.png">
-<h2 id="CGI-工作流程"><a href="#CGI-工作流程" class="headerlink" title="CGI 工作流程"></a>CGI 工作流程</h2><img src="/2020/10/27/FastCGI/10/27/FastCGI/2.png">
+<h2 id="浏览器请求流程"><a href="#浏览器请求流程" class="headerlink" title="浏览器请求流程"></a>浏览器请求流程</h2><img src="/2020/10/27/FastCGI/1.png">
+<h2 id="CGI-工作流程"><a href="#CGI-工作流程" class="headerlink" title="CGI 工作流程"></a>CGI 工作流程</h2><img src="/2020/10/27/FastCGI/2.png">
 <h2 id="FastCGI-1"><a href="#FastCGI-1" class="headerlink" title="FastCGI"></a>FastCGI</h2><p>CGI每次都需要fork一个进程去处理，导致浪费服务器资源。<br>于是有了FastCGI管理CGI</p>
-<img src="/2020/10/27/FastCGI/10/27/FastCGI/3.png">
+<img src="/2020/10/27/FastCGI/3.png">
 <h2 id="FastCGI-进程管理器"><a href="#FastCGI-进程管理器" class="headerlink" title="FastCGI 进程管理器"></a>FastCGI 进程管理器</h2><p>fastcgi 可使用 spawn-fcgi 或者 php-fpm 来管理 (fastcgi 进程管理器，有很多不同类型的)<br>nginx 下 fastcgi 与服务器是分离的</p>
 <h3 id="spawn-fcgi"><a href="#spawn-fcgi" class="headerlink" title="spawn-fcgi"></a>spawn-fcgi</h3><p>• 相当一个代理工具<br>• 角色完成 nginx 和 fastcgi 之间的进程间通信  </p>
 <h3 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h3><p>nginx 处理不了的指令, 交给 fastcgi 处理<br>• 数据需要转发<br>• 数据需要发送到指定的端口<br>• 处理一个指令 test<br>• url: <a href="http://192.168.52.139/test" target="_blank" rel="noopener">http://192.168.52.139/test</a>  </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">location /test&#123;</span><br><span class="line">	#配置 fastcgi 模块</span><br><span class="line">	fastcgi_pass 127.0.0.1:9001;</span><br><span class="line">	#IP:</span><br><span class="line">	#127.0.0.1/localhost/192.168.52.139</span><br><span class="line">	#端口:</span><br><span class="line">	#将要处理的数据发送到 9001 端口</span><br><span class="line">	#9001 端口对应一个进程, 该进程可以收到 nginx 发送过来的数据</span><br><span class="line">	include fastcgi.conf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="fastCGI-协议、Spawn-fcgi、Nginx-三者关系"><a href="#fastCGI-协议、Spawn-fcgi、Nginx-三者关系" class="headerlink" title="fastCGI 协议、Spawn-fcgi、Nginx 三者关系"></a>fastCGI 协议、Spawn-fcgi、Nginx 三者关系</h3><p>Nginx 是 web 服务器，只提供 HTTP 协议的输入和输出。<br>spawn-fcgi 服务器，只支持 Fastcgi 协议的输入和输出。<br>它们 2 者直接由 Nginx 将 HTTP 协议转换为 Fastcgi 协议传输给 fastCGI 进程处理。  </p>
-<img src="/2020/10/27/FastCGI/10/27/FastCGI/4.png">
-<h3 id="与Tomcat区别"><a href="#与Tomcat区别" class="headerlink" title="与Tomcat区别"></a>与Tomcat区别</h3><img src="/2020/10/27/FastCGI/10/27/FastCGI/5.png">
+<img src="/2020/10/27/FastCGI/4.png">
+<h3 id="与Tomcat区别"><a href="#与Tomcat区别" class="headerlink" title="与Tomcat区别"></a>与Tomcat区别</h3><img src="/2020/10/27/FastCGI/5.png">
       
     </div>
     

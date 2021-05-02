@@ -100,15 +100,15 @@
 <meta property="og:site_name" content="Twh233&#39;s Blog">
 <meta property="og:description" content="Kafaka 总体架构  Producer： 生产者，即消息发送者，Push 消息到 Kafka 集群的 Broker（就是 Server）中；Broker： Kafka 集群由多个 Kafka 实例（Server）组成，每个实例构成一个 Broker，其实就是服务器；Topic： Producer 向 Kafka 集群 Push 的消息会被归于某一类别，即 Topic。本质上，这只是一个逻辑概念">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://twh233.github.io/2020/12/03/Kafaka与Zookeeper/12/03/Kafaka与Zookeeper/1.png">
-<meta property="og:image" content="http://twh233.github.io/2020/12/03/Kafaka与Zookeeper/12/03/Kafaka与Zookeeper/2.png">
-<meta property="og:image" content="http://twh233.github.io/2020/12/03/Kafaka与Zookeeper/12/03/Kafaka与Zookeeper/3.png">
-<meta property="og:image" content="http://twh233.github.io/2020/12/03/Kafaka与Zookeeper/12/03/Kafaka与Zookeeper/4.png">
+<meta property="og:image" content="http://twh233.github.io/2020/12/03/Kafaka与Zookeeper/1.png">
+<meta property="og:image" content="http://twh233.github.io/2020/12/03/Kafaka与Zookeeper/2.png">
+<meta property="og:image" content="http://twh233.github.io/2020/12/03/Kafaka与Zookeeper/3.png">
+<meta property="og:image" content="http://twh233.github.io/2020/12/03/Kafaka与Zookeeper/4.png">
 <meta property="og:updated_time" content="2020-12-03T15:13:20.471Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kafaka与Zookeeper">
 <meta name="twitter:description" content="Kafaka 总体架构  Producer： 生产者，即消息发送者，Push 消息到 Kafka 集群的 Broker（就是 Server）中；Broker： Kafka 集群由多个 Kafka 实例（Server）组成，每个实例构成一个 Broker，其实就是服务器；Topic： Producer 向 Kafka 集群 Push 的消息会被归于某一类别，即 Topic。本质上，这只是一个逻辑概念">
-<meta name="twitter:image" content="http://twh233.github.io/2020/12/03/Kafaka与Zookeeper/12/03/Kafaka与Zookeeper/1.png">
+<meta name="twitter:image" content="http://twh233.github.io/2020/12/03/Kafaka与Zookeeper/1.png">
 
 
 
@@ -447,21 +447,21 @@
       
 
       
-        <h2 id="Kafaka-总体架构"><a href="#Kafaka-总体架构" class="headerlink" title="Kafaka 总体架构"></a>Kafaka 总体架构</h2><img src="/2020/12/03/Kafaka与Zookeeper/12/03/Kafaka与Zookeeper/1.png">
-<img src="/2020/12/03/Kafaka与Zookeeper/12/03/Kafaka与Zookeeper/2.png">
+        <h2 id="Kafaka-总体架构"><a href="#Kafaka-总体架构" class="headerlink" title="Kafaka 总体架构"></a>Kafaka 总体架构</h2><img src="/2020/12/03/Kafaka与Zookeeper/1.png">
+<img src="/2020/12/03/Kafaka与Zookeeper/2.png">
 <p>Producer： 生产者，即消息发送者，Push 消息到 Kafka 集群的 Broker（就是 Server）中；<br>Broker： Kafka 集群由多个 Kafka 实例（Server）组成，每个实例构成一个 Broker，其实就是服务器；<br>Topic： Producer 向 Kafka 集群 Push 的消息会被归于某一类别，即 Topic。本质上，这只是一个逻辑概念，面向的对象是 Producer 和 Consumer，Producer 只需关注将消息 Push 到哪一个 Topic 中，而 Consumer 只需关心自己订阅了哪个 Topic；<br>Partition： 每个 Topic 又被分为多个 Partition，即物理分区。出于负载均衡的考虑，同一个 Topic 的 Partition 分别存储于 Kafka 集群的多个 Broker 上。而为了提高可靠性，这些 Partition 可以由 Kafka 机制中的 Replicas 来设置备份的数量。如上面框架图所示，每个 Partition 都存在两个备份；<br>Consumer： 消费者，从 Kafka 集群的 Broker 中 Pull 消息、消费消息；<br>Consumer Group： High-Level Consumer API 中，每个 Consumer 都属于一个 Consumer Group，每条消息只能被 Consumer Group 中的一个 Consumer 消费，但可以被多个 Consumer Group 消费；<br>Replicas： Partition 的副本，保障 Partition 的高可用；<br>Leader： Replicas 中的一个角色， Producer 和 Consumer 只与 Leader 交互；<br>Follower： Replicas 中的一个角色，从 Leader 中复制数据，作为它的副本，同时一旦某 Leader 挂掉，便会从它的所有 Follower 中选举出一个新的 Leader 继续提供服务；<br>Controller： Kafka 集群中的一个服务器，用来进行 Leader Election 以及各种 Fail Over；<br>Zookeeper： Kafka 通过 ZooKeeper 存储集群的 Meta 信息等，文中将详述。  </p>
 <h2 id="Kafka-为什么要将-Topic-分区？"><a href="#Kafka-为什么要将-Topic-分区？" class="headerlink" title="Kafka 为什么要将 Topic 分区？"></a>Kafka 为什么要将 Topic 分区？</h2><p>Topic 只是逻辑概念，面向的是 Producer 和 Consumer，而 Partition 则是物理概念。可以想象，如果 Topic 不进行分区，而将 Topic 内的消息存储于一个 Broker，那么该 Topic 的所有读写请求都将由这个 Broker 处理，吞吐量很容易陷入瓶颈，这显然不适合高吞吐量应用场景。</p>
 <p>有了 Partition 概念，假设一个 Topic 被分为 10 个 Partition，Kafka 会根据一定的算法将 10 个 Partition 尽可能均匀地分布到不同的 Broker（服务器）上。</p>
 <h2 id="Kafka-文件存储机制"><a href="#Kafka-文件存储机制" class="headerlink" title="Kafka 文件存储机制"></a>Kafka 文件存储机制</h2><p>Partition 并不是最终的存储粒度，Partition 还可以进一步细分为 Segment。</p>
 <h2 id="为什么不能以-Partition-作为存储单位？"><a href="#为什么不能以-Partition-作为存储单位？" class="headerlink" title="为什么不能以 Partition 作为存储单位？"></a>为什么不能以 Partition 作为存储单位？</h2><p>任何一个 Topic 中的 Partition 数量受限于 Kafka Broker 的数量。为了保证可靠性，每个 Partition 都应有若干个副本（Replica），其中一个 Replica 为 Leader，其它都为 Follower。Leader 负责处理 Partition 的所有读写请求，Follower 则负责被动地复制 Leader 上的数据。<br>基于 Segment 机制，可以很方便地清理那些陈旧的消息（已被消费的消息），从而提高磁盘的利用率。</p>
 <h2 id="Segment-的工作原理是什么？"><a href="#Segment-的工作原理是什么？" class="headerlink" title="Segment 的工作原理是什么？"></a>Segment 的工作原理是什么？</h2><p>Partition 全局的第一个 Segment 从 0 开始，后续每个 Segment 文件名为上一个 Segment 文件最后一条消息的偏移量（Offset）值</p>
-<img src="/2020/12/03/Kafaka与Zookeeper/12/03/Kafaka与Zookeeper/3.png">
+<img src="/2020/12/03/Kafaka与Zookeeper/3.png">
 <h2 id="复制原理和同步方式"><a href="#复制原理和同步方式" class="headerlink" title="复制原理和同步方式"></a>复制原理和同步方式</h2><p>Leader 副本：响应 Client 端读写请求的副本，Producer 和 Consumer 只跟 Leader 交互；<br>Follower 副本：被动地备份 Leader 副本中的数据，不能响应 Client 端读写请求。一旦 Leader 挂掉，会从它的 Follower 中选举出一个新的 Leader 继续提供服务；<br>ISR 副本：包含了 Leader 副本和所有与 Leader 副本保持同步的 Follower 副本。如何判定是否与 Leader 同步，后面详述。  </p>
 <p>Leader 将负责维护和跟踪一个 ISR（In-Sync Replicas）列表，即同步副本队列，这个列表里面的副本与 Leader 保持同步，状态一致。</p>
 <h3 id="ISR"><a href="#ISR" class="headerlink" title="ISR"></a>ISR</h3><p>Follower 从 Leader 那里同步数据会有一些延迟（由参数 replica.lag.time.max.ms 设置超时阈值），超过阈值的 Follower 将被剔除出 ISR， 存入 OSR（Outof-Sync Replicas）列表，新加入的 Follower 也会先存放在 OSR 中，即有关系式 AR=ISR+OSR  </p>
 <h3 id="LEO-amp-HW"><a href="#LEO-amp-HW" class="headerlink" title="LEO &amp; HW"></a>LEO &amp; HW</h3><p>LEO=10、HW=7，则表示该副本保存了 10 条消息，而后面 3 条处于 Uncommitted 状态。</p>
 <p>每个 Replica （包含 Leader 和 Follower）都有 HW，它们各自负责更新自己的 HW 的状态。</p>
-<img src="/2020/12/03/Kafaka与Zookeeper/12/03/Kafaka与Zookeeper/4.png">
+<img src="/2020/12/03/Kafaka与Zookeeper/4.png">
 <h2 id="可靠性"><a href="#可靠性" class="headerlink" title="可靠性"></a>可靠性</h2><p>在客户端，可以通过 request.required.acks 参数来设置数据可靠性的级别<br>（1）request.required.acks = 1 Producer 发送数据到 Leader，只要 Leader 成功写入本地日志，即成功返回客户端，不要求 ISR 中的其它副本与 Leader 保持同步<br>（2）request.required.acks = 0 Producer 不停向 Leader 发送数据，而不需要 Leader 反馈成功消息<br>（3）request.required.acks = -1（all） 消息的强制备份数量为 ISR 列表中副本的数量，Leader收到消息后才向生产者返回成功</p>
 <p>Kafka 提供了这样一个参数：min.insync.replicas，该参数用于设定 ISR 中的最小副本数，默认值为 1，当且仅当 request.required.acks 参数设置为 -1 时，此参数才生效。</p>
 <h3 id="参数-batch-size"><a href="#参数-batch-size" class="headerlink" title="参数 batch.size"></a>参数 batch.size</h3><p>当多条消息的目标 Partition 相同时，Producer 会尝试将它们组装成一个批量消息，以便减少请求的数量，有助于提升客户端和服务器的性能。批量消息的大小由参数 batch.size 控制。</p>

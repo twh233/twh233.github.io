@@ -100,12 +100,12 @@
 <meta property="og:site_name" content="Twh233&#39;s Blog">
 <meta property="og:description" content="PMG模型 第一本地队列超过 256 个任务转移一半任务到全局队列，第二本地队列执行 60 个任务则到全局队列执行一个确保公平性。   runnextG对象有runnext属性，记录最后一个G对象。执行 runnext 优先，然后 runq 队列。 栈内存M 的所有的状态都保存在 G 任务栈，优点是在任意时 M 都能上下文切换。 M 使用的栈保存在 G 栈上，切换时只需要把 M 使用的 SP 等寄">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://twh233.github.io/2020/10/07/Golang-并发/10/07/Golang-并发/1.png">
+<meta property="og:image" content="http://twh233.github.io/2020/10/07/Golang-并发/1.png">
 <meta property="og:updated_time" content="2020-10-07T09:06:57.960Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Golang 并发">
 <meta name="twitter:description" content="PMG模型 第一本地队列超过 256 个任务转移一半任务到全局队列，第二本地队列执行 60 个任务则到全局队列执行一个确保公平性。   runnextG对象有runnext属性，记录最后一个G对象。执行 runnext 优先，然后 runq 队列。 栈内存M 的所有的状态都保存在 G 任务栈，优点是在任意时 M 都能上下文切换。 M 使用的栈保存在 G 栈上，切换时只需要把 M 使用的 SP 等寄">
-<meta name="twitter:image" content="http://twh233.github.io/2020/10/07/Golang-并发/10/07/Golang-并发/1.png">
+<meta name="twitter:image" content="http://twh233.github.io/2020/10/07/Golang-并发/1.png">
 
 
 
@@ -444,7 +444,7 @@
       
 
       
-        <h2 id="PMG模型"><a href="#PMG模型" class="headerlink" title="PMG模型"></a>PMG模型</h2><img src="/2020/10/07/Golang-并发/10/07/Golang-并发/1.png">
+        <h2 id="PMG模型"><a href="#PMG模型" class="headerlink" title="PMG模型"></a>PMG模型</h2><img src="/2020/10/07/Golang-并发/1.png">
 <p>第一本地队列超过 256 个任务转移一半任务到全局队列，第二本地队列执行 60 个任务则到全局队列执行一个确保公平性。  </p>
 <h2 id="runnext"><a href="#runnext" class="headerlink" title="runnext"></a>runnext</h2><p>G对象有runnext属性，记录最后一个G对象。执行 runnext 优先，然后 runq 队列。</p>
 <h2 id="栈内存"><a href="#栈内存" class="headerlink" title="栈内存"></a>栈内存</h2><p>M 的所有的状态都保存在 G 任务栈，优点是在任意时 M 都能上下文切换。</p>

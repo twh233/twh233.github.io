@@ -100,19 +100,19 @@
 <meta property="og:site_name" content="Twh233&#39;s Blog">
 <meta property="og:description" content="ValgrindValgrind 是一套 Linux 下，开放源代码（ GPL V2）的仿真调试工具的集合。 Valgrind由内核（ core）以及基于内核的其他调试工具组成。内核类似于一个框架（ framework），它模拟了一个 CPU 环境，并提供服务给其他工具；而其他工具则类似于插件 (plug-in)，利用内核提供的服务完成各种特定的内存调试任务。 1.编译安装 Valgrind123">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://twh233.github.io/2020/10/15/Valgrind-gdb/10/15/Valgrind-gdb/1.png">
-<meta property="og:image" content="http://twh233.github.io/2020/10/15/Valgrind-gdb/10/15/Valgrind-gdb/2.png">
-<meta property="og:image" content="http://twh233.github.io/2020/10/15/Valgrind-gdb/10/15/Valgrind-gdb/3.png">
-<meta property="og:image" content="http://twh233.github.io/2020/10/15/Valgrind-gdb/10/15/Valgrind-gdb/4.png">
-<meta property="og:image" content="http://twh233.github.io/2020/10/15/Valgrind-gdb/10/15/Valgrind-gdb/5.png">
-<meta property="og:image" content="http://twh233.github.io/2020/10/15/Valgrind-gdb/10/15/Valgrind-gdb/6.png">
-<meta property="og:image" content="http://twh233.github.io/2020/10/15/Valgrind-gdb/10/15/Valgrind-gdb/7.png">
-<meta property="og:image" content="http://twh233.github.io/2020/10/15/Valgrind-gdb/10/15/Valgrind-gdb/8.png">
+<meta property="og:image" content="http://twh233.github.io/2020/10/15/Valgrind-gdb/1.png">
+<meta property="og:image" content="http://twh233.github.io/2020/10/15/Valgrind-gdb/2.png">
+<meta property="og:image" content="http://twh233.github.io/2020/10/15/Valgrind-gdb/3.png">
+<meta property="og:image" content="http://twh233.github.io/2020/10/15/Valgrind-gdb/4.png">
+<meta property="og:image" content="http://twh233.github.io/2020/10/15/Valgrind-gdb/5.png">
+<meta property="og:image" content="http://twh233.github.io/2020/10/15/Valgrind-gdb/6.png">
+<meta property="og:image" content="http://twh233.github.io/2020/10/15/Valgrind-gdb/7.png">
+<meta property="og:image" content="http://twh233.github.io/2020/10/15/Valgrind-gdb/8.png">
 <meta property="og:updated_time" content="2020-10-18T07:02:12.461Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Valgrind&#x2F;gdb">
 <meta name="twitter:description" content="ValgrindValgrind 是一套 Linux 下，开放源代码（ GPL V2）的仿真调试工具的集合。 Valgrind由内核（ core）以及基于内核的其他调试工具组成。内核类似于一个框架（ framework），它模拟了一个 CPU 环境，并提供服务给其他工具；而其他工具则类似于插件 (plug-in)，利用内核提供的服务完成各种特定的内存调试任务。 1.编译安装 Valgrind123">
-<meta name="twitter:image" content="http://twh233.github.io/2020/10/15/Valgrind-gdb/10/15/Valgrind-gdb/1.png">
+<meta name="twitter:image" content="http://twh233.github.io/2020/10/15/Valgrind-gdb/1.png">
 
 
 
@@ -459,18 +459,18 @@
 <ol start="2">
 <li>进入 redis 源码目录并编译，注意编译时要生成调试符号并且关闭编译器优化选<br>项。<br>cd redis-4.0.11<br>make CFLAGS=”-g -O0” -j 2<br>由于 redis 是纯 C 项目，使用的编译器是 ，因而这里设置编译器的选项时使用的是 CFLAGS 选项；如<br>果项目使用的语言是 C++，那么使用的编译器一般是 g++，相对应的编译器选项是 CXXFLAGS。这点请<br>读者注意区别。另外，这里 makefile 使用了 -j 选项，其值是 2，表示开启 2 个进程同时编译，加<br>快编译速度。编译成功后，会在 src 目录下生成多个可执行程序，其中 redis-server 和 redis-cli 是需要调<br>试的程序。 进入 src 目录，使用 GDB 启动 redis-server 这个程序：<br>cd src<br>gdb ./redis-server  </li>
 </ol>
-<img src="/2020/10/15/Valgrind-gdb/10/15/Valgrind-gdb/1.png">
+<img src="/2020/10/15/Valgrind-gdb/1.png">
 <h2 id="gdb三种调试方式"><a href="#gdb三种调试方式" class="headerlink" title="gdb三种调试方式"></a>gdb三种调试方式</h2><h3 id="gdb-filename-直接调试目标程序"><a href="#gdb-filename-直接调试目标程序" class="headerlink" title="gdb filename 直接调试目标程序"></a>gdb filename 直接调试目标程序</h3><p>gdb ./hello_server  </p>
-<h3 id="gdb-attach-pid-附加进程"><a href="#gdb-attach-pid-附加进程" class="headerlink" title="gdb attach pid 附加进程"></a>gdb attach pid 附加进程</h3><p>在某些情况下，一个程序已经启动了，我们想调试这个程序，但是又不想重启这个程序。 比如调试 redis。<br><img src="/2020/10/15/Valgrind-gdb/10/15/Valgrind-gdb/2.png"></p>
+<h3 id="gdb-attach-pid-附加进程"><a href="#gdb-attach-pid-附加进程" class="headerlink" title="gdb attach pid 附加进程"></a>gdb attach pid 附加进程</h3><p>在某些情况下，一个程序已经启动了，我们想调试这个程序，但是又不想重启这个程序。 比如调试 redis。<br><img src="/2020/10/15/Valgrind-gdb/2.png"></p>
 <p>得到 redis 进程 PID 为 35456，然后使用 gdb attach 35456，如果不是 root 权限需要加上 sudo，即是<br>sudo gdb attach 35456。</p>
-<img src="/2020/10/15/Valgrind-gdb/10/15/Valgrind-gdb/3.png">
+<img src="/2020/10/15/Valgrind-gdb/3.png">
 <p>当用 gdb attach 上目标进程后，调试器会暂停下来，此时可以使用 continue 命令让程序继续运行，或者加<br>上相应的断点再继续运行程序。当调试完程序想结束此次调试时，而且不对当前进程 redis 有任何影响，<br>也就是说想让这个程序继续运行，可以在GDB 的命令行界面输入 detach 命令让程序与 GDB调试器分离，<br>这样 redis 就可以继续运行了：</p>
-<img src="/2020/10/15/Valgrind-gdb/10/15/Valgrind-gdb/4.png">
+<img src="/2020/10/15/Valgrind-gdb/4.png">
 <h3 id="gdb-filename-corename-调试-core-文件"><a href="#gdb-filename-corename-调试-core-文件" class="headerlink" title="gdb filename corename 调试 core 文件"></a>gdb filename corename 调试 core 文件</h3><p>ulimit –c unlimited  暂时生效<br>产生 coredump 的条件发现 core file size 那一行默认是 0，表示关闭生成 core 文件，可以使用“ ulimit 选项名 设置值”来修改。例如，可以将 core 文件生成改成具体某个值（最大允许的字节数），这里我们使用 ulimit -c unlimited （ unlimited 是 -c 选项值）直接修改成不限制大小。将 ulimit -c unlimited 放入/etc/profile 中，然后执行 source /etc/profile 即可立即生效。即是：<br>（ 1） 将 ulimit -c unlimited 放入/etc/profile<br>（ 2） source /etc/profile<br>（ 3） 再次查看 ulimit -a<br>alpha@alpha:~/share/redis-4.0.11/src$ ulimit -a core file size          (blocks, -c) unlimited   </p>
-<p>范例测试<br><img src="/2020/10/15/Valgrind-gdb/10/15/Valgrind-gdb/5.png"></p>
-<p>编译运行<br><img src="/2020/10/15/Valgrind-gdb/10/15/Valgrind-gdb/6.png"></p>
-<img src="/2020/10/15/Valgrind-gdb/10/15/Valgrind-gdb/7.png">
-<img src="/2020/10/15/Valgrind-gdb/10/15/Valgrind-gdb/8.png">
+<p>范例测试<br><img src="/2020/10/15/Valgrind-gdb/5.png"></p>
+<p>编译运行<br><img src="/2020/10/15/Valgrind-gdb/6.png"></p>
+<img src="/2020/10/15/Valgrind-gdb/7.png">
+<img src="/2020/10/15/Valgrind-gdb/8.png">
       
     </div>
     
