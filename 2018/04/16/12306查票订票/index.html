@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "f4a46794"
+    });
+  daovoice('update');
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_32.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python,爬虫,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Twh233's Blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="参考链接：https://blog.csdn.net/lzqwebsoft/article/details/18674635https://www.lanindex.com/12306%E8%B4%AD%E7%A5%A8%E6%B5%81%E7%A8%8B%E5%85%A8%E8%A7%A3%E6%9E%90/ 模拟查票订票操作如下：1.首先12306是一个需要登录操作的网站，然而12306的登录">
+<meta name="keywords" content="python,爬虫">
+<meta property="og:type" content="article">
+<meta property="og:title" content="12306查票订票">
+<meta property="og:url" content="http://twh233.github.io/2018/04/16/12306查票订票/index.html">
+<meta property="og:site_name" content="Twh233&#39;s Blog">
+<meta property="og:description" content="参考链接：https://blog.csdn.net/lzqwebsoft/article/details/18674635https://www.lanindex.com/12306%E8%B4%AD%E7%A5%A8%E6%B5%81%E7%A8%8B%E5%85%A8%E8%A7%A3%E6%9E%90/ 模拟查票订票操作如下：1.首先12306是一个需要登录操作的网站，然而12306的登录">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-15T12:00:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="12306查票订票">
+<meta name="twitter:description" content="参考链接：https://blog.csdn.net/lzqwebsoft/article/details/18674635https://www.lanindex.com/12306%E8%B4%AD%E7%A5%A8%E6%B5%81%E7%A8%8B%E5%85%A8%E8%A7%A3%E6%9E%90/ 模拟查票订票操作如下：1.首先12306是一个需要登录操作的网站，然而12306的登录">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://twh233.github.io/2018/04/16/12306查票订票/">
+
+
+
+
+
+
+
+  <title>12306查票订票 | Twh233's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+
+  
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Twh233's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Love Coding,Enjoy Life</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://twh233.github.io/2018/04/16/12306查票订票/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Twh233">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Twh233's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">12306查票订票</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-16T18:45:26+08:00">
+                2018-04-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/爬虫/" itemprop="url" rel="index">
+                    <span itemprop="name">爬虫</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/04/16/12306查票订票/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/04/16/12306查票订票/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  4,432
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  23
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>参考链接：<a href="https://blog.csdn.net/lzqwebsoft/article/details/18674635" target="_blank" rel="noopener">https://blog.csdn.net/lzqwebsoft/article/details/18674635</a><br><a href="https://www.lanindex.com/12306%E8%B4%AD%E7%A5%A8%E6%B5%81%E7%A8%8B%E5%85%A8%E8%A7%A3%E6%9E%90/" target="_blank" rel="noopener">https://www.lanindex.com/12306%E8%B4%AD%E7%A5%A8%E6%B5%81%E7%A8%8B%E5%85%A8%E8%A7%A3%E6%9E%90/</a></p>
+<p>模拟查票订票操作如下：<br>1.首先12306是一个需要登录操作的网站，然而12306的登录验证大家都知道需要验证码。另外12306的验证码很坑~，需要人工选择对应的物品，这个用代码识别网上我也没找到好的教程，于是… 于是只能人工识别啦。。<br>2.登录之后我们需要输入起始地，目的地，时间等信息，然后查询<br>3.此时我们可以查询到车次信息了，根据自己的时间然后订合适时间和合适座位的票<br>4.选择乘坐人<br>5.建立好订单<br>6.付款，订票成功</p>
+<p>显然我们做到第5步已经达到我们用爬虫的目的。<br><a id="more"></a><br>1.登录操作请参考：<a href="http://www.cnblogs.com/fangtaoa/p/8321449.html" target="_blank" rel="noopener">http://www.cnblogs.com/fangtaoa/p/8321449.html</a><br>2.查票操作请参考：<a href="http://www.cnblogs.com/fangtaoa/p/8360460.html" target="_blank" rel="noopener">http://www.cnblogs.com/fangtaoa/p/8360460.html</a><br>3.下面补充订票操作:<br>按照置顶的参考链接里的步骤获取url和data数据，具体可以看代码类buy<br>确实没什么地方需要多说的，有前驱者已经铺好路了，只需按照步骤一步一步理解就可以了<br>下面补充操作方式：<br></p>
+
+
+
+<p>每一步都有相应的步骤名称，如果哪一步出错了只需在代码中寻找具体是哪个函数没对即可。<br>下面给出代码：<br>1.login.py<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">import chardet</span><br><span class="line">import user</span><br><span class="line">import settings</span><br><span class="line">from coordinate import coor</span><br><span class="line">from lxml import etree</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Login:</span><br><span class="line"></span><br><span class="line">    def __init__(self):</span><br><span class="line">        self.headers = settings.headers</span><br><span class="line">        self.session = settings.session</span><br><span class="line">        self.id = user.id</span><br><span class="line">        self.psw = user.psw</span><br><span class="line"></span><br><span class="line">    def down_captcha(self):</span><br><span class="line"></span><br><span class="line">        # &apos;&apos;&apos;</span><br><span class="line">        # 下载验证码</span><br><span class="line">        # &apos;&apos;&apos;</span><br><span class="line"></span><br><span class="line">        response = self.session.get(&apos;https://kyfw.12306.cn/passport/captcha/captcha-image?login_site=E&amp;module=login&amp;rand=sjrand&amp;0.7067378301290344&apos;)</span><br><span class="line">        codeImg = response.content</span><br><span class="line">        fp = open(&apos;code.png&apos;, &apos;wb&apos;)</span><br><span class="line">        fp.write(codeImg)</span><br><span class="line">        fp.close()</span><br><span class="line"></span><br><span class="line">    def get_pos(self):</span><br><span class="line"></span><br><span class="line">        # &apos;&apos;&apos;</span><br><span class="line">        # 输入验证码坐标</span><br><span class="line">        # &apos;&apos;&apos;</span><br><span class="line"></span><br><span class="line">        coordinate = coor()</span><br><span class="line">        return coordinate</span><br><span class="line"></span><br><span class="line">    def captcha_check(self):</span><br><span class="line"></span><br><span class="line">        # &apos;&apos;&apos;</span><br><span class="line">        # 验证码初验证</span><br><span class="line">        # &apos;&apos;&apos;</span><br><span class="line">        check_flag = False</span><br><span class="line">        data = &#123;</span><br><span class="line">            &apos;answer&apos;: self.get_pos(),</span><br><span class="line">            &apos;login_site&apos;:&apos;E&apos;,</span><br><span class="line">            &apos;rand&apos;: &apos;sjrand&apos;</span><br><span class="line">        &#125;</span><br><span class="line">        url = &apos;https://kyfw.12306.cn/passport/captcha/captcha-check&apos;</span><br><span class="line">        response = self.session.post(url, data=data, headers=self.headers)</span><br><span class="line"></span><br><span class="line">        result = response.json()</span><br><span class="line">        if result[&apos;result_code&apos;] == &apos;4&apos;:</span><br><span class="line">            print(&apos;验证码通过!&apos;)</span><br><span class="line">            check_flag = True</span><br><span class="line">        else:</span><br><span class="line">            print(&apos;验证码验证失败!&apos;)</span><br><span class="line">        return check_flag</span><br><span class="line"></span><br><span class="line">    def login(self, check_flag):</span><br><span class="line"></span><br><span class="line">        # &apos;&apos;&apos;</span><br><span class="line">        # 进行第一步登录</span><br><span class="line">        # &apos;&apos;&apos;</span><br><span class="line">        if not check_flag:</span><br><span class="line">            print(&apos;login() error: check_flag为False.&apos;)</span><br><span class="line">            return False</span><br><span class="line"></span><br><span class="line">        login_flag=False</span><br><span class="line">        login_data = &#123;</span><br><span class="line">            &apos;username&apos;: self.id,</span><br><span class="line">            &apos;password&apos;: self.psw,</span><br><span class="line">            &apos;appid&apos;: &apos;otn&apos;</span><br><span class="line">        &#125;</span><br><span class="line">        login_url = &apos;https://kyfw.12306.cn/passport/web/login&apos;</span><br><span class="line">        login_response = self.session.post(login_url, data=login_data, headers=self.headers)</span><br><span class="line"></span><br><span class="line">        #设置网页编码</span><br><span class="line">        if chardet.detect(login_response.content).get(&apos;encoding&apos;) != &apos;UTF-8&apos;:</span><br><span class="line">            login_response.encoding = &apos;UTF-8&apos;</span><br><span class="line"></span><br><span class="line">        if login_response.status_code == 200 and &apos;error&apos; not in login_response.url:</span><br><span class="line">            print(&apos;登录成功！&apos;)</span><br><span class="line">            login_flag = True</span><br><span class="line">        else:</span><br><span class="line">            print(&apos;登录失败！&apos;)</span><br><span class="line"></span><br><span class="line">        return login_flag</span><br><span class="line"></span><br><span class="line">    def auth_uamtk(self,login_flag):</span><br><span class="line"></span><br><span class="line">        # &apos;&apos;&apos;</span><br><span class="line">        # 进行登录的验证</span><br><span class="line">        # &apos;&apos;&apos;</span><br><span class="line"></span><br><span class="line">        data = &#123;</span><br><span class="line">            &apos;appid&apos;: &apos;otn&apos;,</span><br><span class="line">        &#125;</span><br><span class="line">        url = &apos;https://kyfw.12306.cn/passport/web/auth/uamtk&apos;</span><br><span class="line">        resp = self.session.post(url, data=data, headers=self.headers)</span><br><span class="line">        if resp.status_code == 200:</span><br><span class="line">            result = dict(resp.json())</span><br><span class="line">            print(&apos;auth_uamtk():&apos;, result[&apos;result_message&apos;])</span><br><span class="line">            if result.get(&apos;result_code&apos;) == 0:##</span><br><span class="line">                return result.get(&apos;newapptk&apos;)</span><br><span class="line">            else:</span><br><span class="line">                return None</span><br><span class="line">        else:</span><br><span class="line">            print(&apos;登录验证失败！&apos;)</span><br><span class="line">            return None</span><br><span class="line"></span><br><span class="line">    def uamatuth_client(self, newapptk):</span><br><span class="line"></span><br><span class="line">        # &apos;&apos;&apos;</span><br><span class="line">        # 确认是否真正的登录成功</span><br><span class="line">        # :param newapptk:</span><br><span class="line">        # :return:</span><br><span class="line">        # &apos;&apos;&apos;</span><br><span class="line">        if newapptk is None:</span><br><span class="line">            print(&apos;并没有真正的登录成功！&apos;)</span><br><span class="line">            return None</span><br><span class="line"></span><br><span class="line">        data = &#123;</span><br><span class="line">            &apos;tk&apos;: newapptk,</span><br><span class="line">        &#125;</span><br><span class="line">        url = &apos;https://kyfw.12306.cn/otn/uamauthclient&apos;</span><br><span class="line">        resp = self.session.post(url, data=data, headers=self.headers)</span><br><span class="line">        if resp.status_code == 200:</span><br><span class="line">            result = dict(resp.json())</span><br><span class="line">            print(&apos;uamatuth_client()&apos;, result.get(&apos;result_message&apos;))</span><br><span class="line">            if result.get(&apos;result_code&apos;) == 0:</span><br><span class="line">                username = result.get(&apos;username&apos;)</span><br><span class="line">                print(&apos;&#123;&#125;初始化登录成功!&apos;.format(username))</span><br><span class="line">                return username</span><br><span class="line">        else:</span><br><span class="line">            print(&apos;uamatuth_client() error! status_code:&#123;&#125;, url:&#123;&#125;&apos;</span><br><span class="line">                  .format(resp.status_code, resp.url))</span><br><span class="line"></span><br><span class="line">    def init_my_12306(self, username):</span><br><span class="line"></span><br><span class="line">        if username is None:</span><br><span class="line">            print(&apos;init_my_12306() error: username 为None!&apos;)</span><br><span class="line">            return</span><br><span class="line"></span><br><span class="line">        url = &apos;https://kyfw.12306.cn/otn/index/initMy12306&apos;</span><br><span class="line">        resp = self.session.get(url, headers=self.headers)</span><br><span class="line"></span><br><span class="line">        if resp.status_code == 200:</span><br><span class="line">            content = etree.HTML(resp.content)</span><br><span class="line">            #先用etree转化</span><br><span class="line">            name = content.xpath(&apos;//*[@id=&quot;login_user&quot;]/span/text()&apos;)</span><br><span class="line">            print(&apos;init_my_12306(): name&apos;, name)</span><br><span class="line">            if name == username:</span><br><span class="line">                print(&apos;init_my_12306():你已经登录成功了!&apos;)</span><br><span class="line">        else:</span><br><span class="line">            print(&apos;init_my_12306() error! status_code:&#123;&#125;, url:&#123;&#125;&apos;.</span><br><span class="line">                  format(resp.status_code, resp.url))</span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    login = Login()</span><br><span class="line">    login.down_captcha()</span><br><span class="line">    check_flag = login.captcha_check()</span><br><span class="line">    login_flag = login.login(check_flag)</span><br><span class="line">    if login_flag:</span><br><span class="line">        newapptk = login.auth_uamtk(login_flag)</span><br><span class="line">        username = login.uamatuth_client(newapptk)</span><br><span class="line">        login.init_my_12306(username)</span><br><span class="line">    else:</span><br><span class="line">        print(&apos;main():login_flag为Flase&apos;)</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure></p>
+<p>2.user.py<br>此处根据自己账户和名称写出id 和 psw 即可</p>
+<p>id = ‘1111111’#账户名<br>psw = ‘222222’#密码</p>
+<p>3.settings.py</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import random</span><br><span class="line">import requests</span><br><span class="line">#随机选择一个有效的UA来请求头信息</span><br><span class="line">User_Agent = [</span><br><span class="line">    &apos;Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50&apos;,</span><br><span class="line">    &apos;Mozilla/5.0 (Windows; U; Windows NT 6.1; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50&apos;,</span><br><span class="line">    &apos;Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0&apos;,</span><br><span class="line">    &apos;Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:2.0.1) Gecko/20100101 Firefox/4.0.1&apos;,</span><br><span class="line">    &apos;Opera/9.80 (Macintosh; Intel Mac OS X 10.6.8; U; en) Presto/2.8.131 Version/11.11&apos;,</span><br><span class="line">    &apos;Opera/9.80 (Windows NT 6.1; U; en) Presto/2.8.131 Version/11.11&apos;,</span><br><span class="line">    &apos;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_0) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.56 Safari/535.11&apos;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">session = requests.Session()</span><br><span class="line">headers = &#123;&apos;user-agent&apos;: random.choice(User_Agent)&#125;</span><br></pre></td></tr></table></figure>
+<p>4.stations.py</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br></pre></td><td class="code"><pre><span class="line">from login import Login</span><br><span class="line">import os</span><br><span class="line">import json</span><br><span class="line">import time</span><br><span class="line">from collections import deque, OrderedDict</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Station:</span><br><span class="line">    &quot;&quot;&quot; 查询车票信息 &quot;&quot;&quot;</span><br><span class="line">    def __init__(self):</span><br><span class="line">        # 使用登录时候的session,这样好一些!</span><br><span class="line">        self.headers = Login().headers</span><br><span class="line">        self.session = Login().session</span><br><span class="line">        self.station_info = deque()</span><br><span class="line"></span><br><span class="line">    def station_name_code(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        功能:获取每个站点的名字和对应的代码,并保存到本地</span><br><span class="line">        :return: 无</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        filename = &apos;station_name.txt&apos;</span><br><span class="line"></span><br><span class="line">        url = &apos;https://kyfw.12306.cn/otn/resources/js/framework/station_name.js&apos;</span><br><span class="line">        resp = self.session.get(url, headers=self.headers)</span><br><span class="line">        if resp.status_code == 200:</span><br><span class="line">            print(&apos;station_name_code():获取站点信息成功!&apos;)</span><br><span class="line">            with open(filename, &apos;w&apos;) as f:</span><br><span class="line">                for each in resp.text.split(&apos;=&apos;)[1].split(&apos;@&apos;):</span><br><span class="line">                    if each != &quot;&apos;&quot;:</span><br><span class="line">                        f.write(each)</span><br><span class="line">                        f.write(&apos;\n&apos;)</span><br><span class="line">        else:</span><br><span class="line">            print(&apos;station_name_code() error! status_code:&#123;&#125;, url: &#123;&#125;&apos;</span><br><span class="line">                  .format(resp.status_code, resp.url))</span><br><span class="line"></span><br><span class="line">    def save_station_code(self, filename):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        功能:从站点文件中提取站点与其对应的代码,并保存到文件中</span><br><span class="line">        :return:</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        if not os.path.exists(filename):</span><br><span class="line">            print(&apos;save_station_code():&apos;, filename, &apos;不存在,正在下载!&apos;)</span><br><span class="line">            self.station_name_code()</span><br><span class="line"></span><br><span class="line">        file = &apos;name_code.json&apos;</span><br><span class="line">        name_code_dict = &#123;&#125;</span><br><span class="line">        with open(filename, &apos;r&apos;) as f:</span><br><span class="line">            for line in f:</span><br><span class="line">                # 对读取的行都进行split操作,然后提取站点名和其代码</span><br><span class="line">                name = line.split(&apos;|&apos;)[1] # 站点名字</span><br><span class="line">                code = line.split(&apos;|&apos;)[2] # 每个站点对应的代码</span><br><span class="line">                # 每个站点肯定都是唯一的</span><br><span class="line">                name_code_dict[name] = code</span><br><span class="line"></span><br><span class="line">        # 把name,code保存到本地文件中,方便以后使用</span><br><span class="line">        with open(file, &apos;w&apos;) as f:</span><br><span class="line">            # 不以ascii码编码的方式保存</span><br><span class="line">            json.dump(name_code_dict, f, ensure_ascii=False)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    def query_ticket(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        功能:查票操作</span><br><span class="line">        :return: 返回查询到的所有车次信息</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        data = self._query_prompt()</span><br><span class="line">        if not data:</span><br><span class="line">            print(&apos;query_ticket() error: &#123;&#125;&apos;.format(data))</span><br><span class="line">        _, from_station, to_station = data.keys()</span><br><span class="line">        train_date = data.get(&apos;train_date&apos;)</span><br><span class="line">        from_station_code = data.get(from_station)</span><br><span class="line">        to_station_code = data.get(to_station)</span><br><span class="line"></span><br><span class="line">        query_param = &apos;leftTicketDTO.train_date=&#123;&#125;&amp;&apos; \</span><br><span class="line">                      &apos;leftTicketDTO.from_station=&#123;&#125;&amp;&apos; \</span><br><span class="line">                      &apos;leftTicketDTO.to_station=&#123;&#125;&amp;&apos; \</span><br><span class="line">                      &apos;purpose_codes=ADULT&apos;\</span><br><span class="line">            .format(train_date, from_station_code, to_station_code)</span><br><span class="line"></span><br><span class="line">        url = &apos;https://kyfw.12306.cn/otn/leftTicket/query?&apos;</span><br><span class="line">        full_url = url + query_param</span><br><span class="line">        resp = self.session.get(full_url, headers=self.headers)</span><br><span class="line">        if resp.status_code == 200 and resp.url == full_url:</span><br><span class="line">            print(&apos;query_ticket() 成功!然后进行车票清理工作!&apos;)</span><br><span class="line">            self._get_train_info(resp.json(), from_station, to_station)</span><br><span class="line"></span><br><span class="line">        else:</span><br><span class="line">            print(&apos;query_ticket() error! status_code:&#123;&#125;, url:&#123;&#125;\norigin_url:&#123;&#125;&apos;</span><br><span class="line">                  .format(resp.status_code, resp.url, full_url))</span><br><span class="line"></span><br><span class="line">        return self.station_info, train_date, from_station_code, to_station_code</span><br><span class="line"></span><br><span class="line">    def _get_train_info(self, text, from_station, to_station):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        功能:提取出查询到的列车信息</span><br><span class="line">        :param text: 包含所有从起点站到终点站的车次信息</span><br><span class="line">        :return: 返回所有车次信息</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        if not text:</span><br><span class="line">            print(&apos;_query_train_info() error: text为:&apos;, text)</span><br><span class="line">        # 把json文件转变成字典形式</span><br><span class="line">        result = dict(text)</span><br><span class="line">        # 判断有无车次的标志</span><br><span class="line">        if result.get(&apos;data&apos;).get(&apos;map&apos;):</span><br><span class="line">            train_info = result.get(&apos;data&apos;).get(&apos;result&apos;)</span><br><span class="line">            train_list = deque()</span><br><span class="line">            for item in train_info:</span><br><span class="line">                split_item = item.split(&apos;|&apos;)</span><br><span class="line">                item_dict = &#123;&#125;</span><br><span class="line">                # for index, item in enumerate(split_item,0):</span><br><span class="line">                #     print(&apos;&#123;&#125;:\t&#123;&#125;&apos;.format(index, item))</span><br><span class="line">                if split_item[11] == &apos;Y&apos;: # 已经开始卖票了</span><br><span class="line">                    item_dict[&apos;train_id&apos;] = split_item[0]</span><br><span class="line">                    item_dict[&apos;train_name&apos;] = split_item[3] # 车次名</span><br><span class="line">                    item_dict[&apos;depart_time&apos;] = split_item[8] # 出发时间</span><br><span class="line">                    item_dict[&apos;arrive_time&apos;] = split_item[9] # 到站时间</span><br><span class="line">                    item_dict[&apos;spend_time&apos;] = split_item[10] # 经历时长</span><br><span class="line">                    item_dict[&apos;wz&apos;] = split_item[29] # 无座</span><br><span class="line">                    item_dict[&apos;yz&apos;] = split_item[28] # 硬座</span><br><span class="line">                    item_dict[&apos;yw&apos;] = split_item[26] # 硬卧</span><br><span class="line">                    item_dict[&apos;rw&apos;] = split_item[23] # 软卧</span><br><span class="line">                    item_dict[&apos;td&apos;] = split_item[32] # 特等座</span><br><span class="line">                    item_dict[&apos;yd&apos;] = split_item[31] # 一等座</span><br><span class="line">                    item_dict[&apos;ed&apos;] = split_item[30] # 二等座</span><br><span class="line">                    item_dict[&apos;dw&apos;] = split_item[33] # 动卧</span><br><span class="line">                    train_list.append(item_dict)</span><br><span class="line">                    self.station_info.append(item_dict)</span><br><span class="line">                # 无法买票的车次,有可能是已卖光,也有可能是还不开卖</span><br><span class="line">                elif split_item[0] == &apos;&apos;:</span><br><span class="line">                    print(&apos;_query_train_info():车次&#123;&#125;的票暂时不能购买!&apos;</span><br><span class="line">                          .format(split_item[3]))</span><br><span class="line">                else:</span><br><span class="line">                    print(&apos;_query_train_info():车次&#123;&#125;还未开始卖票,起售时间为:&#123;&#125;&apos;</span><br><span class="line">                          .format(split_item[3], split_item[1]))</span><br><span class="line">            # 调用方法来打印列车结果</span><br><span class="line">            self._print_train(train_list, from_station, to_station)</span><br><span class="line">        else:</span><br><span class="line">            print(&apos;_get_train_info() error: 从&#123;&#125;站到&#123;&#125;站有没列车!&apos;</span><br><span class="line">                  .format(from_station, to_station))</span><br><span class="line"></span><br><span class="line">    def _print_train(self, train_info, from_station, to_station):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        功能:打印查询到的车次信息</span><br><span class="line">        :param train_info: 提取出来的车次信息</span><br><span class="line">        :return:</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        if not train_info:</span><br><span class="line">            print(&apos;_print_train() error: train_info是None!&apos;)</span><br><span class="line">            return</span><br><span class="line"></span><br><span class="line">        print(&apos;从&#123;&#125;到&#123;&#125;还有余票的列车有:&apos;.format(from_station, to_station))</span><br><span class="line">        for item in train_info:</span><br><span class="line">            if &apos;G&apos; in item[&apos;train_name&apos;]: # 高铁</span><br><span class="line">                self._print_high_train_info(item)</span><br><span class="line">            elif &apos;D&apos; in item[&apos;train_name&apos;]: # 动车</span><br><span class="line">                self._print_dong_train_info(item)</span><br><span class="line">            else:</span><br><span class="line">                self._print_train_info(item)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    def _print_high_train_info(self, item):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        功能:打印高铁车次信息</span><br><span class="line">        :param item: 所有高铁车次</span><br><span class="line">        :return:</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        print(&apos;车次:&#123;:4s&#125;\t起始时间:&#123;:4s&#125;\t到站时间:&#123;:4s&#125;\t&apos;</span><br><span class="line">              &apos;经历时长:&#123;:4s&#125;\t特等座:&#123;:4s&#125;\t一等座:&#123;:4s&#125;\t二等座:&#123;:4s&#125;&apos;</span><br><span class="line">              .format(item[&apos;train_name&apos;], item[&apos;depart_time&apos;],item[&apos;arrive_time&apos;],</span><br><span class="line">                      item[&apos;spend_time&apos;],item[&apos;td&apos;], item[&apos;yd&apos;], item[&apos;ed&apos;]))</span><br><span class="line"></span><br><span class="line">    def _print_dong_train_info(self, item):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        功能:打印动车的车票信息</span><br><span class="line">        :param item: 所有动车车次</span><br><span class="line">        :return:</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        print(&apos;车次:&#123;:4s&#125;\t起始时间:&#123;:4s&#125;\t到站时间:&#123;:4s&#125;\t&apos;</span><br><span class="line">              &apos;经历时长:&#123;:4s&#125;\t一等座:&#123;:4s&#125;\t二等座:&#123;:4s&#125;\t软卧:&#123;:4s&#125;\t动卧:&#123;:4s&#125;&apos;</span><br><span class="line">              .format(item[&apos;train_name&apos;], item[&apos;depart_time&apos;], item[&apos;arrive_time&apos;],</span><br><span class="line">                      item[&apos;spend_time&apos;],item[&apos;yd&apos;],item[&apos;ed&apos;], item[&apos;rw&apos;], item[&apos;dw&apos;]))</span><br><span class="line">    def _print_train_info(self,item):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        功能:打印普通列出的车次信息</span><br><span class="line">        :param item: 所有普通车次</span><br><span class="line">        :return:</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        print(&apos;车次:&#123;:4s&#125;\t起始时间:&#123;:4s&#125;\t到站时间:&#123;:4s&#125;\t经历时长:&#123;:4s&#125;\t&apos;</span><br><span class="line">              &apos;软卧:&#123;:4s&#125;\t硬卧:&#123;:4s&#125;\t硬座:&#123;:4s&#125;\t无座:&#123;:4s&#125;&apos;</span><br><span class="line">              .format(item[&apos;train_name&apos;], item[&apos;depart_time&apos;], item[&apos;arrive_time&apos;],</span><br><span class="line">                      item[&apos;spend_time&apos;],item[&apos;rw&apos;], item[&apos;yw&apos;], item[&apos;yz&apos;], item[&apos;wz&apos;]))</span><br><span class="line">    def _query_prompt(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        功能: 与用户交互,让用户输入:出发日期,起始站和终点站并判断其正确性</span><br><span class="line">        :return: 返回正确的日期,起始站和终点站</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        time_flag, train_date = self._check_date()</span><br><span class="line">        if not time_flag:</span><br><span class="line">            print(&apos;_query_prompt() error:&apos;, &apos;乘车日期不合理,请检查!!&apos;)</span><br><span class="line">            return</span><br><span class="line">        # 创建有序字典,方便取值</span><br><span class="line">        query_data = OrderedDict()</span><br><span class="line">        from_station = input(&apos;请输入起始站:&apos;)</span><br><span class="line">        to_station = input(&apos;请输入终点站:&apos;)</span><br><span class="line"></span><br><span class="line">        station_flag = True</span><br><span class="line">        filename = &apos;name_code.json&apos;</span><br><span class="line">        with open(filename, &apos;r&apos;) as f:</span><br><span class="line">            data = dict(json.load(f))</span><br><span class="line">            stations = data.keys()</span><br><span class="line">            if from_station not in stations or to_station not in stations:</span><br><span class="line">                station_flag = False</span><br><span class="line">                print(&apos;query_prompt() error: &#123;&#125;或&#123;&#125;不在站点列表中!!&apos;</span><br><span class="line">                    .format(from_station, to_station))</span><br><span class="line">            # 获取起始站和终点站的代码</span><br><span class="line">            from_station_code = data.get(from_station)</span><br><span class="line">            to_station_code = data.get(to_station)</span><br><span class="line">        query_data[&apos;train_date&apos;] = train_date</span><br><span class="line">        query_data[from_station] = from_station_code</span><br><span class="line">        query_data[to_station] = to_station_code</span><br><span class="line"></span><br><span class="line">        if time_flag and  station_flag:</span><br><span class="line">            return query_data</span><br><span class="line">        else:</span><br><span class="line">            print(&apos;query_prompt() error! time_flag:&#123;&#125;, station_flag:&#123;&#125;&apos;</span><br><span class="line">                  .format(time_flag, station_flag))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    def _check_date(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        功能:检测乘车日期的正确性</span><br><span class="line">        :return: 返回时间是否为标准的形式的标志</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        # 获取当前时间的时间戳</span><br><span class="line">        local_time = time.localtime()</span><br><span class="line">        local_date = &apos;&#123;&#125;-&#123;&#125;-&#123;&#125;&apos;.\</span><br><span class="line">            format(local_time.tm_year, local_time.tm_mon, local_time.tm_mday)</span><br><span class="line">        curr_time_array = time.strptime(local_date, &apos;%Y-%m-%d&apos;)</span><br><span class="line">        curr_time_stamp = time.mktime(curr_time_array)</span><br><span class="line">        # 获取当前时间</span><br><span class="line">        curr_time = time.strftime(&apos;%Y-%m-%d&apos;, time.localtime(curr_time_stamp))</span><br><span class="line"></span><br><span class="line">        # 计算出预售时长的时间戳</span><br><span class="line">        delta_time_stamp = &apos;2505600&apos;</span><br><span class="line">        # 算出预售票的截止日期时间戳</span><br><span class="line">        dead_time_stamp = int(curr_time_stamp) + int(delta_time_stamp)</span><br><span class="line">        dead_time = time.strftime(&apos;%Y-%m-%d&apos;, time.localtime(dead_time_stamp))</span><br><span class="line">        print(&apos;合理的乘车日期范围是:(&#123;&#125;)~(&#123;&#125;)&apos;.format(curr_time, dead_time))</span><br><span class="line"></span><br><span class="line">        train_date = input(&apos;请输入乘坐日期(year-month-day):&apos;)</span><br><span class="line">        # 把乘车日期转换成时间戳来比较</span><br><span class="line">        # 先生成一个时间数组</span><br><span class="line">        time_array = time.strptime(train_date, &apos;%Y-%m-%d&apos;)</span><br><span class="line">        # 把时间数组转化成时间戳</span><br><span class="line">        train_date_stamp = time.mktime(time_array)</span><br><span class="line">        # 获取标准的乘车日期</span><br><span class="line">        train_date_time = time.strftime(&apos;%Y-%m-%d&apos;, time.localtime(train_date_stamp))</span><br><span class="line">        # 做上面几步主要是把用户输入的时间格式转变成标准的格式</span><br><span class="line">        # 如用户输入:2018-2-22,那么形成的查票URL就不是正确的</span><br><span class="line">        # 只有是:    2018-02-22,组合的URL才是正确的!</span><br><span class="line">        # 通过时间戳来比较时间的正确性</span><br><span class="line">        if int(train_date_stamp) &gt;= int(curr_time_stamp) and \</span><br><span class="line">            int(train_date_stamp) &lt;= dead_time_stamp:</span><br><span class="line">            return True, train_date_time</span><br><span class="line">        else:</span><br><span class="line">            print(&apos;_check_date() error: 乘车日期:&#123;&#125;, 当前系统时间:&#123;&#125;, 预售时长为:&#123;&#125;&apos;</span><br><span class="line">                  .format(train_date_time, curr_time, dead_time))</span><br><span class="line">            return False, None</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    filename = &apos;station_name.txt&apos;</span><br><span class="line">    station = Station()</span><br><span class="line">    station.station_name_code()</span><br><span class="line">    station.save_station_code(filename)</span><br><span class="line">    station.query_ticket()</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<p>5.coordinate.py(验证码坐标</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def coor():</span><br><span class="line">    arr = [[],[&apos;45&apos;,&apos;45&apos;],[&apos;110&apos;,&apos;45&apos;],[&apos;175&apos;,&apos;45&apos;],[&apos;240&apos;,&apos;45&apos;],</span><br><span class="line">              [&apos;45&apos;,&apos;110&apos;],[&apos;110&apos;,&apos;110&apos;],[&apos;175&apos;,&apos;110&apos;],[&apos;240&apos;,&apos;110&apos;]]</span><br><span class="line">    cnt = input(&apos;请输入验证码坐标，以,隔开\n&apos;)</span><br><span class="line">    Str = []</span><br><span class="line">    for i in cnt:</span><br><span class="line">        if i == &apos;,&apos;:</span><br><span class="line">            continue</span><br><span class="line">        else:</span><br><span class="line">            Str = Str + arr[int(i)]</span><br><span class="line">    return &apos;,&apos;.join(Str)</span><br></pre></td></tr></table></figure>
+<p>6.buy.py</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">import chardet</span><br><span class="line">import urllib.parse</span><br><span class="line">import settings</span><br><span class="line">from login import Login</span><br><span class="line">from stations import Station</span><br><span class="line">import re</span><br><span class="line">import time</span><br><span class="line">import datetime</span><br><span class="line">import stations</span><br><span class="line"></span><br><span class="line">class Buy:</span><br><span class="line"></span><br><span class="line">    def __init__(self):</span><br><span class="line">        # 使用登录时候的session,这样好一些!</span><br><span class="line">        self.headers = settings.headers</span><br><span class="line">        self.session = settings.session</span><br><span class="line">    def checkUser(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        功能:验证登录</span><br><span class="line">        :return: 无</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        url = &apos;https://kyfw.12306.cn/otn/login/checkUser&apos;</span><br><span class="line">        data = &#123;</span><br><span class="line">            &apos;_json_att&apos;: &apos;&apos;,</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        resp = self.session.post(url, data=data, headers=self.headers)</span><br><span class="line">        result = resp.json()</span><br><span class="line">        checkUser_flag = result[&apos;status&apos;]</span><br><span class="line">        if checkUser_flag == True:</span><br><span class="line">            print(&apos;验证登录成功！&apos;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    def get_secretStr(self, station_info):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        功能:返回高铁车次信息</span><br><span class="line">        :param item: 单车次信息</span><br><span class="line">        :return:</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        val = str(input(&apos;请输入订票的车次:&apos;))</span><br><span class="line">        for item in station_info:</span><br><span class="line">            if item[&apos;train_name&apos;] == val:</span><br><span class="line">                return item[&apos;train_id&apos;]</span><br><span class="line">    def submitOrderRequest(self, station_info):</span><br><span class="line"></span><br><span class="line">        url = &apos;https://kyfw.12306.cn/otn/leftTicket/submitOrderRequest&apos;</span><br><span class="line">        cnt = self.get_secretStr(station_info)</span><br><span class="line">        Str = urllib.parse.unquote(cnt)</span><br><span class="line">        # 获取当前时间的时间戳</span><br><span class="line">        local_time = time.localtime()</span><br><span class="line">        local_date = &apos;&#123;&#125;-&#123;&#125;-&#123;&#125;&apos;.\</span><br><span class="line">            format(local_time.tm_year, local_time.tm_mon, local_time.tm_mday)</span><br><span class="line">        curr_time_array = time.strptime(local_date, &apos;%Y-%m-%d&apos;)</span><br><span class="line">        curr_time_stamp = time.mktime(curr_time_array)</span><br><span class="line">        # 获取当前时间</span><br><span class="line">        curr_time = time.strftime(&apos;%Y-%m-%d&apos;, time.localtime(curr_time_stamp))</span><br><span class="line">        train_date = input(&apos;请再次确认乘坐日期(year-month-day):&apos;)</span><br><span class="line">        query_from_station_name = input(&apos;请再次输入起始站:&apos;)</span><br><span class="line">        query_to_station_name = input(&apos;请再次输入终点站:&apos;)</span><br><span class="line">        data = &#123;</span><br><span class="line">            &apos;secretStr&apos;: Str,</span><br><span class="line">            &apos;train_date&apos;: train_date,</span><br><span class="line">            &apos;back_train_date&apos;: curr_time,</span><br><span class="line">            &apos;tour_flag&apos;: &apos;dc&apos;,</span><br><span class="line">            &apos;purpose_codes&apos;: &apos;ADULT&apos;,</span><br><span class="line">            &apos;query_from_station_name&apos;: query_from_station_name,</span><br><span class="line">            &apos;query_to_station_name&apos;: query_to_station_name,</span><br><span class="line">            &apos;undefined&apos;: &apos;&apos;,</span><br><span class="line">        &#125;</span><br><span class="line">        resp = self.session.post(url, data=data, headers=self.headers)</span><br><span class="line">        if resp.status_code == 200:</span><br><span class="line">            print(&apos;submitOrderRequest成功！&apos;)</span><br><span class="line">        else:</span><br><span class="line">            print(&apos;submitOrderRequest() error! status_code:&#123;&#125;, url:&#123;&#125;&apos;.</span><br><span class="line">                  format(resp.status_code, resp.url))</span><br><span class="line"></span><br><span class="line">    def initDc(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        功能:请求提交购票人信息和选择购票坐票或者卧铺类型页面</span><br><span class="line">        :return: 无</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        url = &apos;https://kyfw.12306.cn/otn/confirmPassenger/initDc&apos;</span><br><span class="line">        data = &#123;</span><br><span class="line">            &apos;_json_att&apos;: &apos;&apos;,</span><br><span class="line">        &#125;</span><br><span class="line">        resp = self.session.post(url, data=data, headers=self.headers)</span><br><span class="line">        #设置网页编码</span><br><span class="line">        if chardet.detect(resp.content).get(&apos;encoding&apos;) != &apos;UTF-8&apos;:</span><br><span class="line">            resp.encoding = &apos;UTF-8&apos;</span><br><span class="line">        match = re.search(&quot;var globalRepeatSubmitToken = &apos;(.*?)&apos;;&quot;, resp.text)</span><br><span class="line">        ticketToken = match.group(1)</span><br><span class="line">        people_url = &apos;https://kyfw.12306.cn/otn/confirmPassenger/getPassengerDTOs&apos;</span><br><span class="line">        people_resp = self.session.post(people_url, data=&#123;&quot;REPEAT_SUBMIT_TOKEN&quot;:ticketToken,&quot;_json_att&quot;:&quot;&quot;&#125;, headers=self.headers)</span><br><span class="line">        people_json = people_resp.json()</span><br><span class="line">        result = dict(people_json)</span><br><span class="line">        info = result[&apos;data&apos;][&apos;normal_passengers&apos;][1]</span><br><span class="line">        train_no = re.search(&quot;&apos;train_no&apos;:&apos;(.*?)&apos;&quot;, resp.text).group(1)</span><br><span class="line">        leftTicket = re.search(&quot;&apos;ypInfoDetail&apos;:&apos;(.*?)&apos;&quot;, resp.text).group(1)</span><br><span class="line">        purpose_codes = re.search(&quot;&apos;purpose_codes&apos;:&apos;(.*?)&apos;&quot;, resp.text).group(1)</span><br><span class="line">        station_train_code = re.search(&quot;&apos;station_train_code&apos;:&apos;(.*?)&apos;&quot;, resp.text).group(1)</span><br><span class="line">        to_station_telecode = re.search(&quot;&apos;to_station_telecode&apos;:&apos;(.*?)&apos;&quot;, resp.text).group(1)</span><br><span class="line">        train_location = re.search(&quot;&apos;train_location&apos;:&apos;(.*?)&apos;&quot;, resp.text).group(1)</span><br><span class="line">        key_check_isChange = re.search(&quot;&apos;key_check_isChange&apos;:&apos;(.*?)&apos;&quot;, resp.text).group(1)</span><br><span class="line">        return info, ticketToken, train_no, leftTicket, purpose_codes, station_train_code, to_station_telecode, train_location, key_check_isChange</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    def checkOrderInfo(self, info, ticketToken):</span><br><span class="line"></span><br><span class="line">        url = &apos;https://kyfw.12306.cn/otn/confirmPassenger/checkOrderInfo&apos;</span><br><span class="line">        passengerTicketStr = &apos;O,0,1,&apos; + info[&apos;passenger_name&apos;] + &apos;,1,&apos; + info[&apos;passenger_id_no&apos;] + &apos;,&apos; + info[&apos;mobile_no&apos;] + &apos;,N&apos;</span><br><span class="line">        oldPassengerStr = info[&apos;passenger_name&apos;] + &apos;,1,&apos; + info[&apos;passenger_id_no&apos;] + &apos;,1_&apos;</span><br><span class="line">        data = &#123;</span><br><span class="line">                   &apos;cancel_flag&apos;: &apos;2&apos;,</span><br><span class="line">                   &apos;bed_level_order_num&apos;: &apos;000000000000000000000000000000&apos;,</span><br><span class="line">                   &apos;passengerTicketStr&apos;: passengerTicketStr,</span><br><span class="line">                   &apos;oldPassengerStr&apos;: oldPassengerStr,#</span><br><span class="line">                   &apos;tour_flag&apos;: &apos;dc&apos;,</span><br><span class="line">                   &apos;randCode&apos;: &apos;&apos;,</span><br><span class="line">                   &apos;whatsSelect&apos;: &apos;1&apos;,</span><br><span class="line">                    &apos;_json_att&apos;: &apos;&apos;,</span><br><span class="line">                    &apos;REPEAT_SUBMIT_TOKEN&apos;: ticketToken,#</span><br><span class="line">        &#125;</span><br><span class="line">        resp = self.session.post(url, data=data, headers=self.headers)</span><br><span class="line">        result = dict(resp.json())</span><br><span class="line">        if result[&apos;data&apos;][&apos;submitStatus&apos;] == True:</span><br><span class="line">            print(&apos;checkOrderInfo成功！&apos;)</span><br><span class="line">        else:</span><br><span class="line">            print(&apos;checkOrderInfo失败！&apos;)</span><br><span class="line">        return passengerTicketStr, oldPassengerStr</span><br><span class="line">    def getQueueCount(self, trainDate, train_no, leftTicket, ticketToken, station_train_code, fromStationTelecode, to_station_telecode,</span><br><span class="line">                      purpose_codes, train_location, passengerTicketStr, oldPassengerStr, key_check_isChange):</span><br><span class="line">        url = &apos;https://kyfw.12306.cn/otn/confirmPassenger/getQueueCount&apos;</span><br><span class="line">        data = &#123;</span><br><span class="line">            &apos;train_date&apos;: datetime.datetime.fromtimestamp(time.mktime(time.strptime(trainDate, &apos;%Y-%m-%d&apos;))).strftime(&apos;%a %b %d %Y %H:%M:%S GMT+0800&apos;),</span><br><span class="line">            &apos;train_no&apos;: train_no,</span><br><span class="line">            &apos;stationTrainCode&apos;: station_train_code,</span><br><span class="line">            &apos;seatType&apos;: &apos;O&apos;,</span><br><span class="line">            &apos;fromStationTelecode&apos;: fromStationTelecode,</span><br><span class="line">            &apos;toStationTelecode&apos;: to_station_telecode,</span><br><span class="line">            &apos;leftTicket&apos;: leftTicket,</span><br><span class="line">            &apos;purpose_codes&apos;: purpose_codes,</span><br><span class="line">            &apos;train_location&apos;: train_location,</span><br><span class="line">            &apos;_json_att&apos;: &apos;&apos;,</span><br><span class="line">            &apos;REPEAT_SUBMIT_TOKEN&apos;: ticketToken,</span><br><span class="line">        &#125;</span><br><span class="line">        resp = self.session.post(url, data=data, headers=self.headers)</span><br><span class="line">        queueCountJson = resp.json()</span><br><span class="line">        if queueCountJson.get(&quot;status&quot;) == False or queueCountJson.get(&quot;httpstatus&quot;) != 200:</span><br><span class="line">            raise Exception(&quot;获取队列错误&quot;)</span><br><span class="line">        url = &apos;https://kyfw.12306.cn/otn/confirmPassenger/confirmSingleForQueue&apos;</span><br><span class="line">        data = &#123;</span><br><span class="line">            &apos;passengerTicketStr&apos;: passengerTicketStr,</span><br><span class="line">            &apos;oldPassengerStr&apos;: oldPassengerStr,</span><br><span class="line">            &apos;randCode&apos;: &apos;&apos;,</span><br><span class="line">            &apos;purpose_codes&apos;: purpose_codes,</span><br><span class="line">            &apos;key_check_isChange&apos;: key_check_isChange,</span><br><span class="line">            &apos;leftTicketStr&apos;: leftTicket,</span><br><span class="line">            &apos;train_location&apos;: train_location,</span><br><span class="line">            &apos;choose_seats&apos;: &apos;&apos;,</span><br><span class="line">            &apos;seatDetailType&apos;: &apos;000&apos;,</span><br><span class="line">            &apos;whatsSelect&apos;: &apos;1&apos;,</span><br><span class="line">            &apos;roomType&apos;: &apos;00&apos;,</span><br><span class="line">            &apos;dwAll&apos;: &apos;N&apos;,</span><br><span class="line">            &apos;_json_att&apos;: &apos;&apos;,</span><br><span class="line">            &apos;REPEAT_SUBMIT_TOKEN&apos;: ticketToken,</span><br><span class="line">        &#125;</span><br><span class="line">        singleForQueueReq = self.session.post(url, data=data, headers=self.headers)</span><br><span class="line">        singleForQueueJson = singleForQueueReq.json()</span><br><span class="line">        print(singleForQueueJson)</span><br><span class="line"></span><br><span class="line">    def queryOrderWaitTime(self, ticketToken):</span><br><span class="line">        url = &apos;https://kyfw.12306.cn/otn/confirmPassenger/queryOrderWaitTime&apos;</span><br><span class="line">        data = &#123;</span><br><span class="line">            &apos;random&apos;: time.time(),</span><br><span class="line">            &apos;tourFlag&apos;: &apos;dc&apos;,</span><br><span class="line">            &apos;_json_att&apos;: &apos;&apos;,</span><br><span class="line">            &apos;REPEAT_SUBMIT_TOKEN&apos;: ticketToken,</span><br><span class="line">        &#125;</span><br><span class="line">        resp = self.session.post(url, data=data, headers=self.headers)</span><br><span class="line">        orderWaitJson = resp.json()</span><br><span class="line">        orderId = orderWaitJson.get(&quot;data&quot;).get(&quot;orderId&quot;)#此处有问题</span><br><span class="line">        print(orderWaitJson)</span><br><span class="line">        print(orderId)</span><br><span class="line">        url = &apos;https://kyfw.12306.cn/otn/confirmPassenger/resultOrderForDcQueue&apos;</span><br><span class="line">        data = &#123;</span><br><span class="line">            &apos;orderSequence_no&apos;: orderId,</span><br><span class="line">            &apos;_json_att&apos;: &apos;&apos;,</span><br><span class="line">            &apos;REPEAT_SUBMIT_TOKEN&apos;: ticketToken,</span><br><span class="line">        &#125;</span><br><span class="line">        dcQueueReq = self.session.post(url, data=data, headers=self.headers)</span><br><span class="line">        dcQueueJson = dcQueueReq.json()</span><br><span class="line">        if dcQueueJson.get(&quot;status&quot;) and dcQueueJson.get(&quot;httpstatus&quot;) == 200 and dcQueueJson.get(</span><br><span class="line">                &quot;data&quot;) is not None and dcQueueJson.get(&quot;data&quot;).get(&quot;submitStatus&quot;):</span><br><span class="line">            print(&quot;订票成功&quot;)</span><br><span class="line">        else:</span><br><span class="line">            print(dcQueueJson)</span><br><span class="line">            print(&quot;订票失败&quot;)</span><br><span class="line"></span><br><span class="line">def start():</span><br><span class="line">    login = Login()</span><br><span class="line">    login.down_captcha()</span><br><span class="line">    check_flag = login.captcha_check()</span><br><span class="line">    login_flag = login.login(check_flag)</span><br><span class="line">    if login_flag:</span><br><span class="line">        newapptk = login.auth_uamtk(login_flag)</span><br><span class="line">        username = login.uamatuth_client(newapptk)</span><br><span class="line">        login.init_my_12306(username)</span><br><span class="line">    else:</span><br><span class="line">        print(&apos;main():login_flag为Flase&apos;)</span><br><span class="line"></span><br><span class="line">def query():</span><br><span class="line">    filename = &apos;station_name.txt&apos;</span><br><span class="line">    station = Station()</span><br><span class="line">    station.station_name_code()</span><br><span class="line">    station.save_station_code(filename)</span><br><span class="line">    station_info, train_date, from_station_code, to_station_code = station.query_ticket()</span><br><span class="line">    return station_info, train_date, from_station_code, to_station_code</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def shop(station_info, trainDate, fromStationTelecode, to_station_telecode):</span><br><span class="line">    buy = Buy()</span><br><span class="line">    buy.checkUser()</span><br><span class="line">    buy.submitOrderRequest(station_info)</span><br><span class="line">    info, ticketToken, train_no, leftTicket, purpose_codes, station_train_code, to_station_telecode, train_location, key_check_isChange = buy.initDc()</span><br><span class="line">    passengerTicketStr, oldPassengerStr = buy.checkOrderInfo(info, ticketToken)</span><br><span class="line">    buy.getQueueCount(trainDate, train_no, leftTicket, ticketToken, station_train_code, fromStationTelecode, to_station_telecode,</span><br><span class="line">                      purpose_codes, train_location, passengerTicketStr, oldPassengerStr, key_check_isChange)</span><br><span class="line">    buy.queryOrderWaitTime(ticketToken)</span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    start()</span><br><span class="line">    station_info, train_date, from_station_code, to_station_code = query()</span><br><span class="line">    shop(station_info, train_date, from_station_code, to_station_code)</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2018/04/16/12306查票订票/">12306查票订票</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Twh233 的个人博客">Twh233</a></p>
+  <p><span>发布时间:</span>2018年04月16日 - 18:04</p>
+  <p><span>最后更新:</span>2019年07月15日 - 20:07</p>
+  <p><span>原始链接:</span><a href="/2018/04/16/12306查票订票/" title="12306查票订票">http://twh233.github.io/2018/04/16/12306查票订票/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://twh233.github.io/2018/04/16/12306查票订票/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({   
+          title: "",   
+          text: '复制成功',   
+          html: false,
+          timer: 500,   
+          showConfirmButton: false
+        });
+      });
+    }));  
+</script>
+
+      
+	</div>
+	
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"><i class="fa fa-tag"></i> python</a>
+          
+            <a href="/tags/爬虫/" rel="tag"><i class="fa fa-tag"></i> 爬虫</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/16/初学爬虫/" rel="next" title="初学爬虫">
+                <i class="fa fa-chevron-left"></i> 初学爬虫
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/24/python-tkinter-pack布局/" rel="prev" title="python tkinter pack布局">
+                python tkinter pack布局 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div onclick="showGitment()" id="gitment-display-button">显示 Gitment 评论</div>
+        <div id="gitment-container" style="display:none"></div>
+      
+    </div>
+
+  
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/logo.jpg" alt="Twh233">
+            
+              <p class="site-author-name" itemprop="name">Twh233</p>
+              <p class="site-description motion-element" itemprop="description">经历这个你，活成这个我，细数自己</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/twh233" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:twh233@foxmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://blog.csdn.net/qq_36553623" target="_blank" title="Csdn">
+                      
+                        <i class="fa fa-fw fa-globe"></i>Csdn</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+	  <div id="music163player">
+		<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=1473552803&auto=1&height=66"></iframe>
+      </div>
+	</div>
+
+</aside></div>
+
+  
+
+
+        
+      </main></div>
+    
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<!--
+<div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Twh233</span>
+<!--
+  
+ -->
+</div>
+
+<!--
+<div class="powered-by">
+<i class="fa fa-user-md"></i>
+<span id="busuanzi_container_site_pv">
+    您是第<span id="busuanzi_value_site_pv"></span>个小伙伴访问的哦
+</span>
+</div>
+-->
+
+
+
+-->
+        
+
+
+
+
+
+
+
+        
+      
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'twh233',
+            repo: 'twh233.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '12046f070b932ff4f528161ab23a08a23ae5fe4c',
+            
+                client_id: 'e03062ff070528383729'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      function showGitment(){
+        document.getElementById("gitment-display-button").style.display = "none";
+        document.getElementById("gitment-container").style.display = "block";
+        renderGitment();
+      }
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+  <div class="bg_content">
+	<canvas id="canvas"></canvas>
+  </div>
+
+
+
+</body>
+	<!-- 页面点击小红心 -->
+	<script type="text/javascript" src="/js/src/clicklove.js"></script>
+	<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
+	<!--崩溃欺骗-->
+	<script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+</html>
