@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://twh233.github.io/"/>
-  <updated>2021-05-06T08:19:45.051Z</updated>
+  <updated>2021-05-07T07:37:58.646Z</updated>
   <id>http://twh233.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>restful API</title>
+    <link href="http://twh233.github.io/2021/05/07/restful-API/"/>
+    <id>http://twh233.github.io/2021/05/07/restful-API/</id>
+    <published>2021-05-07T06:55:25.000Z</published>
+    <updated>2021-05-07T07:37:58.646Z</updated>
+    
+    <content type="html"><![CDATA[<p>restful是一种规范，程序员都以此为标准可以前后端分离开发，提高效率。</p><p>所有东西都是资源，所有操作都通过对资源的增删改查实现，对资源的增删改查对应对URL的操作（POST，DELETE，PUT，GET），资源都是无状态的。</p><h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><img src="/2021/05/07/restful-API/1.png"><p>再以登录作为举例，POST /authorization 登录，发送请求，DELETE /authorization 退出。</p><p>动作都是由固定的URL操作来做，干什么都是以URL来代替。</p><img src="/2021/05/07/restful-API/2.png"><h2 id="前后端分离的缺点"><a href="#前后端分离的缺点" class="headerlink" title="前后端分离的缺点"></a>前后端分离的缺点</h2><p>首先，最初我们学习到的肯定是有服务端渲染网页，前后端一个人搞定，直接生成好网页，直接传递html给客户端了。后续出现前后端分离，那么两端交流的数据（JSON），所以客户端得等服务端把数据发回来之后才能渲染网页，如果数据量很大，肯定就会卡顿。</p><p>SEO问题：SEO（Search Engine Optimizaton），前后端分离的方式，通常的载体是SPA（Single Page Application），所以拿到的是没有数据的空壳子，很多搜索引擎，不支持SPA方式的SEO。而服务器端渲染的方式，因为生成的是网页，所以对SEO支持的很好。</p><p>– 引入知乎的回答：<br>nodejs出现之前有两种解决方式，一是做一动一静两套页面，服务器判断请求来自蜘蛛就呈现静态页，否则呈现动态页；二是服务器架设虚拟浏览器软件，请求过来了先让虚拟浏览器跑一遍，再将得到的静态页面返回给客户端，两种方式都不咋地。有了nodejs后主流做法是前后端同构方案，即一套代码在浏览器端和node端都可以运行，从而可以先在node端请求数据渲染模板，然后将渲染结果返回给浏览器最终呈现，是目前最完美的前后端分离+SEO解决方案，目测没有之一。</p><h2 id="API接口文档"><a href="#API接口文档" class="headerlink" title="API接口文档"></a>API接口文档</h2><p>要么由架构师主导，要么由前端来定。前端先开发界面原型。在确定界面风格、布局、跳转、交互的过程中，自然会形成需要获取数据的接口。</p><h2 id="Swagger"><a href="#Swagger" class="headerlink" title="Swagger"></a>Swagger</h2><p>Swagger是一个规范和完整的框架，用于生成、描述、调用和可视化restful风格的Web服务。</p><p>作用：  </p><pre><code>1. 接口文档在线生成。2. 功能测试。</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;restful是一种规范，程序员都以此为标准可以前后端分离开发，提高效率。&lt;/p&gt;
+&lt;p&gt;所有东西都是资源，所有操作都通过对资源的增删改查实现，对资源的增删改查对应对URL的操作（POST，DELETE，PUT，GET），资源都是无状态的。&lt;/p&gt;
+&lt;h2 id=&quot;示例&quot;&gt;
+      
+    
+    </summary>
+    
+      <category term="restful" scheme="http://twh233.github.io/categories/restful/"/>
+    
+    
+      <category term="restful" scheme="http://twh233.github.io/tags/restful/"/>
+    
+  </entry>
   
   <entry>
     <title>P2P框架的实现</title>
@@ -506,32 +533,6 @@
         &lt;h2 id=&quot;页表映射&quot;&gt;&lt;a href=&quot;#页表映射&quot; class=&quot;headerlink&quot; title=&quot;页表映射&quot;&gt;&lt;/a&gt;页表映射&lt;/h2&gt;&lt;p&gt;如图二级页表：&lt;/p&gt;
 &lt;img src=&quot;/2020/11/11/x86段页式内存管理和页表映射机制/1.png&quot;&gt;
 &lt;p
-      
-    
-    </summary>
-    
-      <category term="linux" scheme="http://twh233.github.io/categories/linux/"/>
-    
-    
-      <category term="linux" scheme="http://twh233.github.io/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>内核空间和用户空间</title>
-    <link href="http://twh233.github.io/2020/11/10/%E5%86%85%E6%A0%B8%E7%A9%BA%E9%97%B4%E5%92%8C%E7%94%A8%E6%88%B7%E7%A9%BA%E9%97%B4/"/>
-    <id>http://twh233.github.io/2020/11/10/内核空间和用户空间/</id>
-    <published>2020-11-10T13:17:02.000Z</published>
-    <updated>2020-11-10T13:22:22.296Z</updated>
-    
-    <content type="html"><![CDATA[<img src="/2020/11/10/内核空间和用户空间/1.png"><p>内核空间与用户空间拷贝的时候，需要在用户空间找到物理地址，再拷贝到内核空间的物理地址中。如果物理地址刚好在一张页上，那么可以一次完成拷贝；但如果物理地址跨页，那么会进行跨页的拷贝，性能有所降低；再者，如果在内存中没有找到，那么会引发缺页中断，去对应磁盘地址上拷贝，性能会更低。</p><img src="/2020/11/10/内核空间和用户空间/2.png"><img src="/2020/11/10/内核空间和用户空间/3.png">]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;img src=&quot;/2020/11/10/内核空间和用户空间/1.png&quot;&gt;
-&lt;p&gt;内核空间与用户空间拷贝的时候，需要在用户空间找到物理地址，再拷贝到内核空间的物理地址中。如果物理地址刚好在一张页上，那么可以一次完成拷贝；但如果物理地址跨页，那么会进行跨页的拷贝，性能有所降低；
       
     
     </summary>
