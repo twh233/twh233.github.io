@@ -101,12 +101,14 @@
 <meta property="og:description" content="多核开发与actor模型 多进程 a) 消息队列   i. 协议问题   ii. 断线重连   iii. 进程启动顺序问题   iv. 负载均衡问题   v. 数据同步问题    b) RPC   i. 两个系统保持同步问题     c) zk     i. 配置项管理问题   ii. 集群管理    iii. 统一命名问题   iv. 状态同步问题   v. 分布式锁问题      d) 拆分">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://twh233.github.io/2020/11/08/skynet/1.png">
+<meta property="og:image" content="http://twh233.github.io/2020/11/08/skynet/2.png">
+<meta property="og:image" content="http://twh233.github.io/2020/11/08/skynet/3.png">
 <meta property="og:image" content="http://twh233.github.io/2020/11/08/skynet/5.png">
 <meta property="og:image" content="http://twh233.github.io/2020/11/08/skynet/6.png">
 <meta property="og:image" content="http://twh233.github.io/2020/11/08/skynet/4.jpg">
 <meta property="og:image" content="http://twh233.github.io/2020/11/08/skynet/8.png">
 <meta property="og:image" content="http://twh233.github.io/2020/11/08/skynet/7.png">
-<meta property="og:updated_time" content="2020-11-08T12:25:31.920Z">
+<meta property="og:updated_time" content="2021-05-10T07:29:56.372Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="skynet">
 <meta name="twitter:description" content="多核开发与actor模型 多进程 a) 消息队列   i. 协议问题   ii. 断线重连   iii. 进程启动顺序问题   iv. 负载均衡问题   v. 数据同步问题    b) RPC   i. 两个系统保持同步问题     c) zk     i. 配置项管理问题   ii. 集群管理    iii. 统一命名问题   iv. 状态同步问题   v. 分布式锁问题      d) 拆分">
@@ -412,7 +414,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  998
+                  992
                 </span>
               
 
@@ -481,12 +483,17 @@ ii. 热点拆分
 <h2 id="actor运行以及消息调度"><a href="#actor运行以及消息调度" class="headerlink" title="actor运行以及消息调度"></a>actor运行以及消息调度</h2><img src="/2020/11/08/skynet/1.png">
 <ol>
 <li>消息队列<br> a) 全局消息队列<br> b) actor 消息队列   </li>
-<li>skynet 中锁的使用<br> a) 互斥锁  <pre><code>{% asset_img 2.png %}  
-</code></pre> b) 自旋锁  <pre><code>worker 轮询消息队列  
-{% asset_img 3.png %} 
-</code></pre> c) 读写锁  <pre><code>handle_storage  
-</code></pre> d) 条件变量  <pre><code>worker 线程的休眠  
-</code></pre></li>
+<li>skynet 中锁的使用<br> a) 互斥锁  </li>
+</ol>
+<img src="/2020/11/08/skynet/2.png">  
+<pre><code>b) 自旋锁  
+    worker 轮询消息队列  
+</code></pre><img src="/2020/11/08/skynet/3.png"> 
+<pre><code>c) 读写锁  
+    handle_storage  
+d) 条件变量  
+    worker 线程的休眠  
+</code></pre><ol start="3">
 <li>skynet 中线程<br> a) timer<br> b) socket<br> c) worker<pre><code>i. “权重”来定制消费消息的数量（-1 消费一个，0 全部消费，1 消费一半）  
 ii. 休眠（条件变量）与唤醒（timer 和 socket）
 </code></pre> d) monitor  <pre><code>i. 检查服务消息过载
@@ -539,7 +546,7 @@ ii. lua 文件是一个匿名函数
   <p><span>本文标题:</span><a href="/2020/11/08/skynet/">skynet</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Twh233 的个人博客">Twh233</a></p>
   <p><span>发布时间:</span>2020年11月08日 - 19:11</p>
-  <p><span>最后更新:</span>2020年11月08日 - 20:11</p>
+  <p><span>最后更新:</span>2021年05月10日 - 15:05</p>
   <p><span>原始链接:</span><a href="/2020/11/08/skynet/" title="skynet">http://twh233.github.io/2020/11/08/skynet/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://twh233.github.io/2020/11/08/skynet/" aria-label="复制成功！"></i></span>
   </p>
