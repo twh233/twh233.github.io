@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://twh233.github.io/2020/09/20/redis%E8%A1%A5%E5%85%85/</loc>
+    <lastmod>2021-05-11</lastmod>
+  </url>
+  <url>
     <loc>http://twh233.github.io/2020/11/08/skynet/</loc>
     <lastmod>2021-05-10</lastmod>
   </url>
@@ -194,10 +198,6 @@
   </url>
   <url>
     <loc>http://twh233.github.io/2020/09/26/http/</loc>
-    <lastmod>2020-09-26</lastmod>
-  </url>
-  <url>
-    <loc>http://twh233.github.io/2020/09/20/redis%E8%A1%A5%E5%85%85/</loc>
     <lastmod>2020-09-26</lastmod>
   </url>
   <url>
