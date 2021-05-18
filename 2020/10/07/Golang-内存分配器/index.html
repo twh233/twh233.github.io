@@ -79,7 +79,7 @@
 
 
 
-  <meta name="keywords" content="A man's best friends are his ten fingers.">
+  <meta name="keywords" content="Golang,">
 
 
 
@@ -92,16 +92,18 @@
 
 
 
-<meta name="description" content="经历这个你，活成这个我，细数自己">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Twh233&#39;s Blog">
-<meta property="og:url" content="http://twh233.github.io/categories/基础/index.html">
+<meta name="description" content="为了避免程序频繁的向操作系统申请，占用更多的空间延长内存的使用时间。可以一次性申请多一部分的内存重复使用。例如：对象池、连接池。并且一次性申请大块内存可以做到连续分配，通过相邻的地址空间的合并减少碎片化。   虚拟地址空间如何使用每个进程有一个虚拟地址空间，内存分配在某段虚拟地址空间内就能保证是连续的。 1.让操作系统随机开始，保留一段地址空间，如果失败，加上或者减去偏移量重新选择。2.如果连续的">
+<meta name="keywords" content="Golang">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Golang 内存分配器">
+<meta property="og:url" content="http://twh233.github.io/2020/10/07/Golang-内存分配器/index.html">
 <meta property="og:site_name" content="Twh233&#39;s Blog">
-<meta property="og:description" content="经历这个你，活成这个我，细数自己">
+<meta property="og:description" content="为了避免程序频繁的向操作系统申请，占用更多的空间延长内存的使用时间。可以一次性申请多一部分的内存重复使用。例如：对象池、连接池。并且一次性申请大块内存可以做到连续分配，通过相邻的地址空间的合并减少碎片化。   虚拟地址空间如何使用每个进程有一个虚拟地址空间，内存分配在某段虚拟地址空间内就能保证是连续的。 1.让操作系统随机开始，保留一段地址空间，如果失败，加上或者减去偏移量重新选择。2.如果连续的">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-05-18T07:03:52.109Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Twh233&#39;s Blog">
-<meta name="twitter:description" content="经历这个你，活成这个我，细数自己">
+<meta name="twitter:title" content="Golang 内存分配器">
+<meta name="twitter:description" content="为了避免程序频繁的向操作系统申请，占用更多的空间延长内存的使用时间。可以一次性申请多一部分的内存重复使用。例如：对象池、连接池。并且一次性申请大块内存可以做到连续分配，通过相邻的地址空间的合并减少碎片化。   虚拟地址空间如何使用每个进程有一个虚拟地址空间，内存分配在某段虚拟地址空间内就能保证是连续的。 1.让操作系统随机开始，保留一段地址空间，如果失败，加上或者减去偏移量重新选择。2.如果连续的">
 
 
 
@@ -131,7 +133,7 @@
 
 
 
-  <link rel="canonical" href="http://twh233.github.io/categories/基础/">
+  <link rel="canonical" href="http://twh233.github.io/2020/10/07/Golang-内存分配器/">
 
 
 
@@ -139,7 +141,7 @@
 
 
 
-  <title>分类: 基础 | Twh233's Blog</title>
+  <title>Golang 内存分配器 | Twh233's Blog</title>
   
 
 
@@ -160,7 +162,7 @@
 
 
   
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -296,187 +298,258 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block category">
-
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>基础<small>分类</small>
-        </h1>
-      </div>
-
-      
-        
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://twh233.github.io/2020/10/07/Golang-内存分配器/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Twh233">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Twh233's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2021/05/06/P2P框架的实现/" itemprop="url">
-              
-                <span itemprop="name">P2P框架的实现</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Golang 内存分配器</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2021-05-06T14:28:59+08:00" content="2021-05-06">
-          05-06
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-10-07T16:54:21+08:00">
+                2020-10-07
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Golang/" itemprop="url" rel="index">
+                    <span itemprop="name">Golang</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/10/07/Golang-内存分配器/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2020/10/07/Golang-内存分配器/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  713
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  2
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/12/28/Mysql集群与性能优化/" itemprop="url">
-              
-                <span itemprop="name">mysql集群与性能优化</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-12-28T19:50:00+08:00" content="2020-12-28">
-          12-28
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/12/03/Kafaka与Zookeeper/" itemprop="url">
-              
-                <span itemprop="name">Kafaka与Zookeeper</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-12-03T23:11:34+08:00" content="2020-12-03">
-          12-03
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/11/30/分布式一致性算法Raft和Etcd/" itemprop="url">
-              
-                <span itemprop="name">分布式一致性算法Raft和Etcd</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-11-30T23:19:34+08:00" content="2020-11-30">
-          11-30
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/11/24/try-catch实现/" itemprop="url">
-              
-                <span itemprop="name">try/catch实现</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-11-24T22:08:11+08:00" content="2020-11-24">
-          11-24
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/11/22/Redis-Mysql-连接池/" itemprop="url">
-              
-                <span itemprop="name">Redis/Mysql 连接池</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-11-22T18:01:35+08:00" content="2020-11-22">
-          11-22
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+        <p>为了避免程序频繁的向操作系统申请，占用更多的空间延长内存的使用时间。可以一次性申请<br>多一部分的内存重复使用。例如：对象池、连接池。并且一次性申请大块内存可以做到连续分<br>配，通过相邻的地址空间的合并减少碎片化。  </p>
+<h3 id="虚拟地址空间如何使用"><a href="#虚拟地址空间如何使用" class="headerlink" title="虚拟地址空间如何使用"></a>虚拟地址空间如何使用</h3><p>每个进程有一个虚拟地址空间，内存分配在某段虚拟地址空间内就能保证是连续的。</p>
+<p>1.让操作系统随机开始，保留一段地址空间，如果失败，加上或者减去偏移量重新选择。<br>2.如果连续的方式不行使用分段的方式。空间扩展尝试同一方向扩展，失败则换个相反<br>方向扩展，这样空间还是连续的。操作系统随机从两个方向扩展的方式称之为稀疏堆。<br>3.使用一个数组。数组存储内存指针指向自由块，自由块有各种状态，比如当前使用多<br>少内存、是否是空闲状态等，形成类似反查表的作用。自由块的内存起始地址减去初始<br>位置得到偏移量，偏移量按页大小对齐作为数组索引。这样的优点是只需检查数组就知<br>道内存分配的信息、检查相邻的两项的是否空闲可以合并成大块内存。通过反查表实现<br>碎片化问题。</p>
+<h3 id="Go管理内存框架"><a href="#Go管理内存框架" class="headerlink" title="Go管理内存框架"></a>Go管理内存框架</h3>
+<p>内存分配的完整流程首先检查 Cache 里有没有自由块，有的话直接返回；没有的话计算<br>向哪个 Central 申请，如果 Central 有则取回一批，如果没有，则向Heap申请大块自由<br>块切割，如果Heap没有多余的自由块，Heap向操作系统申请。Go语言在初始化时建立一个<br>静态表，通过静态表知道一次取多少个，这个数字是基于大量的统计得到的，有些语言根<br>据程序运行期动态调整这个数字。  </p>
+<p>任何时候内存管理都会涉及两个核心问题。  </p>
+<p>第一个快速分配，比如实现无锁操作或者减少锁。因为 Central 被很多Cache共享，操作<br>数据必须加锁处理，Heap 被很多 Central 共享，操作数据要加锁。</p>
+<p>第二个尽可能在内存复用方面做到平衡。快速操作意味着用批处理代替单次处理实现性能<br>提升，但是批处理会浪费大量的资源。所以一来用批处理来实现快速分配操作的性能，一<br>来实现内存节约避免快速消耗，需要在中间找到平衡点。</p>
 
       
     </div>
+    
+    
+    
 
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2020/10/07/Golang-内存分配器/">Golang 内存分配器</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Twh233 的个人博客">Twh233</a></p>
+  <p><span>发布时间:</span>2020年10月07日 - 16:10</p>
+  <p><span>最后更新:</span>2021年05月18日 - 15:05</p>
+  <p><span>原始链接:</span><a href="/2020/10/07/Golang-内存分配器/" title="Golang 内存分配器">http://twh233.github.io/2020/10/07/Golang-内存分配器/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://twh233.github.io/2020/10/07/Golang-内存分配器/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({   
+          title: "",   
+          text: '复制成功',   
+          html: false,
+          timer: 500,   
+          showConfirmButton: false
+        });
+      });
+    }));  
+</script>
+
+      
+	</div>
+	
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Golang/" rel="tag"><i class="fa fa-tag"></i> Golang</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/10/07/线程池/" rel="next" title="线程池">
+                <i class="fa fa-chevron-left"></i> 线程池
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/10/07/Golang-垃圾回收/" rel="prev" title="Golang 垃圾回收">
+                Golang 垃圾回收 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/categories/基础/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/categories/基础/page/4/">4</a><a class="extend next" rel="next" href="/categories/基础/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
+  </article>
 
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -484,6 +557,18 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      
+        <div onclick="showGitment()" id="gitment-display-button">显示 Gitment 评论</div>
+        <div id="gitment-container" style="display:none"></div>
+      
+    </div>
+
+  
+  
+
 
 
         </div>
@@ -504,8 +589,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -596,6 +690,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟地址空间如何使用"><span class="nav-number">1.</span> <span class="nav-text">虚拟地址空间如何使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go管理内存框架"><span class="nav-number">2.</span> <span class="nav-text">Go管理内存框架</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -750,6 +860,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -796,6 +910,34 @@
 
     
 
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'twh233',
+            repo: 'twh233.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '12046f070b932ff4f528161ab23a08a23ae5fe4c',
+            
+                client_id: 'e03062ff070528383729'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      function showGitment(){
+        document.getElementById("gitment-display-button").style.display = "none";
+        document.getElementById("gitment-container").style.display = "block";
+        renderGitment();
+      }
+      
+      </script>
     
 
 
@@ -1137,26 +1279,6 @@
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
