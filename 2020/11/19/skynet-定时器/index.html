@@ -79,7 +79,7 @@
 
 
 
-  <meta name="keywords" content="linux,">
+  <meta name="keywords" content="skynet,">
 
 
 
@@ -92,24 +92,18 @@
 
 
 
-<meta name="description" content="进程与进程之间同步，临界区代码要睡眠的话，一定不要使用自旋锁，用信号量。 获取自旋锁合适的方法：  int spin_trylock(spinlock_t *lock) 源码  owner表示持有这个数字的thread可以获取自旋锁 next表示如果后续再有thread请求获取这个自旋锁，就给它分配这个数字  汇编，把next位加一进入while循环。如果成了，那么进入临界区smp_mb()；如">
-<meta name="keywords" content="linux">
+<meta name="description" content="定时器skynet_timer.cskynet自带定时器功能skynet-src/skynet_timer.c，在skynet启动时会创建一个线程专门跑定时器。每帧(0.0025秒/帧)调用skynet_updatetime() 1234567891011121314151617181920// skynet-src/skynet_start.ccreate_thread(&amp;amp;pid[1],">
+<meta name="keywords" content="skynet">
 <meta property="og:type" content="article">
-<meta property="og:title" content="内核spinlock的说明和使用">
-<meta property="og:url" content="http://twh233.github.io/2020/11/19/内核spinlock的说明和使用/index.html">
+<meta property="og:title" content="skynet-定时器">
+<meta property="og:url" content="http://twh233.github.io/2020/11/19/skynet-定时器/index.html">
 <meta property="og:site_name" content="Twh233&#39;s Blog">
-<meta property="og:description" content="进程与进程之间同步，临界区代码要睡眠的话，一定不要使用自旋锁，用信号量。 获取自旋锁合适的方法：  int spin_trylock(spinlock_t *lock) 源码  owner表示持有这个数字的thread可以获取自旋锁 next表示如果后续再有thread请求获取这个自旋锁，就给它分配这个数字  汇编，把next位加一进入while循环。如果成了，那么进入临界区smp_mb()；如">
+<meta property="og:description" content="定时器skynet_timer.cskynet自带定时器功能skynet-src/skynet_timer.c，在skynet启动时会创建一个线程专门跑定时器。每帧(0.0025秒/帧)调用skynet_updatetime() 1234567891011121314151617181920// skynet-src/skynet_start.ccreate_thread(&amp;amp;pid[1],">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://twh233.github.io/2020/11/19/内核spinlock的说明和使用/1.png">
-<meta property="og:image" content="http://twh233.github.io/2020/11/19/内核spinlock的说明和使用/2.png">
-<meta property="og:image" content="http://twh233.github.io/2020/11/19/内核spinlock的说明和使用/3.png">
-<meta property="og:image" content="http://twh233.github.io/2020/11/19/内核spinlock的说明和使用/4.png">
-<meta property="og:image" content="http://twh233.github.io/2020/11/19/内核spinlock的说明和使用/5.png">
-<meta property="og:updated_time" content="2020-11-19T16:05:40.584Z">
+<meta property="og:updated_time" content="2021-05-19T03:06:45.977Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="内核spinlock的说明和使用">
-<meta name="twitter:description" content="进程与进程之间同步，临界区代码要睡眠的话，一定不要使用自旋锁，用信号量。 获取自旋锁合适的方法：  int spin_trylock(spinlock_t *lock) 源码  owner表示持有这个数字的thread可以获取自旋锁 next表示如果后续再有thread请求获取这个自旋锁，就给它分配这个数字  汇编，把next位加一进入while循环。如果成了，那么进入临界区smp_mb()；如">
-<meta name="twitter:image" content="http://twh233.github.io/2020/11/19/内核spinlock的说明和使用/1.png">
+<meta name="twitter:title" content="skynet-定时器">
+<meta name="twitter:description" content="定时器skynet_timer.cskynet自带定时器功能skynet-src/skynet_timer.c，在skynet启动时会创建一个线程专门跑定时器。每帧(0.0025秒/帧)调用skynet_updatetime() 1234567891011121314151617181920// skynet-src/skynet_start.ccreate_thread(&amp;amp;pid[1],">
 
 
 
@@ -139,7 +133,7 @@
 
 
 
-  <link rel="canonical" href="http://twh233.github.io/2020/11/19/内核spinlock的说明和使用/">
+  <link rel="canonical" href="http://twh233.github.io/2020/11/19/skynet-定时器/">
 
 
 
@@ -147,7 +141,7 @@
 
 
 
-  <title>内核spinlock的说明和使用 | Twh233's Blog</title>
+  <title>skynet-定时器 | Twh233's Blog</title>
   
 
 
@@ -318,7 +312,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://twh233.github.io/2020/11/19/内核spinlock的说明和使用/">
+    <link itemprop="mainEntityOfPage" href="http://twh233.github.io/2020/11/19/skynet-定时器/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Twh233">
@@ -335,7 +329,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">内核spinlock的说明和使用</h1>
+          <h1 class="post-title" itemprop="name headline">skynet-定时器</h1>
         
 
         <div class="post-meta">
@@ -347,7 +341,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-19T23:47:16+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-19T23:38:56+08:00">
                 2020-11-19
               </time>
             
@@ -370,8 +364,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
+                  <a href="/categories/skynet/" itemprop="url" rel="index">
+                    <span itemprop="name">skynet</span>
                   </a>
                 </span>
 
@@ -388,8 +382,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2020/11/19/内核spinlock的说明和使用/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/2020/11/19/内核spinlock的说明和使用/" itemprop="commentsCount"></span>
+                <a href="/2020/11/19/skynet-定时器/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2020/11/19/skynet-定时器/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -411,7 +405,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  157
+                  1,484
                 </span>
               
 
@@ -427,7 +421,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  7
                 </span>
               
             </div>
@@ -448,16 +442,23 @@
       
 
       
-        <img src="/2020/11/19/内核spinlock的说明和使用/1.png">
-<p>进程与进程之间同步，临界区代码要睡眠的话，一定不要使用自旋锁，<br>用信号量。</p>
-<p>获取自旋锁合适的方法：  int spin_trylock(spinlock_t *lock)</p>
-<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><img src="/2020/11/19/内核spinlock的说明和使用/2.png">
-<img src="/2020/11/19/内核spinlock的说明和使用/3.png">
-<p>owner表示持有这个数字的thread可以获取自旋锁</p>
-<p>next表示如果后续再有thread请求获取这个自旋锁，就给它分配这个数字</p>
-<img src="/2020/11/19/内核spinlock的说明和使用/4.png">
-<p>汇编，把next位加一进入while循环。如果成了，那么进入临界区smp_mb()；如果没有，那么wfe()睡眠，然后从内存ACCESS_ONCE读数据到内地lockval变量。所以说其他线程没拿到锁都会锁在这里忙等。</p>
-<img src="/2020/11/19/内核spinlock的说明和使用/5.png">
+        <h1 id="定时器skynet-timer-c"><a href="#定时器skynet-timer-c" class="headerlink" title="定时器skynet_timer.c"></a>定时器skynet_timer.c</h1><p>skynet自带定时器功能skynet-src/skynet_timer.c，在skynet启动时会创建一个线程专门跑定时器。每帧(0.0025秒/帧)调用skynet_updatetime()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// skynet-src/skynet_start.c</span><br><span class="line"></span><br><span class="line">create_thread(&amp;pid[1], thread_timer, m);</span><br><span class="line"></span><br><span class="line">static void *</span><br><span class="line">thread_timer(void *p) &#123;</span><br><span class="line">    struct monitor * m = p;</span><br><span class="line">    skynet_initthread(THREAD_TIMER);</span><br><span class="line">    for (;;) &#123;</span><br><span class="line">        skynet_updatetime();</span><br><span class="line">        CHECK_ABORT</span><br><span class="line">        wakeup(m,m-&gt;count-1);</span><br><span class="line">        usleep(2500);  //2500微妙=0.0025秒</span><br><span class="line">        if (SIG) &#123;</span><br><span class="line">            signal_hup();</span><br><span class="line">            SIG = 0;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="设计思想"><a href="#设计思想" class="headerlink" title="设计思想"></a>设计思想</h2><p>在skynet里，时间精度是0.01秒，这对于游戏服务器来说已经足够了，定义1滴答=0.01秒，1秒=100滴答。其核心思想是：每个定时器设置一个到期的滴答数，与当前系统的滴答数(启动时是0，然后1滴答1滴答往后跳)比较差值，如果差值interval比较小（0&lt;=interval&lt;=2^8-1），表示定时器即将到来，需要严格关注，把它们保存在2^8个定时器链表里；如果interval越大，表示定时器越远，可以不用太关注，划分成4个等级，2^8&lt;=interval&lt;=2^(8+6)-1，2^(8+6)&lt;=interval&lt;=2^(8+6+6)，…，每个等级只需要2^6个定时器链表保存，比如对于2^8&lt;=interval&lt;=2^(8+6)-1的定时器，将interval&gt;&gt;8相同的值idx保存在第一个等级位置为idx的链表里。</p>
+<p>这样做的优势是：不用为每一个interval创建一个链表，而只需要2^8+4*(2^6)个链表，大大节省了内存。</p>
+<p>之后，在不同情况下，分配不同等级的定时器，等级越高，表示越遥远，需要重新分配的次数越少。</p>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p>数据结构：timer-&gt;near，保存2^8个即将到来的定时器链表；timer-&gt;t，保存4个分级数组，数组的每一项是一个链表；timer-&gt;time保存从skynet启动到现在走过的滴答数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">// skynet-src/skynet_timer.c</span><br><span class="line">struct timer_event &#123;</span><br><span class="line">    uint32_t handle;</span><br><span class="line">    int session;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct timer_node &#123; //单个定时器节点</span><br><span class="line">    struct timer_node *next;</span><br><span class="line">    uint32_t expire; //到期滴答数</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct link_list &#123; //定时器链表</span><br><span class="line">    struct timer_node head;</span><br><span class="line">    struct timer_node *tail;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct timer &#123;</span><br><span class="line">    struct link_list near[TIME_NEAR];</span><br><span class="line">    struct link_list t[4][TIME_LEVEL];</span><br><span class="line">    struct spinlock lock;</span><br><span class="line">    uint32_t time; //启动到现在走过的滴答数，等同于current</span><br><span class="line">    ...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">// skynet-src/skynet_timer.c</span><br><span class="line">int</span><br><span class="line">skynet_timeout(uint32_t handle, int time, int session) &#123;</span><br><span class="line">    ...</span><br><span class="line">    struct timer_event event;</span><br><span class="line">    event.handle = handle;</span><br><span class="line">    event.session = session;</span><br><span class="line">    timer_add(TI, &amp;event, sizeof(event), time);</span><br><span class="line">	/*</span><br><span class="line">	timer_node指针分配空间</span><br><span class="line">	*/</span><br><span class="line">    return session;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static void</span><br><span class="line">timer_add(struct timer *T,void *arg,size_t sz,int time) &#123;</span><br><span class="line">    struct timer_node *node = (struct timer_node *)skynet_malloc(sizeof(*node)+sz);</span><br><span class="line">	/*</span><br><span class="line">	timer_node结构里并没有timer_event字段，除了分配node自身大小外，额外再分配timer_event大小的空间用来存放event，之后通过node+1的位置可以获取到timer_event数据	</span><br><span class="line">	*/</span><br><span class="line">    memcpy(node+1,arg,sz);</span><br><span class="line"></span><br><span class="line">    SPIN_LOCK(T);</span><br><span class="line"></span><br><span class="line">    node-&gt;expire=time+T-&gt;time;</span><br><span class="line">    /*</span><br><span class="line">	添加到定时器链表里，如果定时器的到期滴答数跟当前比较近(&lt;2^8)，表示即将触发定时器添加到T-&gt;near数组里，否则根据差值大小添加到对应的T-&gt;T[i]中</span><br><span class="line">	*/</span><br><span class="line">	add_node(T,node);</span><br><span class="line">	</span><br><span class="line">    SPIN_UNLOCK(T);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static void</span><br><span class="line">add_node(struct timer *T,struct timer_node *node) &#123;</span><br><span class="line">    uint32_t time=node-&gt;expire;</span><br><span class="line">    uint32_t current_time=T-&gt;time;</span><br><span class="line"></span><br><span class="line">    if ((time|TIME_NEAR_MASK)==(current_time|TIME_NEAR_MASK)) &#123;</span><br><span class="line">        link(&amp;T-&gt;near[time&amp;TIME_NEAR_MASK],node);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        int i;</span><br><span class="line">        uint32_t mask=TIME_NEAR &lt;&lt; TIME_LEVEL_SHIFT;</span><br><span class="line">        for (i=0;i&lt;3;i++) &#123;</span><br><span class="line">            if ((time|(mask-1))==(current_time|(mask-1))) &#123;</span><br><span class="line">                 break;</span><br><span class="line">            &#125;</span><br><span class="line">            mask &lt;&lt;= TIME_LEVEL_SHIFT;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        link(&amp;T-&gt;t[i][((time&gt;&gt;(TIME_NEAR_SHIFT + i*TIME_LEVEL_SHIFT)) &amp; TIME_LEVEL_MASK)],node);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">// skynet-src/skynet_timer.c</span><br><span class="line">static inline void</span><br><span class="line">timer_execute(struct timer *T) &#123;</span><br><span class="line">    int idx = T-&gt;time &amp; TIME_NEAR_MASK;</span><br><span class="line">	/*</span><br><span class="line">	每帧从T-&gt;near中触发到期的定时器链表，near数组里每一项的链表中的所有节点的到期滴答数是相同的</span><br><span class="line">	*/</span><br><span class="line">    while (T-&gt;near[idx].head.next) &#123;</span><br><span class="line">        struct timer_node *current = link_clear(&amp;T-&gt;near[idx]);</span><br><span class="line">        SPIN_UNLOCK(T);</span><br><span class="line">        // dispatch_list don&apos;t need lock T</span><br><span class="line">        dispatch_list(current);</span><br><span class="line">        SPIN_LOCK(T);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static inline void</span><br><span class="line">dispatch_list(struct timer_node *current) &#123;</span><br><span class="line">    do &#123;</span><br><span class="line">		/*</span><br><span class="line">		调用dispatch_list进行分发，通过current+1获取timer_event数据</span><br><span class="line">		*/</span><br><span class="line">        struct timer_event * event = (struct timer_event *)(current+1);</span><br><span class="line">        struct skynet_message message;</span><br><span class="line">        message.source = 0;</span><br><span class="line">        message.session = event-&gt;session;</span><br><span class="line">        message.data = NULL;</span><br><span class="line">        message.sz = (size_t)PTYPE_RESPONSE &lt;&lt; MESSAGE_TYPE_SHIFT;</span><br><span class="line">		/*</span><br><span class="line">		然后给event-&gt;handle push一条消息表示触发定时器</span><br><span class="line">		*/</span><br><span class="line">       skynet_context_push(event-&gt;handle, &amp;message);</span><br><span class="line"></span><br><span class="line">       struct timer_node * temp = current;</span><br><span class="line">       current=current-&gt;next;</span><br><span class="line">       skynet_free(temp);</span><br><span class="line">    &#125; while (current);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>每帧除了触发定时器外，还需重新分配定时器所在区间(timer_shift)，因为T-&gt;near里保存即将触发的定时器，所以每TIME_NEAR-1（2^8-1）个滴答数才有可能需要分配（第22行）。否则，分配T-&gt;t中某个等级即可。</p>
+<p>当T-&gt;time的低8位不全为0时，不需要分配，所以每2^8个滴答数才有需要分配一次；</p>
+<p>当T-&gt;time的第9-14位不全为0时，重新分配T[0]等级，每2^8个滴答数分配一次，idx从1开始，每次分配+1；</p>
+<p>当T-&gt;time的第15-20位不全为0时，重新分配T[1]等级，每2^(8+6)个滴答数分配一次，idx从1开始，每次分配+1；</p>
+<p>当T-&gt;time的第21-26位不全为0时，重新分配T[2]等级，每2^(8+6+6)个滴答数分配一次，idx从1开始，每次分配+1；</p>
+<p>当T-&gt;time的第27-32位不全为0时，重新分配T[3]等级，每2^(8+6+6+6)个滴答数分配一次，idx从1开始，每次分配+1；</p>
+<p>即等级越大的定时器越遥远，越不关注，需要重新分配的次数也就越少。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">// skynet-src/skynet_timer.c</span><br><span class="line">static void</span><br><span class="line">move_list(struct timer *T, int level, int idx) &#123;</span><br><span class="line">    struct timer_node *current = link_clear(&amp;T-&gt;t[level][idx]);</span><br><span class="line">    while (current) &#123;</span><br><span class="line">        struct timer_node *temp=current-&gt;next;</span><br><span class="line">        add_node(T,current);</span><br><span class="line">        current=temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static void</span><br><span class="line">timer_shift(struct timer *T) &#123;</span><br><span class="line">    int mask = TIME_NEAR;</span><br><span class="line">    uint32_t ct = ++T-&gt;time;</span><br><span class="line">    if (ct == 0) &#123;</span><br><span class="line">        move_list(T, 3, 0);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        uint32_t time = ct &gt;&gt; TIME_NEAR_SHIFT;</span><br><span class="line">        int i=0;</span><br><span class="line"></span><br><span class="line">        while ((ct &amp; (mask-1))==0) &#123;</span><br><span class="line">            int idx=time &amp; TIME_LEVEL_MASK;</span><br><span class="line">            if (idx!=0) &#123;</span><br><span class="line">                move_list(T, i, idx);</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">            mask &lt;&lt;= TIME_LEVEL_SHIFT;</span><br><span class="line">            time &gt;&gt;= TIME_LEVEL_SHIFT;</span><br><span class="line">            ++i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -474,12 +475,12 @@
   <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
   <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
   <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
-  <p><span>本文标题:</span><a href="/2020/11/19/内核spinlock的说明和使用/">内核spinlock的说明和使用</a></p>
+  <p><span>本文标题:</span><a href="/2020/11/19/skynet-定时器/">skynet-定时器</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Twh233 的个人博客">Twh233</a></p>
   <p><span>发布时间:</span>2020年11月19日 - 23:11</p>
-  <p><span>最后更新:</span>2020年11月20日 - 00:11</p>
-  <p><span>原始链接:</span><a href="/2020/11/19/内核spinlock的说明和使用/" title="内核spinlock的说明和使用">http://twh233.github.io/2020/11/19/内核spinlock的说明和使用/</a>
-    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://twh233.github.io/2020/11/19/内核spinlock的说明和使用/" aria-label="复制成功！"></i></span>
+  <p><span>最后更新:</span>2021年05月19日 - 11:05</p>
+  <p><span>原始链接:</span><a href="/2020/11/19/skynet-定时器/" title="skynet-定时器">http://twh233.github.io/2020/11/19/skynet-定时器/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://twh233.github.io/2020/11/19/skynet-定时器/" aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
 </div>
@@ -511,7 +512,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
+            <a href="/tags/skynet/" rel="tag"><i class="fa fa-tag"></i> skynet</a>
           
         </div>
       
@@ -524,8 +525,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/11/19/skynet-定时器/" rel="next" title="skynet-定时器">
-                <i class="fa fa-chevron-left"></i> skynet-定时器
+              <a href="/2020/11/18/分布式锁实现/" rel="next" title="分布式锁实现">
+                <i class="fa fa-chevron-left"></i> 分布式锁实现
               </a>
             
           </div>
@@ -534,8 +535,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/11/22/协程设计原理与实现/" rel="prev" title="协程设计原理与实现">
-                协程设计原理与实现 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/11/19/内核spinlock的说明和使用/" rel="prev" title="内核spinlock的说明和使用">
+                内核spinlock的说明和使用 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -707,7 +708,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#源码"><span class="nav-number">1.</span> <span class="nav-text">源码</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#定时器skynet-timer-c"><span class="nav-number">1.</span> <span class="nav-text">定时器skynet_timer.c</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#设计思想"><span class="nav-number">1.1.</span> <span class="nav-text">设计思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码"><span class="nav-number">1.2.</span> <span class="nav-text">源码</span></a></li></ol></li></ol></div>
             
 
           </div>

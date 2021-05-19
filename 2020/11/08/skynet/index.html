@@ -105,10 +105,11 @@
 <meta property="og:image" content="http://twh233.github.io/2020/11/08/skynet/3.png">
 <meta property="og:image" content="http://twh233.github.io/2020/11/08/skynet/5.png">
 <meta property="og:image" content="http://twh233.github.io/2020/11/08/skynet/6.png">
+<meta property="og:image" content="http://twh233.github.io/2020/11/08/skynet/9.png">
 <meta property="og:image" content="http://twh233.github.io/2020/11/08/skynet/4.jpg">
 <meta property="og:image" content="http://twh233.github.io/2020/11/08/skynet/8.png">
 <meta property="og:image" content="http://twh233.github.io/2020/11/08/skynet/7.png">
-<meta property="og:updated_time" content="2021-05-10T07:29:56.372Z">
+<meta property="og:updated_time" content="2021-05-19T05:29:33.625Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="skynet">
 <meta name="twitter:description" content="多核开发与actor模型 多进程 a) 消息队列   i. 协议问题   ii. 断线重连   iii. 进程启动顺序问题   iv. 负载均衡问题   v. 数据同步问题    b) RPC   i. 两个系统保持同步问题     c) zk     i. 配置项管理问题   ii. 集群管理    iii. 统一命名问题   iv. 状态同步问题   v. 分布式锁问题      d) 拆分">
@@ -414,7 +415,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  992
+                  1,087
                 </span>
               
 
@@ -481,6 +482,7 @@ ii. 热点拆分
 <li>实现<br> a) logger 服务 service-src/service_logger.c<br> b) lua 服务启动器 service-src/service_snlua.c  </li>
 </ol>
 <h2 id="actor运行以及消息调度"><a href="#actor运行以及消息调度" class="headerlink" title="actor运行以及消息调度"></a>actor运行以及消息调度</h2><img src="/2020/11/08/skynet/1.png">
+<p>CPU有多少个核就可以开多少worker线程，每个worker线程根据权重去取每个msg里的消息个数来处理，可以取一个也可以取全部、取1/2，每个worker线程是自旋锁，为的是压榨CPU，如果消息队列里全是空的，那么进行休眠，通过条件变量来唤醒worker线程（while）。</p>
 <ol>
 <li>消息队列<br> a) 全局消息队列<br> b) actor 消息队列   </li>
 <li>skynet 中锁的使用<br> a) 互斥锁  </li>
@@ -501,7 +503,7 @@ ii. 休眠（条件变量）与唤醒（timer 和 socket）
 </ol>
 <img src="/2020/11/08/skynet/5.png">  
 <img src="/2020/11/08/skynet/6.png">
-<h2 id="skynet网络层"><a href="#skynet网络层" class="headerlink" title="skynet网络层"></a>skynet网络层</h2><h3 id="actor-需要网络事件绑定？"><a href="#actor-需要网络事件绑定？" class="headerlink" title="actor 需要网络事件绑定？"></a>actor 需要网络事件绑定？</h3><p>1.connetfd 跟 redis  接受redis的数据<br>2.clientfd<br>3.listenfd clientfd = accept(); skynet作为客户端连接其他服务fd<br>4.管道fd 管道读端  work 线程往管道写端写数据  socket线程在管道读端读数据</p>
+<h2 id="skynet网络层"><a href="#skynet网络层" class="headerlink" title="skynet网络层"></a>skynet网络层</h2><h3 id="actor-需要网络事件绑定？"><a href="#actor-需要网络事件绑定？" class="headerlink" title="actor 需要网络事件绑定？"></a>actor 需要网络事件绑定？</h3><p>1.connetfd 跟 redis  接受redis的数据<br>2.clientfd<br>3.listenfd clientfd = accept(); skynet作为客户端连接其他服务fd<br>4.管道fd 管道读端  work 线程往管道写端写数据  socket线程在管道读端读数据<br><img src="/2020/11/08/skynet/9.png"></p>
 <p>worker在发送数据的时候 try_spinlock() 拿到锁，直接在worker线程将数据发送出去，其他情况在socket线程</p>
 <img src="/2020/11/08/skynet/4.jpg"> 
 <h3 id="阻塞IO与非阻塞IO的区别"><a href="#阻塞IO与非阻塞IO的区别" class="headerlink" title="阻塞IO与非阻塞IO的区别"></a>阻塞IO与非阻塞IO的区别</h3><ol>
@@ -546,7 +548,7 @@ ii. lua 文件是一个匿名函数
   <p><span>本文标题:</span><a href="/2020/11/08/skynet/">skynet</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Twh233 的个人博客">Twh233</a></p>
   <p><span>发布时间:</span>2020年11月08日 - 19:11</p>
-  <p><span>最后更新:</span>2021年05月10日 - 15:05</p>
+  <p><span>最后更新:</span>2021年05月19日 - 13:05</p>
   <p><span>原始链接:</span><a href="/2020/11/08/skynet/" title="skynet">http://twh233.github.io/2020/11/08/skynet/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://twh233.github.io/2020/11/08/skynet/" aria-label="复制成功！"></i></span>
   </p>
