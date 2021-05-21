@@ -92,13 +92,13 @@
 
 
 
-<meta name="description" content="多核开发与actor模型 多进程 a) 消息队列   i. 协议问题   ii. 断线重连   iii. 进程启动顺序问题   iv. 负载均衡问题   v. 数据同步问题    b) RPC   i. 两个系统保持同步问题     c) zk     i. 配置项管理问题   ii. 集群管理    iii. 统一命名问题   iv. 状态同步问题   v. 分布式锁问题      d) 拆分">
+<meta name="description" content="skynet能提供高并发的核心原因 io多路复用 并发处理连接 多少核心多少工作线程 并发处理业务  单个actor协程池 并发处理不同业务  为什么是轻量级的游戏服务框架？因为跟业务无关，只实现了游戏业务中基础组件以及调度方式，跟具体游戏无关 多核开发与actor模型 多进程 a) 消息队列   i. 协议问题   ii. 断线重连   iii. 进程启动顺序问题   iv. 负载均衡问题">
 <meta name="keywords" content="skynet">
 <meta property="og:type" content="article">
 <meta property="og:title" content="skynet">
 <meta property="og:url" content="http://twh233.github.io/2020/11/08/skynet/index.html">
 <meta property="og:site_name" content="Twh233&#39;s Blog">
-<meta property="og:description" content="多核开发与actor模型 多进程 a) 消息队列   i. 协议问题   ii. 断线重连   iii. 进程启动顺序问题   iv. 负载均衡问题   v. 数据同步问题    b) RPC   i. 两个系统保持同步问题     c) zk     i. 配置项管理问题   ii. 集群管理    iii. 统一命名问题   iv. 状态同步问题   v. 分布式锁问题      d) 拆分">
+<meta property="og:description" content="skynet能提供高并发的核心原因 io多路复用 并发处理连接 多少核心多少工作线程 并发处理业务  单个actor协程池 并发处理不同业务  为什么是轻量级的游戏服务框架？因为跟业务无关，只实现了游戏业务中基础组件以及调度方式，跟具体游戏无关 多核开发与actor模型 多进程 a) 消息队列   i. 协议问题   ii. 断线重连   iii. 进程启动顺序问题   iv. 负载均衡问题">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://twh233.github.io/2020/11/08/skynet/1.png">
 <meta property="og:image" content="http://twh233.github.io/2020/11/08/skynet/2.png">
@@ -109,10 +109,10 @@
 <meta property="og:image" content="http://twh233.github.io/2020/11/08/skynet/4.jpg">
 <meta property="og:image" content="http://twh233.github.io/2020/11/08/skynet/8.png">
 <meta property="og:image" content="http://twh233.github.io/2020/11/08/skynet/7.png">
-<meta property="og:updated_time" content="2021-05-19T05:29:33.625Z">
+<meta property="og:updated_time" content="2021-05-19T05:52:55.258Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="skynet">
-<meta name="twitter:description" content="多核开发与actor模型 多进程 a) 消息队列   i. 协议问题   ii. 断线重连   iii. 进程启动顺序问题   iv. 负载均衡问题   v. 数据同步问题    b) RPC   i. 两个系统保持同步问题     c) zk     i. 配置项管理问题   ii. 集群管理    iii. 统一命名问题   iv. 状态同步问题   v. 分布式锁问题      d) 拆分">
+<meta name="twitter:description" content="skynet能提供高并发的核心原因 io多路复用 并发处理连接 多少核心多少工作线程 并发处理业务  单个actor协程池 并发处理不同业务  为什么是轻量级的游戏服务框架？因为跟业务无关，只实现了游戏业务中基础组件以及调度方式，跟具体游戏无关 多核开发与actor模型 多进程 a) 消息队列   i. 协议问题   ii. 断线重连   iii. 进程启动顺序问题   iv. 负载均衡问题">
 <meta name="twitter:image" content="http://twh233.github.io/2020/11/08/skynet/1.png">
 
 
@@ -415,7 +415,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,087
+                  1,233
                 </span>
               
 
@@ -431,7 +431,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  4
+                  5
                 </span>
               
             </div>
@@ -452,7 +452,13 @@
       
 
       
-        <h2 id="多核开发与actor模型"><a href="#多核开发与actor模型" class="headerlink" title="多核开发与actor模型"></a>多核开发与actor模型</h2><ol>
+        <h2 id="skynet能提供高并发的核心原因"><a href="#skynet能提供高并发的核心原因" class="headerlink" title="skynet能提供高并发的核心原因"></a>skynet能提供高并发的核心原因</h2><ol>
+<li>io多路复用 并发处理连接</li>
+<li>多少核心多少工作线程 并发处理业务 </li>
+<li>单个actor协程池 并发处理不同业务</li>
+</ol>
+<h2 id="为什么是轻量级的游戏服务框架？"><a href="#为什么是轻量级的游戏服务框架？" class="headerlink" title="为什么是轻量级的游戏服务框架？"></a>为什么是轻量级的游戏服务框架？</h2><p>因为跟业务无关，只实现了游戏业务中基础组件以及调度方式，跟具体游戏无关</p>
+<h2 id="多核开发与actor模型"><a href="#多核开发与actor模型" class="headerlink" title="多核开发与actor模型"></a>多核开发与actor模型</h2><ol>
 <li><p>多进程<br> a) 消息队列  </p>
 <pre><code>i. 协议问题  
 ii. 断线重连  
@@ -477,7 +483,9 @@ ii. 热点拆分
 <li>结论：多进程并发实体是进程，多线程并发实体是线程，go 并发实体是 goroutine（协程），actor 并发实体是 actor（语言层面抽象出来的“进程”）。它们都是在隔离性（运行环境）与统一性（数据统一）之间作取舍平衡，而 actor 模型在语言层面做运行环境的隔离，数据同步依然需要通过消息来同步。actor 模型是加强版的多进程解决方案，进程间通信由<br>socket 转为指针的传递，从而通信变得更加可靠，同时多进程解决方案中，公共开源组件（消息队列，rpc，zookeeper）解决的问题，在 actor 模型中处理起来更方便。  </li>
 <li>actor 定义：<br> a) 用于并行计算<br> b) actor 是最基本的计算单元<br> c) 基于消息计算<br> d) actor 之间通过消息沟通并且相互隔离  </li>
 </ol>
-<h2 id="skynet中的actor模型"><a href="#skynet中的actor模型" class="headerlink" title="skynet中的actor模型"></a>skynet中的actor模型</h2><ol>
+<h2 id="skynet中的actor模型"><a href="#skynet中的actor模型" class="headerlink" title="skynet中的actor模型"></a>skynet中的actor模型</h2><p>为什么采用actor？</p>
+<p>做一种更好的抽象，最大化的简化并发模型的理解和使用，用最正常的思维考虑并发问题。</p>
+<ol>
 <li>结构组成<br> a) 隔离的环境（内存块或 lua 虚拟机）<br> b) 消息队列<br> c) 回调函数  </li>
 <li>实现<br> a) logger 服务 service-src/service_logger.c<br> b) lua 服务启动器 service-src/service_snlua.c  </li>
 </ol>
@@ -694,7 +702,7 @@ ii. lua 文件是一个匿名函数
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-count">62</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -778,7 +786,7 @@ ii. lua 文件是一个匿名函数
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#多核开发与actor模型"><span class="nav-number">1.</span> <span class="nav-text">多核开发与actor模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#skynet中的actor模型"><span class="nav-number">2.</span> <span class="nav-text">skynet中的actor模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#actor运行以及消息调度"><span class="nav-number">3.</span> <span class="nav-text">actor运行以及消息调度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#skynet网络层"><span class="nav-number">4.</span> <span class="nav-text">skynet网络层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#actor-需要网络事件绑定？"><span class="nav-number">4.1.</span> <span class="nav-text">actor 需要网络事件绑定？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#阻塞IO与非阻塞IO的区别"><span class="nav-number">4.2.</span> <span class="nav-text">阻塞IO与非阻塞IO的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lua-与-c-接口编程"><span class="nav-number">5.</span> <span class="nav-text">lua 与 c 接口编程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#actor-通信"><span class="nav-number">6.</span> <span class="nav-text">actor 通信</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#skynet能提供高并发的核心原因"><span class="nav-number">1.</span> <span class="nav-text">skynet能提供高并发的核心原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么是轻量级的游戏服务框架？"><span class="nav-number">2.</span> <span class="nav-text">为什么是轻量级的游戏服务框架？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多核开发与actor模型"><span class="nav-number">3.</span> <span class="nav-text">多核开发与actor模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#skynet中的actor模型"><span class="nav-number">4.</span> <span class="nav-text">skynet中的actor模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#actor运行以及消息调度"><span class="nav-number">5.</span> <span class="nav-text">actor运行以及消息调度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#skynet网络层"><span class="nav-number">6.</span> <span class="nav-text">skynet网络层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#actor-需要网络事件绑定？"><span class="nav-number">6.1.</span> <span class="nav-text">actor 需要网络事件绑定？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#阻塞IO与非阻塞IO的区别"><span class="nav-number">6.2.</span> <span class="nav-text">阻塞IO与非阻塞IO的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lua-与-c-接口编程"><span class="nav-number">7.</span> <span class="nav-text">lua 与 c 接口编程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#actor-通信"><span class="nav-number">8.</span> <span class="nav-text">actor 通信</span></a></li></ol></div>
             
 
           </div>

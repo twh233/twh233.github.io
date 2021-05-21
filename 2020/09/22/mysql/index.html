@@ -92,22 +92,36 @@
 
 
 
-<meta name="description" content="数值类型 事务特征事务四大特征：原子性（Atomicity，或称不可分割性）、一致性（Consistency）、隔离性（Isolation，又称独立性）、持久性（Durability）。一致性：数据库在操作前和操作后，完整性不被破坏。隔离性：多个事务可以同时执行，防止多个事务并发执行引起交叉执行数据不一致。持久性：事务结束后，对数据的修改是永久的。 隔离级别（1）读未提交：read uncommi">
+<meta name="description" content="mysql索引底层原理insert的时候进行排序（原因：查远远大于写的次数）每次innodb会取16kb（一页的数据出来），因为就算取一行，肯定也会取一页，放到内存里  页目录可以设定一些索引，通过顺序排序，二分查找能找到对应的数据 如果不用自增ID做主键，那么如果要保证顺序，那么要进行数据的交换。 主键索引=聚集索引，索引和数据在一起 联合索引存储主键索引，再从主键去找落盘的数据 为什么b&amp;gt">
 <meta name="keywords" content="mysql">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql">
 <meta property="og:url" content="http://twh233.github.io/2020/09/22/mysql/index.html">
 <meta property="og:site_name" content="Twh233&#39;s Blog">
-<meta property="og:description" content="数值类型 事务特征事务四大特征：原子性（Atomicity，或称不可分割性）、一致性（Consistency）、隔离性（Isolation，又称独立性）、持久性（Durability）。一致性：数据库在操作前和操作后，完整性不被破坏。隔离性：多个事务可以同时执行，防止多个事务并发执行引起交叉执行数据不一致。持久性：事务结束后，对数据的修改是永久的。 隔离级别（1）读未提交：read uncommi">
+<meta property="og:description" content="mysql索引底层原理insert的时候进行排序（原因：查远远大于写的次数）每次innodb会取16kb（一页的数据出来），因为就算取一行，肯定也会取一页，放到内存里  页目录可以设定一些索引，通过顺序排序，二分查找能找到对应的数据 如果不用自增ID做主键，那么如果要保证顺序，那么要进行数据的交换。 主键索引=聚集索引，索引和数据在一起 联合索引存储主键索引，再从主键去找落盘的数据 为什么b&amp;gt">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://twh233.github.io/2020/09/22/mysql/2.png">
 <meta property="og:image" content="http://twh233.github.io/2020/09/22/mysql/1.png">
+<meta property="og:image" content="http://twh233.github.io/2020/09/22/mysql/2.png">
+<meta property="og:image" content="http://twh233.github.io/2020/09/22/mysql/4.png">
+<meta property="og:image" content="http://twh233.github.io/2020/09/22/mysql/5.png">
+<meta property="og:image" content="http://twh233.github.io/2020/09/22/mysql/6.png">
+<meta property="og:image" content="http://twh233.github.io/2020/09/22/mysql/12.png">
+<meta property="og:image" content="http://twh233.github.io/2020/09/22/mysql/13.png">
+<meta property="og:image" content="http://twh233.github.io/2020/09/22/mysql/7.png">
+<meta property="og:image" content="http://twh233.github.io/2020/09/22/mysql/8.png">
+<meta property="og:image" content="http://twh233.github.io/2020/09/22/mysql/9.png">
+<meta property="og:image" content="http://twh233.github.io/2020/09/22/mysql/10.png">
+<meta property="og:image" content="http://twh233.github.io/2020/09/22/mysql/11.png">
 <meta property="og:image" content="http://twh233.github.io/2020/09/22/mysql/3.png">
-<meta property="og:updated_time" content="2021-05-18T08:55:48.248Z">
+<meta property="og:image" content="http://twh233.github.io/2020/09/22/mysql/14.png">
+<meta property="og:image" content="http://twh233.github.io/2020/09/22/mysql/15.png">
+<meta property="og:image" content="http://twh233.github.io/2020/09/22/mysql/17.png">
+<meta property="og:image" content="http://twh233.github.io/2020/09/22/mysql/16.png">
+<meta property="og:updated_time" content="2021-05-21T11:03:11.585Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql">
-<meta name="twitter:description" content="数值类型 事务特征事务四大特征：原子性（Atomicity，或称不可分割性）、一致性（Consistency）、隔离性（Isolation，又称独立性）、持久性（Durability）。一致性：数据库在操作前和操作后，完整性不被破坏。隔离性：多个事务可以同时执行，防止多个事务并发执行引起交叉执行数据不一致。持久性：事务结束后，对数据的修改是永久的。 隔离级别（1）读未提交：read uncommi">
-<meta name="twitter:image" content="http://twh233.github.io/2020/09/22/mysql/2.png">
+<meta name="twitter:description" content="mysql索引底层原理insert的时候进行排序（原因：查远远大于写的次数）每次innodb会取16kb（一页的数据出来），因为就算取一行，肯定也会取一页，放到内存里  页目录可以设定一些索引，通过顺序排序，二分查找能找到对应的数据 如果不用自增ID做主键，那么如果要保证顺序，那么要进行数据的交换。 主键索引=聚集索引，索引和数据在一起 联合索引存储主键索引，再从主键去找落盘的数据 为什么b&amp;gt">
+<meta name="twitter:image" content="http://twh233.github.io/2020/09/22/mysql/1.png">
 
 
 
@@ -409,7 +423,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  395
+                  1,856
                 </span>
               
 
@@ -425,7 +439,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  7
                 </span>
               
             </div>
@@ -446,16 +460,62 @@
       
 
       
-        <h2 id="数值类型"><a href="#数值类型" class="headerlink" title="数值类型"></a>数值类型</h2><img src="/2020/09/22/mysql/2.png">
-<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><h3 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h3><p>事务四大特征：<br>原子性（Atomicity，或称不可分割性）、<br>一致性（Consistency）、<br>隔离性（Isolation，又称独立性）、<br>持久性（Durability）。<br>一致性：数据库在操作前和操作后，完整性不被破坏。<br>隔离性：多个事务可以同时执行，防止多个事务并发执行引起交叉执行数据不一致。<br>持久性：事务结束后，对数据的修改是永久的。</p>
-<h3 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h3><p>（1）读未提交：read uncommitted（2）读已提交：read committed<br>（3）可重复读：repeatable read（4）串行化：serializable  </p>
+        <h2 id="mysql索引底层原理"><a href="#mysql索引底层原理" class="headerlink" title="mysql索引底层原理"></a>mysql索引底层原理</h2><p>insert的时候进行排序（原因：查远远大于写的次数）<br>每次innodb会取16kb（一页的数据出来），因为就算取一行，肯定也会取一页，放到内存里</p>
 <img src="/2020/09/22/mysql/1.png">
-<h3 id="undolog"><a href="#undolog" class="headerlink" title="undolog"></a>undolog</h3><p>每一个事务都有undolog，事务开启时一个临时表存事务的操作，这个临时表就是undolog，一旦有错误就X掉这次事务。</p>
-<h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><p>四条从效果上第一条影响最大，后面越来越小。<br>① SQL语句及索引的优化 ② 数据库表结构的优化<br>③ 系统配置的优化<br>④ 硬件的优化</p>
-<h2 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h2><p>表级锁<br>行级锁<br>页级锁  </p>
-<h2 id="引擎"><a href="#引擎" class="headerlink" title="引擎"></a>引擎</h2><p>Myisam(表级锁) Innodb(行级锁)<br>1.为什么Myisam快？<br>因为Myisam B+树存的是引用，加载到内存快。 等Innodb加载完，Myisam都查完了<br>2.为什么Innodb不支持全文索引？<br>数据直接在叶子结点上，如果要全文索引，相当于复制了一份数据库，浪费空间  </p>
-<h2 id="binlog"><a href="#binlog" class="headerlink" title="binlog"></a>binlog</h2><img src="/2020/09/22/mysql/3.png">
+<p>页目录可以设定一些索引，通过顺序排序，二分查找能找到对应的数据</p>
+<p>如果不用自增ID做主键，那么如果要保证顺序，那么要进行数据的交换。<br><img src="/2020/09/22/mysql/2.png"></p>
+<p>主键索引=聚集索引，索引和数据在一起<br><img src="/2020/09/22/mysql/4.png"></p>
+<p>联合索引存储主键索引，再从主键去找落盘的数据<br><img src="/2020/09/22/mysql/5.png"></p>
+<p>为什么b&gt;1不走索引，b&gt;6走索引？<br><img src="/2020/09/22/mysql/6.png"><br>因为b&gt;1，需要回表很多次，b&gt;6只需要回表两次</p>
+<p>hash存储不支持范围查找，等值查hash，能找到对应的链表，找到数据</p>
+<h3 id="mysql聚簇和非聚簇索引的区别"><a href="#mysql聚簇和非聚簇索引的区别" class="headerlink" title="mysql聚簇和非聚簇索引的区别"></a>mysql聚簇和非聚簇索引的区别</h3><img src="/2020/09/22/mysql/12.png">
+<h3 id="索引的设计原则"><a href="#索引的设计原则" class="headerlink" title="索引的设计原则"></a>索引的设计原则</h3><img src="/2020/09/22/mysql/13.png">
+<h2 id="buffer-pool"><a href="#buffer-pool" class="headerlink" title="buffer pool"></a>buffer pool</h2><img src="/2020/09/22/mysql/7.png">
+<p>磁盘与buffer pool的关系</p>
+<img src="/2020/09/22/mysql/8.png">
+<p>free链表存储空白的buffer pool位置<br>flush链表存储update的位置，方便刷入磁盘<br>lru链表，最近访问的放链表头，那么最后的位置是冷数据位置，可以淘汰<br>5/8 热数据区域 3/8 冷数据区域 淘汰冷数据区域，并且新加入的数据加入冷数据区域 如果再次访问加载到热数据区域头部</p>
+<h2 id="log"><a href="#log" class="headerlink" title="log"></a>log</h2><p>buffer pool 刷新到磁盘的时候 mysql挂了</p>
+<h3 id="redolog"><a href="#redolog" class="headerlink" title="redolog"></a>redolog</h3><p>innodb自带的，记录的是哪一页哪个位置的数据的修改</p>
+<p>方式一：<br>1.修改buffer pool里面的页数据—脏页<br>2.update语句 –&gt; 生成一个redolog  –&gt; log buffer<br>3.redolog 持久化  事务提交去持久化<br>4.修改成功  </p>
+<p>方式二：<br>1.修改buffer pool里面的页数据—脏页<br>2.修改磁盘中的页数据<br>3.修改成功</p>
+<img src="/2020/09/22/mysql/9.png">
+<p>为什么方式一快，因为对于某一页来说，用户数据区域可能在磁盘不同的位置，要去修改，那么磁盘要一直转，因为存储数据的时候不一定是连续存储。导致效率低，这也是机械硬盘速度慢的原因之一。</p>
+<p>mysql有提前分配一块区域  redolog ib_logfile0 ib_logfile1   文件大小</p>
+<img src="/2020/09/22/mysql/10.png">
+<p>如果redolog满了，那么要检查buffer pool，开始刷盘，然后清空redolog。如果redolog设置大一点，那么这种刷盘操作就减少了，提高了性能</p>
+<img src="/2020/09/22/mysql/11.png">
+<h3 id="binlog"><a href="#binlog" class="headerlink" title="binlog"></a>binlog</h3><p>mysql自带的，记录的是真的sql语句</p>
+<img src="/2020/09/22/mysql/3.png">
 <p>binlog实际是除了select以外所有操作数据库动作的记录，方便恢复数据库。master主动推送到slave结点的relay log，从结点io线程去读relay log然后在sql线程去更新数据库。</p>
+<h3 id="undo-log"><a href="#undo-log" class="headerlink" title="undo log"></a>undo log</h3><p>1.修改buffer pool里面的页数据—脏页<br>2.update语句 –&gt; 生成一个redolog  –&gt; log buffer<br>3.redolog 持久化  事务提交去持久化<br>4.binlog 持久化<br>5.undo log反向操作<br>6.修改成功  </p>
+<h2 id="引擎"><a href="#引擎" class="headerlink" title="引擎"></a>引擎</h2><p>Myisam(表级锁) Innodb(行级锁)<br>Myisam存储了表的总行数，所以count特别快</p>
+<p>nnoDB 支持崩溃后安全恢复，MyISAM 不支持崩溃后安全恢复；<br>InnoDB 支持行级锁，MyISAM 不支持行级锁，只支持到表锁；<br>InnoDB 支持外键，MyISAM 不支持外键；<br>MyISAM 性能比 InnoDB 高；<br>MyISAM 支持 FULLTEXT 类型的全文索引，InnoDB 不支持 FULLTEXT 类型的全文索引，但是 InnoDB 可以使用 sphinx 插件支持全文索引，并且效果更好；<br>InnoDB 主键查询性能高于 MyISAM。</p>
+<p>1.为什么Myisam快？<br>因为Myisam B+树存的是引用，加载到内存快。 等Innodb加载完，Myisam都查完了<br>2.为什么Innodb不支持全文索引？<br>数据直接在叶子结点上，如果要全文索引，相当于复制了一份数据库，浪费空间  </p>
+<h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><p>获取数据更容易，相对于多表查询来说；<br>视图能够对机密数据提供安全保护；<br>视图的修改不会影响基本表，提供了独立的操作单元，比较轻量。  </p>
+<h2 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h2><p><strong>共享锁</strong><br>读锁，S锁</p>
+<p><strong>排他锁</strong><br>写锁，X锁</p>
+<p><strong>表锁</strong>  </p>
+<p><strong>行锁</strong>  </p>
+<p><strong>记录锁</strong><br>记录锁也属于行锁的一种，只不过记录锁的范围只是表中的某一条记录。精准命中，并且命中的条件字段是唯一索引</p>
+<p><strong>页锁</strong><br>介于行锁和表锁中间的一种锁。</p>
+<p><strong>间隙锁</strong><br>行锁的一种，记录的是事务加锁后的某一个区间，遵循左开右闭原则。</p>
+<p><strong>临建锁</strong><br>也属于行锁的一种，是INNODB的行锁的默认算法，是记录锁和间隙锁的组合，临建锁会把查询出来的记录锁住，同时也会把该范围内的所有间隙锁空间也会锁住，再之它会把相邻的下一个区间也会锁住</p>
+<p>如果当事务A加锁成功后就设置一个状态告诉后面的人，已经有人对表里的行加了一个排他锁了，你们不能对整个表加共享锁或排他锁，那么后面需要对整个表加锁的人只需要获取这个状态就知道自己是不是可以对表加锁，避免了对整个索引树的每个节点扫描是否加锁，这个状态就是意向锁。</p>
+<p><strong>意向共享锁</strong><br>当一个事务试图对整个表进行加共享锁之前，首先需要获得这个表的意向共享锁。</p>
+<p><strong>意向排他锁</strong><br>当一个事务试图对整个表进行加排他锁之前，首先需要获得这个表的意向排他锁。</p>
+<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><img src="/2020/09/22/mysql/14.png">
+<img src="/2020/09/22/mysql/15.png">
+<img src="/2020/09/22/mysql/17.png">
+<h3 id="ACID靠什么保证"><a href="#ACID靠什么保证" class="headerlink" title="ACID靠什么保证"></a>ACID靠什么保证</h3><p>A原子性靠undolog<br>C一致性靠其他三个特性<br>I隔离性靠MVCC<br>D持久性由内存+redolog来保证</p>
+<h3 id="MVCC"><a href="#MVCC" class="headerlink" title="MVCC"></a>MVCC</h3><p>多版本并发控制：读取数据时通过一种类似快照的方式将数据保存下来，这样读锁和写锁就不冲突了，不同的事务session会看到自己特定版本的数据</p>
+<p>MVCC只在READ COMMITTED和REPEATABLE READ两个隔离级别下工作。其他两个隔离级别和MVCC不兼容，因为READ UNCOMMITTED总是读取最新的数据行，而不是符合当前事务版本的数据行。而SERIALIZABLE则会对所有读取的行都加锁。</p>
+<p>聚簇索引记录中有两个必要的隐藏列：<br><strong>trx_id</strong>：用来存储每次对某条聚簇索引记录进行修改的时候的事物ID。<br><strong>roll_pointer</strong>：每次对哪条聚簇索引记录有修改的时候，都会把老版本写入undo日志中。这个roll_pointer就是存了一个指针，它指向这条聚簇索引记录的上一个版本的位置，通过它来获得上一个版本的记录信息。</p>
+<p>已提交读和可重复读的区别就在它们生成ReadView的策略不同。</p>
+<p>开始事务时创建ReadView(ReadView维护当前的事务ID，即未提交的事务ID，排序生成一个数组)</p>
+<p>访问数据，获取数组的事务ID（获取最大的事务ID），对比ReadView：</p>
+<p>如果在ReadView左边，代表已经提交了，可以访问；在右边就不可以，获取roll_pointer，取上一个版本重新对比</p>
+<p>已提交读每次查询都会生成一个独立的ReadView，可重复读在第一次读的时候生成一个ReadView，复用之前的ReadView</p>
+<h2 id="主从同步"><a href="#主从同步" class="headerlink" title="主从同步"></a>主从同步</h2><img src="/2020/09/22/mysql/16.png">
 
       
     </div>
@@ -476,7 +536,7 @@
   <p><span>本文标题:</span><a href="/2020/09/22/mysql/">mysql</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Twh233 的个人博客">Twh233</a></p>
   <p><span>发布时间:</span>2020年09月22日 - 20:09</p>
-  <p><span>最后更新:</span>2021年05月18日 - 16:05</p>
+  <p><span>最后更新:</span>2021年05月21日 - 19:05</p>
   <p><span>原始链接:</span><a href="/2020/09/22/mysql/" title="mysql">http://twh233.github.io/2020/09/22/mysql/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://twh233.github.io/2020/09/22/mysql/" aria-label="复制成功！"></i></span>
   </p>
@@ -622,7 +682,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-count">62</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -706,7 +766,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数值类型"><span class="nav-number">1.</span> <span class="nav-text">数值类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务"><span class="nav-number">2.</span> <span class="nav-text">事务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#特征"><span class="nav-number">2.1.</span> <span class="nav-text">特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#隔离级别"><span class="nav-number">2.2.</span> <span class="nav-text">隔离级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undolog"><span class="nav-number">2.3.</span> <span class="nav-text">undolog</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化"><span class="nav-number">3.</span> <span class="nav-text">优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锁"><span class="nav-number">4.</span> <span class="nav-text">锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引擎"><span class="nav-number">5.</span> <span class="nav-text">引擎</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#binlog"><span class="nav-number">6.</span> <span class="nav-text">binlog</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql索引底层原理"><span class="nav-number">1.</span> <span class="nav-text">mysql索引底层原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql聚簇和非聚簇索引的区别"><span class="nav-number">1.1.</span> <span class="nav-text">mysql聚簇和非聚簇索引的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引的设计原则"><span class="nav-number">1.2.</span> <span class="nav-text">索引的设计原则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#buffer-pool"><span class="nav-number">2.</span> <span class="nav-text">buffer pool</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#log"><span class="nav-number">3.</span> <span class="nav-text">log</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#redolog"><span class="nav-number">3.1.</span> <span class="nav-text">redolog</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#binlog"><span class="nav-number">3.2.</span> <span class="nav-text">binlog</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undo-log"><span class="nav-number">3.3.</span> <span class="nav-text">undo log</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引擎"><span class="nav-number">4.</span> <span class="nav-text">引擎</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#视图"><span class="nav-number">5.</span> <span class="nav-text">视图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锁"><span class="nav-number">6.</span> <span class="nav-text">锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务"><span class="nav-number">7.</span> <span class="nav-text">事务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ACID靠什么保证"><span class="nav-number">7.1.</span> <span class="nav-text">ACID靠什么保证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MVCC"><span class="nav-number">7.2.</span> <span class="nav-text">MVCC</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主从同步"><span class="nav-number">8.</span> <span class="nav-text">主从同步</span></a></li></ol></div>
             
 
           </div>
